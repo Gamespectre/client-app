@@ -1,9 +1,9 @@
 import { Route } from "react-router"
 import React from "react"
 
-import Index from "./index"
+import Home from "./app/views/pages/Home.jsx"
 
 const routes =
-    <Route handler={ Index } path="/" />
+    <Route handler={ Home } path="/" />
 
 export default routes

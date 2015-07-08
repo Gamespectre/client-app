@@ -10,10 +10,13 @@ import routes from './routes'
 
 const app = express()
 
+app.set('views', './server/views')
+app.set('view engine', 'jade')
+
 app.get('/*', (req, res) => {
     Router.run(routes, req.url, Handler => {
         let content = ReactDom.renderToString(<Handler />)
-        res.send(`<!DOCTYPE html>${content}`)
+        res.render('index', {content: content})
     })
 })
 
