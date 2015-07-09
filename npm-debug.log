@@ -1,16 +1,15 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/Users/ddunderfelt/.nvm/versions/io.js/v2.3.2/bin/iojs',
 1 verbose cli   '/Users/ddunderfelt/.nvm/versions/io.js/v2.3.2/bin/npm',
-1 verbose cli   'run',
-1 verbose cli   'serve' ]
+1 verbose cli   'start' ]
 2 info using npm@2.11.3
 3 info using node@v2.3.2
-4 verbose run-script [ 'preserve', 'serve', 'postserve' ]
-5 info preserve @
-6 info serve @
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info prestart gamespectre-client@1.0.0
+6 info start gamespectre-client@1.0.0
 7 verbose unsafe-perm in lifecycle true
-8 info @ Failed to exec serve script
-9 verbose stack Error: @ serve: `iojs -r babel/register ./server.js`
+8 info gamespectre-client@1.0.0 Failed to exec start script
+9 verbose stack Error: gamespectre-client@1.0.0 start: `iojs -r babel/register ./src/server/server.js`
 9 verbose stack Exit status 1
 9 verbose stack     at EventEmitter.<anonymous> (/Users/ddunderfelt/.nvm/versions/io.js/v2.3.2/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
 9 verbose stack     at emitTwo (events.js:87:13)
@@ -20,21 +19,21 @@
 9 verbose stack     at ChildProcess.emit (events.js:172:7)
 9 verbose stack     at maybeClose (internal/child_process.js:764:16)
 9 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
-10 verbose pkgid @
+10 verbose pkgid gamespectre-client@1.0.0
 11 verbose cwd /Users/ddunderfelt/projects/spectatormode/app
 12 error Darwin 14.3.0
-13 error argv "/Users/ddunderfelt/.nvm/versions/io.js/v2.3.2/bin/iojs" "/Users/ddunderfelt/.nvm/versions/io.js/v2.3.2/bin/npm" "run" "serve"
+13 error argv "/Users/ddunderfelt/.nvm/versions/io.js/v2.3.2/bin/iojs" "/Users/ddunderfelt/.nvm/versions/io.js/v2.3.2/bin/npm" "start"
 14 error node v2.3.2
 15 error npm  v2.11.3
 16 error code ELIFECYCLE
-17 error @ serve: `iojs -r babel/register ./server.js`
+17 error gamespectre-client@1.0.0 start: `iojs -r babel/register ./src/server/server.js`
 17 error Exit status 1
-18 error Failed at the @ serve script 'iojs -r babel/register ./server.js'.
-18 error This is most likely a problem with the  package,
+18 error Failed at the gamespectre-client@1.0.0 start script 'iojs -r babel/register ./src/server/server.js'.
+18 error This is most likely a problem with the gamespectre-client package,
 18 error not with npm itself.
 18 error Tell the author that this fails on your system:
-18 error     iojs -r babel/register ./server.js
+18 error     iojs -r babel/register ./src/server/server.js
 18 error You can get their info via:
-18 error     npm owner ls
+18 error     npm owner ls gamespectre-client
 18 error There is likely additional logging output above.
 19 verbose exit [ 1, true ]

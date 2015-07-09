@@ -19,7 +19,7 @@ RUN apt-get install -y iojs
 EXPOSE 8080
 ENV NODE_ENV production
 
-ADD ./ /app/
+ADD /package.json /app/
 WORKDIR /app
 RUN npm install --unsafe-perm
 

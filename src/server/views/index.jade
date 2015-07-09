@@ -1,0 +1,22 @@
+doctype html
+html
+    head
+        title="Spectator mode"
+        meta(charset='utf-8')
+
+        meta(name='description', content='')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+
+        script(src="//use.typekit.net/yex2duw.js")
+        script.
+            try{Typekit.load();}catch(e){}
+
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css")
+
+    body
+        #app!= content
+
+        if env.production
+            script(src!= env.assets.main.js)
+        else
+            script(src='http://localhost:8081/js/gamespectre.js')
