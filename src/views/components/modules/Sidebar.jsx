@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { sidebar as style } from '../../../style/components/sidebar'
-import Logo from '../Logo.jsx'
+import Logo from '../Logo.jsx!'
 
 class Sidebar extends React.Component {
 
@@ -10,7 +10,7 @@ class Sidebar extends React.Component {
             <div style={style.box}>
                 <Logo />
                 <h1>
-                    fucking yes!!!!!!
+                    fucking eh
                 </h1>
             </div>
         )

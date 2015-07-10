@@ -12,11 +12,12 @@ html
             try{Typekit.load();}catch(e){}
 
         link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css")
-
+        link(rel="stylesheet", href="src/style/css/main.css")
     body
         #app!= content
 
-        if env.production
-            script(src!= env.assets.main.js)
-        else
-            script(src='http://localhost:8081/js/gamespectre.js')
+        script(src='jspm_packages/system.js')
+        script(src='config.js')
+        script.
+            System.trace = true
+            System.import('src/app')

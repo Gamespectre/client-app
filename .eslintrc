@@ -8,6 +8,12 @@
     "node": true,
     "es6": true
   },
+  "plugins": [
+    "react"
+  ],
+  "ecmaFeatures": [
+    "jsx": true
+  ],
   // To give you an idea how to override rule options:
   "rules": {
     "eqeqeq": 1,

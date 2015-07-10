@@ -1,11 +1,8 @@
 import React from 'react'
 import Radium from 'radium'
-import Sidebar from './components/modules/Sidebar.jsx'
-import Browse from './pages/Browse.jsx'
-
-if(process.env.BROWSER) {
-    require('../style/scss/main.scss')
-}
+import Sidebar from './components/modules/Sidebar.jsx!'
+import Browse from './pages/Browse.jsx!'
+import { RouteHandler } from 'react-router'
 
 import { style } from '../style/components/style'
 
@@ -19,7 +16,7 @@ class App extends React.Component {
                     <Sidebar />
                 </div>
                 <div style={style.layout.content}>
-                    {this.props.children || <Browse />}
+                    <RouteHandler />
                 </div>
             </div>
         )

@@ -1,11 +1,7 @@
 import React from 'react'
-window.React = React;
-
 import Router from 'react-router'
 import routes from './routes'
-import BrowserHistory from 'react-router/lib/BrowserHistory'
 
-React.render(
-    <Router history={ BrowserHistory } children={ routes } />,
-    document.getElementById('app')
-)
+Router.run(routes, Router.HistoryLocation, (Root) => {
+    React.render(<Root />, document.getElementById('app'))
+})
