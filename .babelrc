@@ -3,5 +3,8 @@
     "optional": [
         "runtime"
     ],
-    "blacklist": []
+    "blacklist": [],
+    "plugins": [
+        "typecheck"
+    ]
 }

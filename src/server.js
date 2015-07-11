@@ -6,10 +6,20 @@ import React from 'react'
 import express from 'express'
 import favicon from 'serve-favicon'
 import Router from 'react-router'
+import Iso from 'iso'
+import httpProxy from 'http-proxy'
+import apiconfig from './apiconfig'
+import alt from './flux'
 import routes from './routes'
 import Location from 'react-router/lib/Location';
 
 const app = express()
+
+let api = process.env.NODE_ENV === 'production' ? apiconfig.prod : apiconfig.dev
+
+const apiServer = httpProxy.createProxyServer({
+    target: api.apiUrl + ':' + api.apiPort
+})
 
 app.use(favicon(path.join(process.cwd(), '/favicon.ico')))
 app.use(compress())
@@ -26,21 +36,30 @@ if (process.env.NODE_ENV === 'production') {
     webpackStats = require('../webpack-stats.json');
 }
 
+app.use('/api', (req, res) => {
+    apiServer.web(req, res)
+})
+
 app.get('/*', (req, res) => {
     const location = new Location(req.path, req.query)
+    alt.bootstrap(JSON.stringify(res.locals.data || {}))
+
+    const iso = new Iso()
 
     if (process.env.NODE_ENV === 'development') {
         webpackStats = require('../webpack-stats.json');
-        // Do not cache webpack stats: the script file would change since
-        // hot module replacement is enabled in the development env
         delete require.cache[require.resolve('../webpack-stats.json')];
     }
 
     Router.run(routes, location, (error, state) => {
+        let content = React.renderToString(
+            <Router location={location} {...state} />
+        )
+
+        iso.add(content, alt.flush())
+
         res.render('index', {
-            content: React.renderToString(
-                <Router location={location} {...state} />
-            ),
+            content: iso.render(),
             css: webpackStats.css,
             script: webpackStats.script[0]
         })
