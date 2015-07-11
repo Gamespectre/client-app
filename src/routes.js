@@ -1,14 +1,12 @@
-import Router from "react-router"
-import React from "react"
+import React from 'react'
+import { Route } from 'react-router'
 
-const { Route, DefaultRoute } = Router
-
-import App from './views/App.jsx!'
-import Browse from './views/pages/Browse.jsx!'
+import App from './views/App.jsx'
+import Browse from './views/pages/Browse.jsx'
 
 const routes = (
-    <Route handler={ App } path="/">
-        <DefaultRoute name="browse" handler={ Browse } />
+    <Route component={ App }>
+        <Route path="/" component={ Browse } />
     </Route>
 )
 
