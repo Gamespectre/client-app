@@ -1,20 +1,17 @@
+import colors from '../colors'
+
 export const style = {
-    clear: {
-        overflow: 'auto'
-    },
     layout: {
         app: {
-            height: '100vh'
+            height: '100vh',
+            background: colors.lightgrey
         },
         sidebar: {
-            width: '25%',
-            float: 'left',
-            height: '100%'
+            height: '100%',
         },
         content: {
             height: '100%',
-            width: '75%',
-            float: 'left'
+            overflow: 'auto'
         }
     }
 }

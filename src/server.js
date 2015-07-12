@@ -52,6 +52,7 @@ app.get('/*', (req, res) => {
     }
 
     Router.run(routes, location, (error, state) => {
+
         let content = React.renderToString(
             <Router location={location} {...state} />
         )

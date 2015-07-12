@@ -18,11 +18,11 @@ class App extends React.Component {
 
     render() {
         return (
-            <div style={[style.layout.app, style.clear]}>
-                <div style={style.layout.sidebar}>
+            <div className="app-wrapper" style={style.layout.app}>
+                <div className="sidebar-wrapper" style={style.layout.sidebar}>
                     <Sidebar />
                 </div>
-                <div style={style.layout.content}>
+                <div className="content-wrapper" style={style.layout.content}>
                     {this.props.children}
                 </div>
             </div>

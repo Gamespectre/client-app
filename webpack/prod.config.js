@@ -23,7 +23,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.(jpe?g|png|gif|svg)$/, loader: 'file' },
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel?stage=0&optional=runtime&plugins=typecheck']},
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
       { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!sass') }
     ]
   },

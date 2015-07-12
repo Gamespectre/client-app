@@ -1,6 +1,8 @@
+import colors from '../colors'
+
 export const sidebar = {
     box: {
-        background: 'rgba(116,142,156,1)',
+        background: colors.blue,
         height: '100%'
     }
 }

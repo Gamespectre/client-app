@@ -3,5 +3,6 @@ export default {
     green: '#4DE3B0',
     purple: '#684175',
     lightgrey: '#ECECEC',
-    darkgreen: '#245B60'
+    darkgreen: '#245B60',
+    darkgrey: '#888888',
 }
