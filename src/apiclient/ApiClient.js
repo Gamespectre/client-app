@@ -1,7 +1,7 @@
 import axios from 'axios'
 import apiconfig from '../apiconfig'
 
-const apiUrl = 'http://spectator-api.dev/'
+const apiUrl = 'http://localhost:3000/api/'
 
 class ApiClient {
 
@@ -26,7 +26,7 @@ class ApiClient {
         const endpoint = this.getEndpoint(resource)
         const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
 
-        return axios.get(`${apiUrl}${this.baseName}/${uri}`, ...options).catch(this.handleErrors)
+        return axios.get(`${apiUrl}${this.baseName}/${uri}`, options).catch(this.handleErrors)
     }
 
     /**
@@ -63,7 +63,6 @@ export default ApiClient
 
 export const endpoints = {
     game: {
-        base: 'game',
         list: 'index',
         get: (id: number) => `show/${id}`,
         series: (id: number) => `series/${id}`,
@@ -71,21 +70,19 @@ export const endpoints = {
         creators: (id: number) => `creators/${id}`
     },
     video: {
-        base: 'video',
         get: (id: number) => `show/${id}`,
         series: (id: number) => `series/${id}`,
         game: (id: number) => `game/${id}`,
         creator: (id: number) => `creator/${id}`
     },
     series: {
-        base: (id: number) => `series/${id}`,
+        list: 'index',
         get: (id: number) => `show/${id}`,
         videos: (id: number) => `videos/${id}`,
         creator: (id: number) => `creator/${id}`,
         game: (id: number) => `game/${id}`
     },
     creator: {
-        base: 'creator',
         list: 'index',
         get: (id: number) => `show/${id}`,
         videos: (id: number) => `videos/${id}`,
@@ -93,5 +90,3 @@ export const endpoints = {
         games: (id: number) => `games/${id}`
     }
 }
-
-export default ApiClient

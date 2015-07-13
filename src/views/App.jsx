@@ -1,6 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import Sidebar from './components/modules/Sidebar.jsx'
+import Sidebar from './modules/Sidebar.jsx'
 import Browse from './pages/Browse.jsx'
 
 if(__CLIENT__) {

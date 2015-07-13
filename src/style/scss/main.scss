@@ -52,6 +52,37 @@ div > h1 {
 	margin-top: 0;
 }
 
+h3 {
+	margin: 0 0 .2em;
+}
+
+ul {
+	margin: 1em 0 0;
+	padding: 0;
+
+	li {
+		display: inline-block;
+		margin: 0 0.5em 0 0;
+	}
+}
+
+a {
+	color: white;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+a.active {
+	color: $green;
+}
+
+.admin-form {
+	margin-bottom: 1em;
+}
+
 .app-wrapper {
 	display: flex;
 	flex-flow: row no-wrap;

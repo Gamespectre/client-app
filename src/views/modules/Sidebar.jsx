@@ -1,7 +1,7 @@
 import React from 'react'
-
-import { sidebar as style } from '../../../style/components/sidebar'
-import Logo from '../Logo.jsx'
+import Nav from '../components/Nav.jsx'
+import { sidebar as style } from '../../style/components/sidebar'
+import Logo from '../components/Logo.jsx'
 
 class Sidebar extends React.Component {
 
@@ -9,9 +9,7 @@ class Sidebar extends React.Component {
         return (
             <div style={style.box}>
                 <Logo />
-                <h1>
-                    fucking eh
-                </h1>
+                <Nav />
             </div>
         )
     }

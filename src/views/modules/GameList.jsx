@@ -1,10 +1,10 @@
 import React from 'react'
 import connectToStores from 'alt/utils/connectToStores'
-import GameStore from '../../../stores/GameStore'
-import GameCard from '../parts/GameCard.jsx'
-import { fetchGameList } from '../../../actions/DatasourceActions'
+import GameStore from '../../stores/GameStore'
+import GameCard from '../components/GameCard.jsx'
+import { fetchGameList } from '../../actions/DatasourceActions'
 import Radium from 'radium'
-import { cardList as style } from '../../../style/components/cardList'
+import { cardList as style } from '../../style/components/cardList'
 
 @Radium
 @connectToStores

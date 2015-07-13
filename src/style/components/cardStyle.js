@@ -2,11 +2,13 @@ import colors from '../colors'
 
 export const cardStyle = {
     card: {
-        flex: '1 0 20%',
-        padding: '1em',
+        flex: '1 0 25%',
+        width: '25%',
+        margin: '.5em',
+        padding: '.5em',
+        background: 'white',
     },
     image: {
-        display: 'block',
         maxWidth: '100%',
         height: '100%'
     },
