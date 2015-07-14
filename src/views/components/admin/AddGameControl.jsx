@@ -2,13 +2,17 @@ import React from 'react'
 import AdminControl from './AdminControl.jsx'
 import ApiClient from '../../../apiclient/ContentApiClient'
 import EventsClient from '../../../apiclient/PusherClient'
-import ContentAdminActions from '../../../actions/admin/ContentAdminActions'
+import GameActions from '../../../actions/admin/GameActions'
+import PackageActions from '../../../actions/admin/PackageActions'
+import { game } from '../../../apiclient/packageParsers'
 
 class AddGameControl extends AdminControl {
 
     listener(data) {
-        console.log(data)
-        ContentAdminActions.setCandidates(data.data.game)
+        let gamePackage = game(data.data)
+
+        GameActions.importGames(gamePackage)
+        PackageActions.importPackage(gamePackage)
 
         this.setState({
             message: "Success",
@@ -20,7 +24,7 @@ class AddGameControl extends AdminControl {
         e.preventDefault()
         ApiClient.request('addGame', { query: this.state.query })
         .then((response) => {
-            this.subscribeTo(response.data.key)
+            this.subscribeTo(response.data.channel)
         })
     }
 

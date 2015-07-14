@@ -4,7 +4,12 @@ import ContentApiClient from '../../apiclient/ContentApiClient'
 class ContentAdminActions {
 
     constructor() {
-        this.generateActions('setCandidates', 'clear')
+
+    }
+
+    importGames(data) {
+        let games = data.games
+        this.dispatch(games)
     }
 }
 

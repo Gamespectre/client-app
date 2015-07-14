@@ -1,7 +1,7 @@
 export const columns = {
     wrapper: {
         display: 'flex',
-        flexFlow: 'row no-wrap',
+        flexFlow: 'row nowrap',
         justifyContent: 'space-between',
         alignItems: 'flex-start'
     },
