@@ -1,7 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import AddGameControl from '../../components/admin/AddGameControl.jsx'
-import SearchGameControl from '../../components/admin/SearchGameControl.jsx'
+import GameQueryControl from '../../components/admin/GameQueryControl.jsx'
 import AltContainer from 'alt/AltContainer'
 import GamePackageList from '../../components/admin/GamePackageList.jsx'
 import GameAdminStore from '../../../stores/admin/GameAdminStore'
@@ -20,8 +19,11 @@ class GameControl extends React.Component {
             <div style={columns.wrapper}>
                 <section style={columns.col('30%')}>
                     41484
-                    <AddGameControl />
-                    <SearchGameControl />
+                    <h3>Add game</h3>
+                    <GameQueryControl method="get" />
+
+                    <h3>Search game</h3>
+                    <GameQueryControl method="search" />
                 </section>
                 <section style={columns.col('70%')}>
                     <h2>Query results:</h2>

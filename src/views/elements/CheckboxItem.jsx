@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 class CheckboxItem extends React.Component {
 
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        checked: PropTypes.bool.isRequired,
+        value: PropTypes.number,
+        change: PropTypes.func.isRequired
+    }
+
     render() {
         return (
-            <li>
+            <li style={{ display: 'block' }}>
                 <label>
                     <input type="checkbox"
                            name={this.props.name}

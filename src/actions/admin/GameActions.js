@@ -1,11 +1,6 @@
 import alt from '../../flux'
-import ContentApiClient from '../../apiclient/ContentApiClient'
 
-class ContentAdminActions {
-
-    constructor() {
-
-    }
+class GameActions {
 
     importGames(data) {
         let games = data.games
@@ -13,4 +8,4 @@ class ContentAdminActions {
     }
 }
 
-export default alt.createActions(ContentAdminActions)
+export default alt.createActions(GameActions)

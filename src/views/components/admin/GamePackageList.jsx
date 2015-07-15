@@ -1,5 +1,8 @@
 import React from 'react'
 import CheckboxItem from '../../elements/CheckboxItem.jsx'
+import EventsClient from '../../../api/PusherClient'
+import ApiClient from '../../../api/ContentApiClient'
+import AdminActions from '../../../actions/admin/AdminActions'
 
 const initChecked = true
 
@@ -10,7 +13,8 @@ class GamePackageList extends React.Component {
 
         this.state = {
             selected: {},
-            toggleAll: initChecked
+            toggleAll: initChecked,
+            message: "No data fetched yet!"
         }
     }
 
@@ -42,8 +46,31 @@ class GamePackageList extends React.Component {
 
     saveSelected(e) {
         e.preventDefault()
-
+        ApiClient.request('savePackage', {
+            packageId: this.props.package.id,
+            saveData: this.state.selected,
+            channel: this.props.package.channel
+        })
+        .then((response) => {
+            if(response.status === 200) {
+                this.subscribeTo(response.data.channel)
+            }
+        })
     }
+
+    subscribeTo(channel) {
+        let client = EventsClient.subscribe(channel)
+        client.listen('PackageSaved', this.listener.bind(this))
+    }
+
+    listener(data) {
+        AdminActions.clear()
+
+        this.setState({
+            message: data.data.message
+        })
+    }
+
     toggleAll(e) {
         let newState = {}
         let changeTo = this.state.toggleAll ? false : true
@@ -74,11 +101,15 @@ class GamePackageList extends React.Component {
                         </label>
                     </p>
                     <ul>
-                        {this.props.resources.map(game => {
-                            return <CheckboxItem checked={this.state.selected[game.id]}
-                                                 key={game.id} {...game}
-                                                 change={this.setValue.bind(this)} />
-                        })}
+                        {() => {
+                            let items = this.props.resources.map(game => {
+                                return <CheckboxItem checked={this.state.selected[game.id]}
+                                                     key={game.id} {...game}
+                                                     change={this.setValue.bind(this)} />
+                            })
+
+                            return items.length ? items : <li>{this.state.message}</li>
+                        }()}
                     </ul>
                 </form>
             </div>

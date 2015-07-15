@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import AdminControl from './AdminControl.jsx'
-import ApiClient from '../../../apiclient/ContentApiClient'
-import EventsClient from '../../../apiclient/PusherClient'
+import ApiClient from '../../../api/ContentApiClient'
+import EventsClient from '../../../api/PusherClient'
 import GameActions from '../../../actions/admin/GameActions'
 import PackageActions from '../../../actions/admin/PackageActions'
-import { game } from '../../../apiclient/packageParsers'
+import { game } from '../../../api/packageParsers'
 
-class AddGameControl extends AdminControl {
+class GameQueryControl extends AdminControl {
+
+    static propTypes = {
+        method: PropTypes.string.isRequired
+    }
 
     listener(data) {
         let gamePackage = game(data.data)
@@ -22,9 +26,11 @@ class AddGameControl extends AdminControl {
 
     sendForm(e) {
         e.preventDefault()
-        ApiClient.request('addGame', { query: this.state.query })
+        ApiClient.request('addGame', { query: this.state.query, method: this.props.method })
         .then((response) => {
-            this.subscribeTo(response.data.channel)
+            if(response.status === 200) {
+                this.subscribeTo(response.data.channel)
+            }
         })
     }
 
@@ -37,9 +43,6 @@ class AddGameControl extends AdminControl {
 
         return (
             <div className="admin-form">
-                <h3>
-                    Add game (Giant bomb id)
-                </h3>
                 <div>{this.state.message}</div>
                 <form onSubmit={ this.sendForm.bind(this) }>
                     <input type="text"
@@ -53,4 +56,4 @@ class AddGameControl extends AdminControl {
     }
 }
 
-export default AddGameControl
+export default GameQueryControl

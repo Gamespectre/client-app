@@ -44,6 +44,10 @@ class ApiClient {
 export default ApiClient
 
 export const endpoints = {
+    // Retrievers
     addGame: 'add-game',
-    addContent: 'game-content'
+    addContent: 'game-content',
+
+    // Savers
+    savePackage: 'save-package'
 }

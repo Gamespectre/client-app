@@ -1,4 +1,4 @@
-import ApiClient from '../apiclient/ApiClient'
+import ApiClient from '../api/ApiClient'
 import ResourceActions from '../actions/ResourceActions'
 
 const GameSource = {
