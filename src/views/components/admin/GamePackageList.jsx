@@ -1,24 +1,31 @@
 import React from 'react'
 import CheckboxItem from '../../elements/CheckboxItem.jsx'
 
+const initChecked = true
+
 class GamePackageList extends React.Component {
 
     constructor() {
         super()
 
         this.state = {
-            selected: {}
+            selected: {},
+            toggleAll: initChecked
         }
     }
 
-    componentDidMount() {
-        // Initialize checkboxes to chosen value
+    componentWillReceiveProps(nextProps) {
         let selected = {}
-        this.props.resources.forEach(res => {
-            selected[res.id] = true
+
+        nextProps.resources.forEach(resource => {
+            selected[resource.id] = initChecked
         })
 
-        this.setState({ selected: selected })
+        this.setState({
+            selected: React.addons.update(this.state.selected, {
+                $merge: selected
+            })
+        })
     }
 
     setValue(e) {
@@ -37,13 +44,35 @@ class GamePackageList extends React.Component {
         e.preventDefault()
 
     }
+    toggleAll(e) {
+        let newState = {}
+        let changeTo = this.state.toggleAll ? false : true
+
+        for(let val in this.state.selected) {
+            newState[val] = changeTo
+        }
+
+        this.setState({
+            selected: React.addons.update(this.state.selected, {
+                $merge: newState
+            }),
+            toggleAll: changeTo
+        })
+    }
 
     render() {
         return (
             <div>
                 <form onSubmit={this.saveSelected.bind(this)}>
                     <button type="submit">Save selected</button><br />
-                    <button type="button" onClick={this.toggleAll.bind(this)}>Toggle all</button>
+                    <p>
+                        <label>
+                            <input type="checkbox"
+                                   checked={this.state.toggleAll}
+                                   onChange={this.toggleAll.bind(this)} />
+                            <span style={{paddingLeft: '1em'}}>Toggle all</span>
+                        </label>
+                    </p>
                     <ul>
                         {this.props.resources.map(game => {
                             return <CheckboxItem checked={this.state.selected[game.id]}
