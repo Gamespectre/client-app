@@ -1,15 +1,15 @@
 import React from 'react'
 
-class SeriesList extends React.Component {
+class GenericList extends React.Component {
 
     render() {
 
         return (
             <div>
-                Series list
+                Content list
             </div>
         )
     }
 }
 
-export default SeriesList
+export default GenericList

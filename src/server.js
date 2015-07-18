@@ -11,7 +11,6 @@ import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
 import alt from './flux'
 import routes from './routes'
-import Location from 'react-router/lib/Location';
 
 const app = express()
 
@@ -41,7 +40,6 @@ app.use('/api', (req, res) => {
 })
 
 app.get('/*', (req, res) => {
-    const location = new Location(req.path, req.query)
     alt.bootstrap(JSON.stringify(res.locals.data || {}))
 
     const iso = new Iso()
@@ -51,10 +49,10 @@ app.get('/*', (req, res) => {
         delete require.cache[require.resolve('../webpack-stats.json')];
     }
 
-    Router.run(routes, location, (error, state) => {
+    Router.run(routes, req.path, (Root, state) => {
 
         let content = React.renderToString(
-            <Router location={location} {...state} />
+            <Root />
         )
 
         iso.add(content, alt.flush())

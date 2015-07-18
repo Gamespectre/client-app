@@ -1,10 +1,7 @@
 import alt from '../flux'
-import { datasource } from 'alt/utils/decorators'
 import gameSource from '../sources/gameSource'
 import ResourceActions from '../actions/ResourceActions'
-import DatasourceActions from '../actions/DatasourceActions'
 
-@datasource(gameSource)
 class GameStore {
     constructor() {
         this.state = {
@@ -12,7 +9,6 @@ class GameStore {
         }
 
         this.bindActions(ResourceActions)
-        this.bindActions(DatasourceActions)
     }
 
     fetchGameList() {

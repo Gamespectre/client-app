@@ -1,7 +1,8 @@
 import React from 'react'
 import Radium from 'radium'
-import Sidebar from './modules/Sidebar.jsx'
-import Browse from './pages/Browse.jsx'
+import Header from './modules/Header.jsx'
+import Browse from './pages/Explore.jsx'
+import { RouteHandler } from 'react-router'
 
 if(__CLIENT__) {
     require('../style/scss/main.scss')
@@ -19,11 +20,9 @@ class App extends React.Component {
     render() {
         return (
             <div className="app-wrapper" style={style.layout.app}>
-                <div className="sidebar-wrapper" style={style.layout.sidebar}>
-                    <Sidebar />
-                </div>
-                <div className="content-wrapper" style={style.layout.content}>
-                    {this.props.children}
+                <Header />
+                <div style={style.layout.content}>
+                    <RouteHandler />
                 </div>
             </div>
         )

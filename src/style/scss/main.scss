@@ -1,50 +1,14 @@
 @import 'variables';
+@import 'mixins';
+
+@import 'nav';
 
 * {
 	box-sizing: border-box;
 }
 
-$breakpoints: "mobile" 0px, "tablet" 768px, "desktop" 1024px, "wide" 1280px !default;
-$default-width: 940px !default;
-
-@mixin clear {
-	&:after {
-		content: "";
-		display: table;
-		clear: both;
-	}
-}
-
-@mixin r($value, $operator: "min-width", $query: 'screen') {
-	@media only #{$query} and (#{$operator}: #{$value}) {
-		@content;
-	}
-}
-
-@mixin bp($media-name) {
-
-	@if $media-name == nth(nth($breakpoints, 1), 1) {
-		@include r(nth(nth($breakpoints, 2), 2) - 1, "max-width") { @content; }
-	}
-
-	@else {
-
-		@each $bp in $breakpoints {
-			$bp-name: nth($bp, 1);
-			$bp-val: nth($bp, 2);
-
-			@if $bp-name == $media-name {
-				@include r($bp-val) {
-					@content;
-				}
-			}
-		}
-	}
-}
-
 html {
-	font-size: 20px;
-	font-family: "brandon-grotesque", "Helvetica Neue", Arial, sans-serif;
+	font-family: 'Roboto', Arial, sans-serif;
 }
 
 div > h1 {
@@ -56,53 +20,11 @@ h3 {
 	margin: 0 0 .2em;
 }
 
-ul {
-	margin: 1em 0 0;
-	padding: 0;
-
-	li {
-		display: inline-block;
-		margin: 0 0.5em 0 0;
-	}
-}
-
 a {
-	color: white;
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
+	color: $purple;
 }
 
-a.active {
-	color: $green;
-}
-
-.admin-form {
-	margin-bottom: 1em;
-}
-
-.app-wrapper {
-	display: flex;
-	flex-flow: row no-wrap;
-}
-
-.sidebar-wrapper, .content-wrapper {
-	flex: 1 100%;
-}
-
-.sidebar-wrapper {
-
-	@include bp(tablet) {
-		flex: 1 0 25%;
-	}
-}
-
-.content-wrapper {
-
-	@include bp(tablet) {
-		margin: auto;
-		flex: 3 0 75%;
-	}
+.container {
+	padding-left: $bodyPadding;
+	padding-right: $bodyPadding;
 }

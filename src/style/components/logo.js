@@ -1,24 +1,31 @@
+import colors from '../colors'
+import constants from '../constants'
+
 export const logo = {
     wrapper: {
-        padding: '1.5em 0 2em',
-        background: 'rgba(77,227,176,1)',
-        borderBottom: '4px solid rgba(36,91,96,1)',
+        padding: '1.3em 7em 1.3em ' + constants.sidePadding,
+        //background: `linear-gradient(-45deg, transparent 3.5em, ${colors.whitegrey} 3.5em)`
     },
     logo: {
         h1: {
             margin: 0,
             textAlign: 'center',
-            fontFamily: 'vox',
+            fontFamily: 'Rajdhani, sans-serif',
             fontSize: '2em',
             lineHeight: '1em',
             fontWeight: 400,
             color: '#ffffff',
         },
+        link: {
+            textDecoration: 'none',
+            color: colors.darkgrey
+        },
         game: {
-            color: 'rgba(104,65,117,1)'
+            fontWeight: 700,
+            color: colors.purple,
         },
         spectre: {
-            color: 'rgba(255,255,255,1)'
+            fontWeight: 300,
         }
     }
 }

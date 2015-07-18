@@ -1,8 +1,10 @@
 export default {
-    blue: '#748E9C',
+    blue: '#376AD5',
     green: '#4DE3B0',
     purple: '#684175',
-    lightgrey: '#ECECEC',
-    darkgreen: '#245B60',
-    darkgrey: '#888888',
+    grey: '#C0C0C0',
+    lightgrey: '#E2E2E2',
+    whitegrey: '#F8F8F8',
+    darkgrey: '#454545',
+    darkblue: '#1A2022',
 }

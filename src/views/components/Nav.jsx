@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium from 'radium'
 import { Link } from 'react-router'
-import { navStyle as style } from '../../style/components/navStyle'
+import { nav as style } from '../../style/components/nav'
 
 @Radium
 class Nav extends React.Component {
@@ -9,14 +9,17 @@ class Nav extends React.Component {
     render() {
 
         return (
-            <ul style={ style.list }>
-                <li>
-                    <Link to="/admin">Admin</Link>
-                    <ul>
-                        <li><Link to="/admin/game">Games</Link></li>
-                    </ul>
-                </li>
-            </ul>
+            <nav style={ style.wrapper } className="main-nav">
+                <div style={ style.listItem }>
+                    <Link to="explore">Explore</Link>
+                </div>
+                <div style={ style.listItem }>
+                    <Link to="contribute">Contribute</Link>
+                </div>
+                <div style={ style.listItem }>
+                    <Link to="blog">Blog</Link>
+                </div>
+            </nav>
         )
     }
 }

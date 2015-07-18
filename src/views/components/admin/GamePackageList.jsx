@@ -101,7 +101,7 @@ class GamePackageList extends React.Component {
                         </label>
                     </p>
                     <ul>
-                        {() => {
+                        {(() => {
                             let items = this.props.resources.map(game => {
                                 return <CheckboxItem checked={this.state.selected[game.id]}
                                                      key={game.id} {...game}
@@ -109,7 +109,7 @@ class GamePackageList extends React.Component {
                             })
 
                             return items.length ? items : <li>{this.state.message}</li>
-                        }()}
+                        })()}
                     </ul>
                 </form>
             </div>
