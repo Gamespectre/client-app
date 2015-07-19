@@ -48,6 +48,9 @@ export const endpoints = {
     addGame: 'add-game',
     addContent: 'game-content',
 
+    // Package API
+    packageData: 'get-package-data',
+
     // Savers
     savePackage: 'save-package'
 }

@@ -3,8 +3,7 @@ import alt from '../../flux'
 class GameActions {
 
     importGames(data) {
-        let games = data.games
-        this.dispatch(games)
+        this.dispatch(data.game)
     }
 }
 

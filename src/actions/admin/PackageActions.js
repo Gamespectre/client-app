@@ -7,13 +7,7 @@ class PackageActions {
     }
 
     importPackage(data) {
-        let packageDef = {
-            id: data.id,
-            channel: data.channel,
-            query: data.query
-        }
-
-        this.dispatch(packageDef)
+        this.dispatch(data)
     }
 }
 

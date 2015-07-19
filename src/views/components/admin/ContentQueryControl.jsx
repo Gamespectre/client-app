@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react'
 import AdminControl from './AdminControl.jsx'
 import ApiClient from '../../../api/ContentApiClient'
 import EventsClient from '../../../api/PusherClient'
-import GameActions from '../../../actions/admin/GameActions'
+import ContentActions from '../../../actions/admin/ContentActions'
 import PackageActions from '../../../actions/admin/PackageActions'
-import { game, meta } from '../../../api/packageParsers'
+import { youtube, meta } from '../../../api/packageParsers'
 
-class GameQueryControl extends AdminControl {
+class ContentQueryControl extends AdminControl {
 
     static propTypes = {
         method: PropTypes.string.isRequired
@@ -16,7 +16,7 @@ class GameQueryControl extends AdminControl {
         let packageMeta = meta(data)
         PackageActions.importPackage(packageMeta)
 
-        ApiClient.request('packageData', {packageId: packageMeta.id}).then(response => {
+        ApiClient.request('packageData', { packageId: packageMeta.id }).then(response => {
             if(response.error) {
                 return this.setState({
                     message: response.data.message,
@@ -24,9 +24,10 @@ class GameQueryControl extends AdminControl {
                 })
             }
 
-            let gamePackage = game(response.data)
-            console.log(gamePackage)
-            GameActions.importGames(gamePackage)
+            let contentPackage = youtube(response.data)
+            ContentActions.importPlaylists(contentPackage.playlists)
+            ContentActions.importCreators(contentPackage.channels)
+            ContentActions.importVideos(contentPackage.videos)
 
             this.setState({
                 message: "Success",
@@ -37,7 +38,7 @@ class GameQueryControl extends AdminControl {
 
     sendForm(e) {
         e.preventDefault()
-        ApiClient.request('addGame', { query: this.state.query, method: this.props.method })
+        ApiClient.request('addContent', { query: this.state.query, method: this.props.method })
         .then((response) => {
             if(response.status === 200) {
                 this.subscribeTo(response.data.channel)
@@ -60,11 +61,11 @@ class GameQueryControl extends AdminControl {
                            value={ this.state.query }
                            onChange={ this.changeHandler.bind(this) } />
                     <br />
-                    <button type="submit">Get</button>
+                    <button type="submit">Find</button>
                 </form>
             </div>
         )
     }
 }
 
-export default GameQueryControl
+export default ContentQueryControl

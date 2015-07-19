@@ -12,6 +12,7 @@ import VideoList from 'views/modules/VideoList.jsx'
 import SeriesList from 'views/modules/SeriesList.jsx'
 import CreatorList from 'views/modules/CreatorList.jsx'
 import GameControl from 'views/modules/admin/GameControl.jsx'
+import ContentControl from 'views/modules/admin/ContentControl.jsx'
 
 const routes = (
     <Route handler={ App }>
@@ -26,6 +27,7 @@ const routes = (
         <Route name="contribute" path="contribute" handler={ Contribute } />
         <Route name="admin" path="admin" handler={ Admin }>
             <Route name="adminGame" path="game" handler={ GameControl } />
+            <Route name="adminContent" path="content" handler={ ContentControl } />
         </Route>
     </Route>
 )

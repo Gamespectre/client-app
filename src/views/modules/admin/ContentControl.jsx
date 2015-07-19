@@ -1,9 +1,9 @@
 import React from 'react'
 import Radium from 'radium'
-import GameQueryControl from '../../components/admin/GameQueryControl.jsx'
+import ContentQueryControl from '../../components/admin/ContentQueryControl.jsx'
 import AltContainer from 'alt/AltContainer'
-import GamePackageList from '../../components/admin/GamePackageList.jsx'
-import GameAdminStore from '../../../stores/admin/GameAdminStore'
+import ContentPackageList from '../../components/admin/ContentPackageList.jsx'
+import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
 import PackageAdminStore from '../../../stores/admin/PackageAdminStore'
 import { columns } from '../../../style/columns'
 
@@ -18,20 +18,16 @@ class ContentControl extends React.Component {
         return (
             <div style={columns.wrapper}>
                 <section style={columns.col('30%')}>
-                    41484
-                    <h3>Add game</h3>
-                    <GameQueryControl method="get" />
-
-                    <h3>Search game</h3>
-                    <GameQueryControl method="search" />
+                    <h3>Search content for game id</h3>
+                    <ContentQueryControl method="get" />
                 </section>
                 <section style={columns.col('70%')}>
                     <h2>Query results:</h2>
                     <AltContainer stores={{
-                        resources(props) {
+                        content(props) {
                             return {
-                                store: GameAdminStore,
-                                value: GameAdminStore.getState().games
+                                store: ContentAdminStore,
+                                value: ContentAdminStore.getState()
                             }
                         },
                         package(props) {
@@ -41,7 +37,7 @@ class ContentControl extends React.Component {
                             }
                         }
                     }}>
-                        <GamePackageList />
+                        <ContentPackageList />
                     </AltContainer>
                 </section>
             </div>

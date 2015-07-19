@@ -15,7 +15,6 @@ class GameList extends React.Component {
         return (
             <section>
                 {this.props.games.map(game => {
-                    console.log(game)
                     return <GameCard key={game.id} {...game} />
                 })}
             </section>
