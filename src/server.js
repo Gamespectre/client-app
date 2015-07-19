@@ -8,6 +8,7 @@ import favicon from 'serve-favicon'
 import Router from 'react-router'
 import Iso from 'iso'
 import httpProxy from 'http-proxy'
+import { Resolver } from "react-resolver"
 import apiconfig from './apiconfig'
 import alt from './flux'
 import routes from './routes'
@@ -39,7 +40,7 @@ app.use('/api', (req, res) => {
     apiServer.web(req, res)
 })
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
     alt.bootstrap(JSON.stringify(res.locals.data || {}))
 
     const iso = new Iso()
@@ -51,16 +52,17 @@ app.get('/*', (req, res) => {
 
     Router.run(routes, req.path, (Root, state) => {
 
-        let content = React.renderToString(
-            <Root />
-        )
+        Resolver.renderToString(<Root />).then(string => {
+            iso.add(string, alt.flush())
 
-        iso.add(content, alt.flush())
-
-        res.render('index', {
-            content: iso.render(),
-            css: webpackStats.css,
-            script: webpackStats.script[0]
+            res.render('index', {
+                content: iso.render(),
+                css: webpackStats.css,
+                script: webpackStats.script[0]
+            })
+        }).catch((err) => {
+            // An error was thrown while rendering
+            console.error(err)
         })
     })
 })

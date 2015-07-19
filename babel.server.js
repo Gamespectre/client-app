@@ -3,6 +3,8 @@ require('babel/register')({
   plugins: ['typecheck']
 });
 
+require('es6-promise').polyfill()
+
 /**
  * Define isomorphic constants.
  */

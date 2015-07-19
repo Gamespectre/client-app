@@ -1,7 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
 import Header from './modules/Header.jsx'
-import Browse from './pages/Explore.jsx'
 import { RouteHandler } from 'react-router'
 
 if(__CLIENT__) {

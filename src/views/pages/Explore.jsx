@@ -5,7 +5,7 @@ import GameStore from '../../stores/GameStore'
 import ContentManagement from '../modules/ContentManagement.jsx'
 import SeriesList from '../modules/SeriesList.jsx'
 import ContentNav from '../components/ContentNav.jsx'
-import { browse as style } from '../../style/components/browse'
+import { explore as style } from '../../style/components/explore'
 import { RouteHandler } from 'react-router'
 
 @Radium
