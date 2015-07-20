@@ -1,6 +1,7 @@
 import React from 'react'
 import CheckboxItem from '../../elements/CheckboxItem.jsx'
 import AdminList from './AdminList.jsx'
+import ListMessage from './ListMessage.jsx'
 
 const initChecked = true
 
@@ -17,6 +18,12 @@ class ContentPackageList extends AdminList {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(nextProps.content.playlists.length === 0) {
+            this.setState({
+                message: "No new content found!"
+            })
+        }
+
         let selected = {}
 
         nextProps.content.playlists.forEach(resource => {
@@ -103,7 +110,7 @@ class ContentPackageList extends AdminList {
                                                      change={this.setValue.bind(this)} />
                             })
 
-                            return items.length ? items : <li>{this.state.message}</li>
+                            return items.length ? items : <ListMessage message={this.state.message} />
                         })()}
                     </ul>
                 </form>

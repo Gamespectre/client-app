@@ -8,7 +8,8 @@ const packageParsers = {
     },
     game(data: Object) {
         return {
-            game: data.game.map(game => {
+            game: data.game.filter(game => game !== false)
+            .map(game => {
                 return {
                     id: game.id[0],
                     name: game.title[0],
@@ -23,13 +24,15 @@ const packageParsers = {
     },
     youtube(data: Object) {
         return {
-            playlists: data.playlist.map(playlist => { return {
+            playlists: data.playlist.filter(playlist => playlist !== false)
+            .map(playlist => { return {
                 name: playlist.name[0],
                 channel: playlist.channel[0],
                 id: playlist.id[0],
                 published: playlist.publishedAt[0]
             }}),
-            videos: data.video.map(video => { return {
+            videos: data.video.filter(video => video !== false)
+            .map(video => { return {
                 name: video.title[0],
                 id: video.id[0],
                 channel: video.channel[0],
@@ -39,7 +42,8 @@ const packageParsers = {
                 playlist: video.playlist[0],
                 published: video.publishedAt[0]
             }}),
-            channels: data.channel.map(channel => { return {
+            channels: data.channel.filter(channel => channel !== false)
+            .map(channel => { return {
                 name: channel.name[0],
                 id: channel.id[0],
                 image: channel.imageUrl[0],

@@ -1,6 +1,7 @@
 import React from 'react'
 import CheckboxItem from '../../elements/CheckboxItem.jsx'
 import AdminList from './AdminList.jsx'
+import ListMessage from './ListMessage.jsx'
 
 const initChecked = false
 
@@ -18,10 +19,19 @@ class GamePackageList extends AdminList {
     }
 
     componentWillReceiveProps(nextProps) {
+
+        if(nextProps.resources.length === 0) {
+            this.setState({
+                message: "No new games found!"
+            })
+        }
+
         let selected = {}
 
         nextProps.resources.forEach(resource => {
-            selected[resource.id] = initChecked
+            if(resource !== false) {
+                selected[resource.id] = initChecked
+            }
         })
 
         this.setState({
@@ -75,12 +85,15 @@ class GamePackageList extends AdminList {
                     <ul>
                         {(() => {
                             let items = this.props.resources.map(game => {
+                                if(game === false) {
+                                    return <li>Record exists</li>
+                                }
                                 return <CheckboxItem checked={this.state.selected[game.id]}
                                                      key={game.id} {...game}
                                                      change={this.setValue.bind(this)} />
                             })
 
-                            return items.length ? items : <li>{this.state.message}</li>
+                            return items.length ? items : <ListMessage message={this.state.message} />
                         })()}
                     </ul>
                 </form>

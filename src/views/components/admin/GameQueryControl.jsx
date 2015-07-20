@@ -11,6 +11,7 @@ class GameQueryControl extends AdminControl {
 
     receivePackage(data) {
         let gamePackage = game(data)
+        console.log(gamePackage)
         GameActions.importGames(gamePackage)
 
         this.setState({
