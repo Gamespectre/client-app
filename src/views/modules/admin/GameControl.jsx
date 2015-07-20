@@ -18,12 +18,11 @@ class GameControl extends React.Component {
         return (
             <div style={columns.wrapper}>
                 <section style={columns.col('30%')}>
-                    41484
                     <h3>Add game</h3>
-                    <GameQueryControl method="get" />
+                    <GameQueryControl endpoint="addGame" />
 
                     <h3>Search game</h3>
-                    <GameQueryControl method="search" />
+                    <GameQueryControl endpoint="searchGame" />
                 </section>
                 <section style={columns.col('70%')}>
                     <h2>Query results:</h2>

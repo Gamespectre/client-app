@@ -11,12 +11,11 @@ class PusherClient {
         }
 
         this.channel = this.pusher.subscribe(channel)
-        this.listeners = []
-
     }
 
-    static subscribe(channel) {
+    static subscribe(channel, event, listener) {
         let client = new PusherClient(channel)
+        client.listen(event, listener)
         return client
     }
 
@@ -28,22 +27,13 @@ class PusherClient {
     }
 
     listen(event, listener) {
-        if(this.isListening(event, listener)) return false
+        //if(this.isListening(event, listener)) return false
         this.channel.bind(eventNamespace + event, listener)
-
-        let listenerDef = {
-            callback: listener,
-            event: event
-        }
-
-        this.listeners.push(listenerDef)
     }
 
     unlisten(event, listener = false) {
         if(!listener) this.channel.unbind(event)
         else this.channel.unbind(eventNamespace + event, listener)
-
-        delete this.listeners[event]
     }
 }
 

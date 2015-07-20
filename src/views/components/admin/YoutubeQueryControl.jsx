@@ -1,17 +1,19 @@
 import React, { PropTypes } from 'react'
 import AdminControl from './AdminControl.jsx'
-import GameActions from '../../../actions/admin/GameActions'
-import { game } from '../../../api/packageParsers'
+import ContentActions from '../../../actions/admin/ContentActions'
+import { youtube } from '../../../api/packageParsers'
 
-class GameQueryControl extends AdminControl {
+class YoutubeQueryControl extends AdminControl {
 
     constructor() {
         super()
     }
 
     receivePackage(data) {
-        let gamePackage = game(data)
-        GameActions.importGames(gamePackage)
+        let contentPackage = youtube(data)
+        ContentActions.importPlaylists(contentPackage.playlists)
+        ContentActions.importCreators(contentPackage.channels)
+        ContentActions.importVideos(contentPackage.videos)
 
         this.setState({
             message: "Success",
@@ -21,7 +23,7 @@ class GameQueryControl extends AdminControl {
 
     sendForm(e) {
         e.preventDefault()
-        this.flow.query(this.state.query, this.props.endpoint, {
+        this.flow.query(this.state.query, 'addContent', {
             error: this.receiveError.bind(this),
             success: this.receivePackage.bind(this)
         })
@@ -37,11 +39,11 @@ class GameQueryControl extends AdminControl {
                            value={ this.state.query }
                            onChange={ this.changeHandler.bind(this) } />
                     <br />
-                    <button type="submit">Get</button>
+                    <button type="submit">Find</button>
                 </form>
             </div>
         )
     }
 }
 
-export default GameQueryControl
+export default YoutubeQueryControl

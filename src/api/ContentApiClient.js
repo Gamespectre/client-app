@@ -46,6 +46,7 @@ export default ApiClient
 export const endpoints = {
     // Retrievers
     addGame: 'add-game',
+    searchGame: 'search-game',
     addContent: 'game-content',
 
     // Package API

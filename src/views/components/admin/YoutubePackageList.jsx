@@ -1,12 +1,10 @@
 import React from 'react'
 import CheckboxItem from '../../elements/CheckboxItem.jsx'
-import EventsClient from '../../../api/PusherClient'
-import ApiClient from '../../../api/ContentApiClient'
-import AdminActions from '../../../actions/admin/AdminActions'
+import AdminList from './AdminList.jsx'
 
 const initChecked = true
 
-class ContentPackageList extends React.Component {
+class ContentPackageList extends AdminList {
 
     constructor() {
         super()
@@ -46,28 +44,25 @@ class ContentPackageList extends React.Component {
 
     saveSelected(e) {
         e.preventDefault()
-        ApiClient.request('savePackage', {
-            packageId: this.props.package.id,
-            saveData: this.state.selected,
-            channel: this.props.package.channel
-        })
-        .then((response) => {
-            if(response.status === 200) {
-                this.subscribeTo(response.data.channel)
-            }
+        this.flow.save(this.state.selected, this.props.package, {
+            error: this.error.bind(this),
+            success: this.done.bind(this)
         })
     }
 
-    subscribeTo(channel) {
-        let client = EventsClient.subscribe(channel)
-        client.listen('PackageSaved', this.listener.bind(this))
-    }
-
-    listener(data) {
+    done(data) {
         AdminActions.clear()
 
         this.setState({
-            message: data.data.message
+            success: true,
+            message: data.message
+        })
+    }
+
+    error(data) {
+        this.setState({
+            success: false,
+            message: data.message
         })
     }
 

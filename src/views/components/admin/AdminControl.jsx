@@ -1,11 +1,15 @@
 import React from 'react'
+import AdminFlow from '../../../app/admin/AdminFlow'
 
 class AdminControl extends React.Component {
 
     constructor() {
         super()
 
+        this.flow = new AdminFlow()
+
         this.state = {
+            success: true,
             message: "",
             query: ""
         }
@@ -16,6 +20,13 @@ class AdminControl extends React.Component {
 
         this.setState({
             query: query
+        })
+    }
+
+    receiveError(data) {
+        this.setState({
+            success: false,
+            message: data.message
         })
     }
 

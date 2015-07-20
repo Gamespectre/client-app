@@ -1,17 +1,16 @@
 import React from 'react'
 import CheckboxItem from '../../elements/CheckboxItem.jsx'
-import EventsClient from '../../../api/PusherClient'
-import ApiClient from '../../../api/ContentApiClient'
-import AdminActions from '../../../actions/admin/AdminActions'
+import AdminList from './AdminList.jsx'
 
-const initChecked = true
+const initChecked = false
 
-class GamePackageList extends React.Component {
+class GamePackageList extends AdminList {
 
     constructor() {
         super()
 
         this.state = {
+            success: true,
             selected: {},
             toggleAll: initChecked,
             message: "No data fetched yet!"
@@ -41,33 +40,6 @@ class GamePackageList extends React.Component {
             selected: React.addons.update(this.state.selected, {
                 $merge: newState
             })
-        })
-    }
-
-    saveSelected(e) {
-        e.preventDefault()
-        ApiClient.request('savePackage', {
-            packageId: this.props.package.id,
-            saveData: this.state.selected,
-            channel: this.props.package.channel
-        })
-        .then((response) => {
-            if(response.status === 200) {
-                this.subscribeTo(response.data.channel)
-            }
-        })
-    }
-
-    subscribeTo(channel) {
-        let client = EventsClient.subscribe(channel)
-        client.listen('PackageSaved', this.listener.bind(this))
-    }
-
-    listener(data) {
-        AdminActions.clear()
-
-        this.setState({
-            message: data.data.message
         })
     }
 
