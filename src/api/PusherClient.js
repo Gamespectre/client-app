@@ -19,15 +19,7 @@ class PusherClient {
         return client
     }
 
-    isListening(event, listener) {
-        return this.listeners.some(listenerDef => {
-            return listenerDef.event === event &&
-                   listenerDef.callback === listener
-        })
-    }
-
     listen(event, listener) {
-        //if(this.isListening(event, listener)) return false
         this.channel.bind(eventNamespace + event, listener)
     }
 

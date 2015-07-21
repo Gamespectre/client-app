@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckboxItem from '../../elements/CheckboxItem.jsx'
+import AdminListItem from '../../elements/AdminListItem.jsx'
 import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
 
@@ -82,13 +82,11 @@ class GamePackageList extends AdminList {
                             <span style={{paddingLeft: '1em'}}>Toggle all</span>
                         </label>
                     </p>
-                    <ul>
+                    <ul style={{ listStyle: 'none' }}>
                         {(() => {
                             let items = this.props.resources.map(game => {
-                                if(game === false) {
-                                    return <li>Record exists</li>
-                                }
-                                return <CheckboxItem checked={this.state.selected[game.id]}
+                                return <AdminListItem checked={this.state.selected[game.id]}
+                                                     type="game"
                                                      key={game.id} {...game}
                                                      change={this.setValue.bind(this)} />
                             })

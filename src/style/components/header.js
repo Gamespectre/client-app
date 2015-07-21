@@ -1,11 +1,21 @@
 import colors from '../colors'
+import constants from '../constants'
 
 export const header = {
     box: {
         display: 'flex',
         background: colors.whitegrey
-        /*background: `${colors.whitegrey} repeating-linear-gradient(
-            -45deg, transparent, transparent 3px, rgba(0, 0, 0, 0.05) 1px,rgba(0, 0, 0, 0.05) 6px
-        )`*/
+    },
+    left: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        flex: '1 0 70%',
+        paddingLeft: constants.sidePadding
+    },
+    right: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        flex: '1 2 30%',
+        paddingRight: constants.sidePadding
     }
 }

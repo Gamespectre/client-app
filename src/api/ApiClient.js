@@ -1,7 +1,7 @@
 import axios from 'axios'
 import apiconfig from '../apiconfig'
 
-const apiUrl = 'http://spectator-api.dev/'
+export const apiUrl = 'http://localhost:3000/api/'
 
 class ApiClient {
 

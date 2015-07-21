@@ -1,11 +1,29 @@
 import React from 'react'
-import CheckboxItem from '../../elements/CheckboxItem.jsx'
+import AdminPlaylistItem from '../../elements/AdminPlaylistItem.jsx'
 import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
+import { adminList as style } from '../../../style/components/adminList'
+import Radium from 'radium'
+import connectToStores from 'alt/utils/connectToStores'
+import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
+import PackageAdminStore from '../../../stores/admin/PackageAdminStore'
 
 const initChecked = true
 
+@Radium
+@connectToStores
 class ContentPackageList extends AdminList {
+
+    static getStores() {
+        return [ContentAdminStore, PackageAdminStore];
+    }
+
+    static getPropsFromStores() {
+        return {
+            content: ContentAdminStore.getState(),
+            package: PackageAdminStore.getState()
+        }
+    }
 
     constructor() {
         super()
@@ -23,18 +41,23 @@ class ContentPackageList extends AdminList {
                 message: "No new content found!"
             })
         }
+        else {
+            let selected = {}
 
-        let selected = {}
-
-        nextProps.content.playlists.forEach(resource => {
-            selected[resource.id] = initChecked
-        })
-
-        this.setState({
-            selected: React.addons.update(this.state.selected, {
-                $merge: selected
+            nextProps.content.playlists.forEach(resource => {
+                selected[resource.id] = initChecked
             })
-        })
+
+            this.setState({
+                selected: React.addons.update(this.state.selected, {
+                    $merge: selected
+                })
+            })
+        }
+    }
+
+    shouldComponentUpdate(nextProps) {
+        return nextProps.content.playlists.length !== 0
     }
 
     setValue(e) {
@@ -46,30 +69,6 @@ class ContentPackageList extends AdminList {
             selected: React.addons.update(this.state.selected, {
                 $merge: newState
             })
-        })
-    }
-
-    saveSelected(e) {
-        e.preventDefault()
-        this.flow.save(this.state.selected, this.props.package, {
-            error: this.error.bind(this),
-            success: this.done.bind(this)
-        })
-    }
-
-    done(data) {
-        AdminActions.clear()
-
-        this.setState({
-            success: true,
-            message: data.message
-        })
-    }
-
-    error(data) {
-        this.setState({
-            success: false,
-            message: data.message
         })
     }
 
@@ -90,6 +89,7 @@ class ContentPackageList extends AdminList {
     }
 
     render() {
+
         return (
             <div>
                 <form onSubmit={this.saveSelected.bind(this)}>
@@ -102,17 +102,22 @@ class ContentPackageList extends AdminList {
                             <span style={{paddingLeft: '1em'}}>Toggle all</span>
                         </label>
                     </p>
-                    <ul>
-                        {(() => {
-                            let items = this.props.content.playlists.map(playlist => {
-                                return <CheckboxItem checked={this.state.selected[playlist.id]}
-                                                     key={playlist.id} {...playlist}
-                                                     change={this.setValue.bind(this)} />
-                            })
-
-                            return items.length ? items : <ListMessage message={this.state.message} />
-                        })()}
-                    </ul>
+                    <article style={ style.list }>
+                        {this.props.content.playlists.map(playlist => {
+                            return (
+                                <AdminPlaylistItem
+                                    key={playlist.id}
+                                    creator={
+                                        this.props.content.creators.filter(creator => {
+                                            return creator.id === playlist.channel
+                                        })[0]
+                                    }
+                                    checked={this.state.selected[playlist.id]}
+                                    change={this.setValue.bind(this)}
+                                    {...playlist} />
+                            )
+                        })}
+                    </article>
                 </form>
             </div>
         )

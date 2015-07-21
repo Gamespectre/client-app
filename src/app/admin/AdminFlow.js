@@ -13,6 +13,7 @@ class AdminFlow {
     constructor() {
         this.queryCallbacks = {}
         this.saveCallbacks = {}
+        this.client = {}
     }
 
     /*
@@ -25,7 +26,7 @@ class AdminFlow {
         ApiClient.request(endpoint, { query: query })
         .then((response) => {
             if(response.status < 400) {
-                EventsClient.subscribe(response.data.channel, events.queryDone, this.queryListener.bind(this))
+                this.client = EventsClient.subscribe(response.data.channel, events.queryDone, this.queryListener.bind(this))
             }
             else {
                 this.queryCallbacks.error({message: "Query failed."})
@@ -57,8 +58,8 @@ class AdminFlow {
             channel: packageData.channel
         }).then((response) => {
             if(response.status < 400) {
-                let client = EventsClient.subscribe(response.data.channel, events.dataSaved, this.saveListener.bind(this))
-                client.listen('PackageSaveFailed', this.errorListener.bind(this))
+                this.client = EventsClient.subscribe(response.data.channel, events.dataSaved, this.saveListener.bind(this))
+                this.client.listen('PackageSaveFailed', this.errorListener.bind(this))
             }
             else {
                 this.saveCallbacks.error({message: "Save failed."})
@@ -74,10 +75,12 @@ class AdminFlow {
         let packageMeta = meta(data)
         PackageActions.importPackage(packageMeta)
         this.fetchPackage(packageMeta.id)
+        this.client.unlisten(events.queryDone)
     }
 
     saveListener(data) {
         this.saveCallbacks.success(data.data)
+        this.client.unlisten(events.dataSaved)
     }
 
     errorListener(data) {

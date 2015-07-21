@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import AdminControl from './AdminControl.jsx'
 import GameActions from '../../../actions/admin/GameActions'
 import { game } from '../../../api/packageParsers'
+import AdminActions from '../../../actions/admin/AdminActions'
 
 class GameQueryControl extends AdminControl {
 
@@ -11,7 +12,6 @@ class GameQueryControl extends AdminControl {
 
     receivePackage(data) {
         let gamePackage = game(data)
-        console.log(gamePackage)
         GameActions.importGames(gamePackage)
 
         this.setState({
@@ -22,6 +22,8 @@ class GameQueryControl extends AdminControl {
 
     sendForm(e) {
         e.preventDefault()
+        AdminActions.clear()
+
         this.flow.query(this.state.query, this.props.endpoint, {
             error: this.receiveError.bind(this),
             success: this.receivePackage.bind(this)

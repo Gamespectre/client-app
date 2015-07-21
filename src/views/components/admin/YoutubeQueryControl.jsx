@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import AdminControl from './AdminControl.jsx'
 import ContentActions from '../../../actions/admin/ContentActions'
 import { youtube } from '../../../api/packageParsers'
+import AdminActions from '../../../actions/admin/AdminActions'
 
 class YoutubeQueryControl extends AdminControl {
 
@@ -23,6 +24,8 @@ class YoutubeQueryControl extends AdminControl {
 
     sendForm(e) {
         e.preventDefault()
+        AdminActions.clear()
+
         this.flow.query(this.state.query, 'addContent', {
             error: this.receiveError.bind(this),
             success: this.receivePackage.bind(this)

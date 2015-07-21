@@ -3,8 +3,7 @@ import constants from '../constants'
 
 export const logo = {
     wrapper: {
-        padding: '1.3em 7em 1.3em ' + constants.sidePadding,
-        //background: `linear-gradient(-45deg, transparent 3.5em, ${colors.whitegrey} 3.5em)`
+        padding: '1.3em 7em 1.3em 0',
     },
     logo: {
         h1: {
