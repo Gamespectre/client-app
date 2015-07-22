@@ -2,61 +2,55 @@ import EventClient from '../api/PusherClient'
 import axios from 'axios'
 import { apiUrl } from '../api/ApiClient'
 import UserActions from '../actions/UserActions'
-import LocalCache from './LocalCache'
 
-class UserService {
+class AuthService {
 
     constructor() {
-        if(!__CLIENT__) {
-            return false
-        }
-
-        this.token = this.getToken()
+        this.token = false
+        this.ready = this.initialize()
     }
 
     initialize() {
-        this.fetchToken()
-        return this
+        return this.fetchToken().then(this.fetchUserData.bind(this))
     }
 
     getToken() {
-        return LocalCache.get('api_token')
+        return this.token
     }
 
     setToken(token) {
-        LocalCache.put('api_token', token)
         this.token = token
         return token
     }
 
     fetchToken() {
-        if(this.token !== false) {
-            axios.get(apiUrl + 'auth/token').then(response => {
-                if(response.status < 400 && response.data.success === true) {
-                    this.setToken(response.data.token)
-                }
-                else {
-                    console.error("Token fetching failed.")
-                }
-            })
-        }
+        return axios.get(apiUrl + 'auth/token').then(response => {
+            if(response.status < 400 && response.data.success === true) {
+                this.setToken(response.data.token)
+            }
+            else {
+                console.error("Token fetching failed.")
+            }
+        })
     }
 
-    loadUserData(data) {
-        UserActions.loadUserData(data)
+    parseToken(authHeader) {
+        // Parses string by removing 'Bearer '
+        let token = authHeader.slice(7);
+        this.setToken(token)
+
+        return token
     }
 
     fetchUserData() {
-        axios({
+        return axios({
             headers: { 'Authorization': 'Bearer ' + this.token },
             url: apiUrl + 'auth/query',
             method: 'get'
         }).then(response => {
             if(response.status < 400 && response.data.success === true) {
-                this.loadUserData({
-                    user: response.data.user,
-                    auth: response.data.auth
-                })
+                this.parseToken(response.headers.authorization)
+                UserActions.loadUserData(response.data.user)
             }
             else {
                 console.error("Token query failed.")
@@ -73,11 +67,7 @@ class UserService {
 
             eventClient.listen('UserSignedIn', (data) => {
                 this.setToken(data.data.token)
-
-                this.loadUserData({
-                    user: data.data.user,
-                    auth: data.data.auth
-                })
+                UserActions.loadUserData(data.data.user)
 
                 loginWindow.close()
                 eventClient.unlisten('UserSignedIn')
@@ -86,4 +76,4 @@ class UserService {
     }
 }
 
-export default new UserService()
+export default new AuthService()

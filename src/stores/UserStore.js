@@ -6,15 +6,16 @@ class UserStore {
     constructor() {
 
         this.state = {
-            user: false,
-            auth: 'anon'
+            user: false
         }
 
         this.bindActions(UserActions)
     }
 
     loadUserData(data) {
-        this.setState(data)
+        this.setState({
+            user: data
+        })
     }
 }
 

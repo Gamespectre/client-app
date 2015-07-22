@@ -16,6 +16,6 @@ export const header = {
         display: 'flex',
         justifyContent: 'flex-end',
         flex: '1 2 30%',
-        paddingRight: constants.sidePadding
+        paddingRight: '2em'
     }
 }

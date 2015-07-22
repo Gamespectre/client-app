@@ -9,8 +9,8 @@ class UserDisplay extends React.Component {
 
         return (
             <div style={ style.userDisplay }>
-                <img style={ style.avatar } src={this.props.avatar} alt={this.props.name} />
                 <span style={ style.name }>{this.props.name}</span>
+                <img style={ style.avatar } src={this.props.avatar} alt={this.props.name} />
             </div>
         )
     }

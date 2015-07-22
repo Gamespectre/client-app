@@ -1,5 +1,6 @@
 import axios from 'axios'
 import apiconfig from '../apiconfig'
+import AuthService from '../app/AuthService'
 
 export const apiUrl = 'http://localhost:3000/api/'
 
@@ -23,10 +24,23 @@ class ApiClient {
     }
 
     retrieve(resource: string = "list", options: Object = {}) {
-        const endpoint = this.getEndpoint(resource)
-        const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
+        return AuthService.ready.then(() => {
+            const endpoint = this.getEndpoint(resource)
+            const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
 
-        return axios.get(`${apiUrl}${this.baseName}/${uri}`, options).catch(this.handleErrors)
+            const token = AuthService.getToken()
+
+            return axios({
+                url: `${apiUrl}${this.baseName}/${uri}`,
+                headers: { 'Authorization': 'Bearer ' + token },
+                params: options
+            }).catch(this.handleErrors)
+        })
+    }
+
+    interceptToken(response) {
+        AuthService.parseToken(response.headers.authorization)
+        return response
     }
 
     /**

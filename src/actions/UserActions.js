@@ -1,9 +1,15 @@
 import alt from '../flux'
+import User from '../app/objects/User'
 
 class UserActions {
 
     constructor() {
-        this.generateActions('loadUserData')
+
+    }
+
+    loadUserData(userData) {
+        let data = new User(userData)
+        this.dispatch(data)
     }
 }
 

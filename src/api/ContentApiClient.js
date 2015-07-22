@@ -1,5 +1,6 @@
 import axios from 'axios'
 import apiconfig from '../apiconfig'
+import AuthService from '../app/AuthService'
 
 const apiUrl = 'http://localhost:3000/api/'
 
@@ -16,7 +17,19 @@ class ApiClient {
 
     requestFor(method: string, options: Object) {
         const endpoint = this.getEndpoint(method)
-        return axios.post(`${apiUrl}admin/${endpoint}`, options).catch(this.handleErrors)
+        const token = AuthService.getToken()
+
+        return axios({
+            url: `${apiUrl}admin/${endpoint}`,
+            data: options,
+            method: 'post',
+            headers: { 'Authorization': 'Bearer ' + token }
+        }).catch(this.handleErrors)
+    }
+
+    interceptToken(response) {
+        AuthService.parseToken(response.headers.authorization)
+        return response
     }
 
     /**

@@ -6,6 +6,21 @@ const packageParsers = {
             query: data.query
         }
     },
+    user(data: Object) {
+        return {
+            name: data.name,
+            avatar: data.avatar,
+            registered: data.created_at,
+            googleId: data.google_id,
+            userId: data.id,
+            roles: data.roles.map(role => {
+                return {
+                    role: role.name,
+                    level: role.level
+                }
+            })
+        }
+    },
     game(data: Object) {
         return {
             game: data.game.filter(game => game !== false)

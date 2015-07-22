@@ -1,3 +1,5 @@
+import colors from '../colors'
+
 export const user = {
     box: {
         display: 'flex',
@@ -13,9 +15,12 @@ export const user = {
         height: '3em',
         display: 'block',
         borderRadius: '50%',
-        marginRight: '1em'
+        marginLeft: '1em'
     },
     name: {
-        fontSize: '.8em'
+        fontSize: '.9em',
+        //textTransform: 'uppercase',
+        fontWeight: '700',
+        color: colors.purple
     }
 }
