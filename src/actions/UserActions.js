@@ -1,14 +1,12 @@
 import alt from '../flux'
-import User from '../app/objects/User'
+import UserService from '../app/UserService'
 
 class UserActions {
 
-    constructor() {
-
-    }
+    constructor() {}
 
     loadUserData(userData) {
-        let data = new User(userData)
+        let data = UserService.create(userData)
         this.dispatch(data)
     }
 }

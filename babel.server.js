@@ -8,6 +8,7 @@ require('es6-promise').polyfill()
 /**
  * Define isomorphic constants.
  */
+global.__DEV__ = process.env.NODE_ENV !== 'production'
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
 delete global.__BROWSER__;

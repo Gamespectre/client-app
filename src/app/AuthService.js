@@ -1,7 +1,9 @@
 import EventClient from '../api/PusherClient'
 import axios from 'axios'
-import { apiUrl } from '../api/ApiClient'
 import UserActions from '../actions/UserActions'
+import apiconfig from '../apiconfig'
+
+const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
 class AuthService {
 
@@ -35,10 +37,8 @@ class AuthService {
     }
 
     parseToken(authHeader) {
-        // Parses string by removing 'Bearer '
         let token = authHeader.slice(7);
         this.setToken(token)
-
         return token
     }
 
@@ -49,7 +49,6 @@ class AuthService {
             method: 'get'
         }).then(response => {
             if(response.status < 400 && response.data.success === true) {
-                this.parseToken(response.headers.authorization)
                 UserActions.loadUserData(response.data.user)
             }
             else {

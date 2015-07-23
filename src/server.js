@@ -15,7 +15,7 @@ import routes from './routes'
 
 const app = express()
 
-let api = process.env.NODE_ENV === 'production' ? apiconfig.prod : apiconfig.dev
+let api = !__DEV__ ? apiconfig.prod : apiconfig.dev
 
 const apiServer = httpProxy.createProxyServer({
     target: api.apiUrl + ':' + api.apiPort
@@ -24,6 +24,7 @@ const apiServer = httpProxy.createProxyServer({
 app.use(favicon(path.join(process.cwd(), '/favicon.ico')))
 app.use(compress())
 app.use(express.static('.'))
+app.use(express.static('./static'))
 
 app.set('views', path.join(__dirname, '..', '/server/views'))
 app.set('view engine', 'jade')

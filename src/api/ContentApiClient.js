@@ -1,8 +1,8 @@
 import axios from 'axios'
-import apiconfig from '../apiconfig'
 import AuthService from '../app/AuthService'
+import apiconfig from '../apiconfig'
 
-const apiUrl = 'http://localhost:3000/api/'
+const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
 class ApiClient {
 

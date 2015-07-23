@@ -4,7 +4,8 @@ import UserStore from '../../stores/UserStore'
 import connectToStores from '../../../node_modules/alt/utils/connectToStores'
 import Radium from 'radium'
 import { user as style } from '../../style/components/user'
-import UserService from '../../app/AuthService'
+import AuthService from '../../app/AuthService'
+import UserService from '../../app/UserService'
 import LoginButton from '../elements/LoginButton.jsx'
 import UserDisplay from '../components/UserDisplay.jsx'
 
@@ -26,16 +27,17 @@ class User extends React.Component {
 
     requestLogin(e) {
         e.preventDefault()
-        UserService.authenticate()
+        AuthService.authenticate()
     }
 
     render() {
-        let displayElement = <LoginButton key="loginBtn" doLogin={this.requestLogin.bind(this)} />
+        let displayElement = {}
 
-        if(this.props.user !== false) {
-            if(this.props.user.isnt('anon')) {
-                displayElement = <UserDisplay key="userDisplay" {...this.props.user} />
-            }
+        if(UserService.init(this.props.user).isnt('anon')) {
+            displayElement = <UserDisplay key="userDisplay" {...this.props.user} />
+        }
+        else {
+            displayElement = <LoginButton key="loginBtn" doLogin={this.requestLogin.bind(this)} />
         }
 
         return (
