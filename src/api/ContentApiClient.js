@@ -60,7 +60,8 @@ export const endpoints = {
     // Retrievers
     addGame: 'add-game',
     searchGame: 'search-game',
-    addContent: 'game-content',
+    addContent: 'add-content',
+    searchContent: 'search-content',
 
     // Package API
     packageData: 'get-package-data',

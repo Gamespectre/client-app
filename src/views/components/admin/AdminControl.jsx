@@ -7,20 +7,6 @@ class AdminControl extends React.Component {
         super()
 
         this.flow = new AdminFlow()
-
-        this.state = {
-            success: true,
-            message: "",
-            query: ""
-        }
-    }
-
-    changeHandler(event) {
-        let query = event.target.value
-
-        this.setState({
-            query: query
-        })
     }
 
     receiveError(data) {

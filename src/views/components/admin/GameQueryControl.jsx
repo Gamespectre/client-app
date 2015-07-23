@@ -10,6 +10,12 @@ class GameQueryControl extends AdminControl {
 
     constructor() {
         super()
+
+        this.state = {
+            success: true,
+            message: "",
+            query: ""
+        }
     }
 
     receivePackage(data) {
@@ -32,6 +38,14 @@ class GameQueryControl extends AdminControl {
         })
     }
 
+    queryChangeHandler(event) {
+        let query = event.target.value
+
+        this.setState({
+            query: query
+        })
+    }
+
     render() {
 
         return (
@@ -40,7 +54,7 @@ class GameQueryControl extends AdminControl {
                 <form onSubmit={ this.sendForm.bind(this) }>
                     <input type="text"
                            value={ this.state.query }
-                           onChange={ this.changeHandler.bind(this) } />
+                           onChange={ this.queryChangeHandler.bind(this) } />
                     <br />
                     <button type="submit">Get</button>
                 </form>

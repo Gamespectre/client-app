@@ -4,15 +4,16 @@ import PackageActions from '../../actions/admin/PackageActions'
 import { meta } from '../../api/packageParsers'
 
 const events = {
-    queryDone: 'PackageDone',
-    dataSaved: 'PackageSaved'
+    queryStarted: 'PackageStarted',
+    queryDone: 'PackageDataRetrieved',
+    packageError: 'PackageError',
+    packageSaved: 'PackageSaved'
 }
 
 class AdminFlow {
 
     constructor() {
-        this.queryCallbacks = {}
-        this.saveCallbacks = {}
+        this.callbacks = {}
         this.client = {}
     }
 
@@ -20,16 +21,18 @@ class AdminFlow {
         Flow
      */
 
-    query(query, endpoint, callbacks) {
-        this.queryCallbacks = callbacks
+    query(requestData, endpoint, callbacks) {
+        this.callbacks = callbacks
 
-        ApiClient.request(endpoint, { query: query })
+        ApiClient.request(endpoint, requestData)
         .then((response) => {
             if(response.status < 400) {
-                this.client = EventsClient.subscribe(response.data.channel, events.queryDone, this.queryListener.bind(this))
+                this.client = EventsClient.subscribe(response.data.channel, events.queryDone, this.queryDoneListener.bind(this))
+                this.client.listen(events.packageError, this.errorListener.bind(this))
+                this.client.listen(events.queryStarted, this.queryStartedListener.bind(this))
             }
             else {
-                this.queryCallbacks.error({message: "Query failed."})
+                this.callbacks.error({message: "Query failed."})
             }
         })
     }
@@ -38,13 +41,13 @@ class AdminFlow {
         ApiClient.request('packageData', {packageId: id})
         .then(response => {
             if (response.error) {
-                this.queryCallbacks.error({message: response.data.message})
+                this.callbacks.error({message: response.data.message})
             }
             if(response.status > 399) {
-                this.queryCallbacks.error({message: "Fetching data failed."})
+                this.callbacks.error({message: "Fetching data failed."})
             }
             else {
-                this.queryCallbacks.success(response.data)
+                this.callbacks.success(response.data.data)
             }
         })
     }
@@ -59,7 +62,7 @@ class AdminFlow {
         }).then((response) => {
             if(response.status < 400) {
                 this.client = EventsClient.subscribe(response.data.channel, events.dataSaved, this.saveListener.bind(this))
-                this.client.listen('PackageSaveFailed', this.errorListener.bind(this))
+                this.client.listen(events.packageError, this.errorListener.bind(this))
             }
             else {
                 this.saveCallbacks.error({message: "Save failed."})
@@ -71,11 +74,18 @@ class AdminFlow {
         Listeners
      */
 
-    queryListener(data) {
+    queryDoneListener(data) {
         let packageMeta = meta(data)
         PackageActions.importPackage(packageMeta)
+
         this.fetchPackage(packageMeta.id)
+
         this.client.unlisten(events.queryDone)
+        this.client.unlisten(events.queryStarted)
+    }
+
+    queryStartedListener(data) {
+        console.log('Query started', data)
     }
 
     saveListener(data) {
@@ -84,7 +94,7 @@ class AdminFlow {
     }
 
     errorListener(data) {
-        console.log(data)
+        console.error(data)
         this.saveCallbacks.error({message: data.data.message})
     }
 }
