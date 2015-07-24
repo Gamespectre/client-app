@@ -6,8 +6,6 @@ import AdminActions from '../../../actions/admin/AdminActions'
 
 class GameQueryControl extends AdminControl {
 
-    static
-
     constructor() {
         super()
 

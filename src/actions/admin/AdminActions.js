@@ -3,7 +3,7 @@ import alt from '../../flux'
 class AdminActions {
 
     constructor() {
-        this.generateActions('clear')
+        this.generateActions('clear', 'setResource')
     }
 }
 

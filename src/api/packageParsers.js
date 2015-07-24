@@ -37,16 +37,16 @@ const packageParsers = {
         }
     },
     playlist(data: Object) {
-        return data.filter(playlist => playlist !== false).map(playlist => {
+        return data.map(playlist => {
             return {
                 name: playlist.name[0],
                 channel: playlist.channel[0],
                 id: playlist.id[0],
-                published: playlist.publishedAt[0]
+                published: playlist.publishedAt[0].date
         }})
     },
     video(data: Object) {
-        return data.filter(video => video !== false).map(video => {
+        return data.map(video => {
             return {
                 name: video.title[0],
                 id: video.id[0],
@@ -59,7 +59,7 @@ const packageParsers = {
         }})
     },
     channel(data: Object) {
-        return data.filter(channel => channel !== false).map(channel => {
+        return data.map(channel => {
             return {
                 name: channel.name[0],
                 id: channel.id[0],

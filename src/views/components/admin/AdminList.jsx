@@ -9,27 +9,19 @@ class AdminList extends React.Component {
         this.flow = new AdminFlow()
     }
 
-    saveSelected(e) {
-        e.preventDefault()
-        this.flow.save(this.state.selected, this.props.package, {
-            error: this.error.bind(this),
-            success: this.done.bind(this)
-        })
-    }
-
     done(data) {
         AdminActions.clear()
 
         this.setState({
             success: true,
-            message: data.message
+            message: "Everything is saved!"
         })
     }
 
     error(data) {
         this.setState({
             success: false,
-            message: data.message
+            message: data.error
         })
     }
 }

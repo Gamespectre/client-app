@@ -12,7 +12,7 @@ const initChecked = true
 
 @Radium
 @connectToStores
-class ContentPackageList extends AdminList {
+class YoutubePackageList extends AdminList {
 
     static getStores() {
         return [ContentAdminStore, PackageAdminStore];
@@ -36,7 +36,7 @@ class ContentPackageList extends AdminList {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.content.playlists.length === 0) {
+        if(nextProps.content.results.length === 0) {
             this.setState({
                 message: "No new content found!"
             })
@@ -44,8 +44,11 @@ class ContentPackageList extends AdminList {
         else {
             let selected = {}
 
-            nextProps.content.playlists.forEach(resource => {
-                selected[resource.id] = initChecked
+            nextProps.content.results.forEach(resource => {
+                selected[resource.id] = {
+                    game: "",
+                    chosen: initChecked
+                }
             })
 
             this.setState({
@@ -56,14 +59,23 @@ class ContentPackageList extends AdminList {
         }
     }
 
-    shouldComponentUpdate(nextProps) {
-        return nextProps.content.playlists.length !== 0
+    saveSelected(e) {
+        e.preventDefault()
+        this.flow.save(this.state.selected, this.props.package, {
+            error: this.error.bind(this),
+            success: this.done.bind(this)
+        })
     }
 
     setValue(e) {
         let id = e.target.value
         let newState = {}
-        newState[id] = this.state.selected[id] ? false : true
+        let current = this.state.selected[id]
+
+        newState[id] = {
+            game: current.game,
+            chosen: current.chosen === true ? false : true
+        }
 
         this.setState({
             selected: React.addons.update(this.state.selected, {
@@ -72,12 +84,35 @@ class ContentPackageList extends AdminList {
         })
     }
 
+    // Yay for code duplication
+    setProp(id) {
+        return (e) => {
+            let value = e.target.value
+            let newState = {}
+            let current = this.state.selected[id]
+
+            newState[id] = {
+                game: value,
+                chosen: current.chosen
+            }
+
+            this.setState({
+                selected: React.addons.update(this.state.selected, {
+                    $merge: newState
+                })
+            })
+        }
+    }
+
     toggleAll(e) {
         let newState = {}
         let changeTo = this.state.toggleAll ? false : true
 
         for(let val in this.state.selected) {
-            newState[val] = changeTo
+            newState[val] = {
+                game: this.state.selected[val].game,
+                chosen: changeTo
+            }
         }
 
         this.setState({
@@ -103,18 +138,16 @@ class ContentPackageList extends AdminList {
                         </label>
                     </p>
                     <article style={ style.list }>
-                        {this.props.content.playlists.map(playlist => {
+                        {this.props.content.results.map(result => {
                             return (
-                                <AdminPlaylistItem
-                                    key={playlist.id}
-                                    creator={
-                                        this.props.content.creators.filter(creator => {
-                                            return creator.id === playlist.channel
-                                        })[0]
-                                    }
-                                    checked={this.state.selected[playlist.id]}
-                                    change={this.setValue.bind(this)}
-                                    {...playlist} />
+                                <div key={result.id} >
+                                    <AdminPlaylistItem
+                                        type={this.props.content.resource}
+                                        state={this.state.selected[result.id]}
+                                        check={this.setValue.bind(this)}
+                                        setGame={this.setProp(result.id)}
+                                        {...result} />
+                                </div>
                             )
                         })}
                     </article>
@@ -124,4 +157,4 @@ class ContentPackageList extends AdminList {
     }
 }
 
-export default ContentPackageList
+export default YoutubePackageList

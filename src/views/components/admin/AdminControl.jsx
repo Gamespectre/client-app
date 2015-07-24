@@ -12,7 +12,7 @@ class AdminControl extends React.Component {
     receiveError(data) {
         this.setState({
             success: false,
-            message: data.message
+            message: data.error
         })
     }
 

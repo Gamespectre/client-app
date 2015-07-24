@@ -7,7 +7,8 @@ const events = {
     queryStarted: 'PackageStarted',
     queryDone: 'PackageDataRetrieved',
     packageError: 'PackageError',
-    packageSaved: 'PackageSaved'
+    packageSaved: 'PackageSaved',
+    saveStarted: 'PackageSaveStarted',
 }
 
 class AdminFlow {
@@ -53,19 +54,19 @@ class AdminFlow {
     }
 
     save(data, packageData, callbacks) {
-        this.saveCallbacks = callbacks
+        this.callbacks = callbacks
 
         ApiClient.request('savePackage', {
             packageId: packageData.id,
-            saveData: data,
-            channel: packageData.channel
+            saveData: data
         }).then((response) => {
             if(response.status < 400) {
-                this.client = EventsClient.subscribe(response.data.channel, events.dataSaved, this.saveListener.bind(this))
+                this.client = EventsClient.subscribe(response.data.channel, events.packageSaved, this.saveListener.bind(this))
+                this.client.listen(events.saveStarted, this.saveStartedListener.bind(this))
                 this.client.listen(events.packageError, this.errorListener.bind(this))
             }
             else {
-                this.saveCallbacks.error({message: "Save failed."})
+                this.callbacks.error({message: "Save failed."})
             }
         })
     }
@@ -88,14 +89,19 @@ class AdminFlow {
         console.log('Query started', data)
     }
 
+    saveStartedListener(data) {
+        console.log('Save started', data)
+    }
+
     saveListener(data) {
-        this.saveCallbacks.success(data.data)
+        this.callbacks.success(data.data)
         this.client.unlisten(events.dataSaved)
+        this.client.unlisten(events.saveStarted)
     }
 
     errorListener(data) {
         console.error(data)
-        this.saveCallbacks.error({message: data.data.message})
+        this.callbacks.error({message: data.error})
     }
 }
 

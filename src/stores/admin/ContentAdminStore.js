@@ -8,31 +8,27 @@ class ContentAdminStore extends AdminStorePrototype {
         super()
 
         this.state = {
-            playlists: [],
-            creators: [],
-            videos: []
+            results: [],
+            resource: 'playlist'
         }
 
         this.bindActions(ContentActions)
     }
 
-    importPlaylists(playlists) {
-        this.setState({ playlists: playlists })
+    setResource(type) {
+        this.setState({
+            resource: type
+        })
     }
 
-    importCreators(creators) {
-        this.setState({ creators: creators })
-    }
-
-    importVideos(videos) {
-        this.setState({ videos: videos })
+    importResults(results) {
+        this.setState({ results: results })
     }
 
     clear() {
         this.setState({
-            playlists: [],
-            creators: [],
-            videos: []
+            results: [],
+            resource: 'playlist'
         })
     }
 

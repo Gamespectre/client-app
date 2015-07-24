@@ -4,38 +4,36 @@ import ContentActions from '../../../actions/admin/ContentActions'
 import parsers from '../../../api/packageParsers'
 import AdminActions from '../../../actions/admin/AdminActions'
 import RadioField from '../../elements/RadioField.jsx'
+import connectToStores from 'alt/utils/connectToStores'
+import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
 
+@connectToStores
 class YoutubeSearchContent extends AdminControl {
+
+    static getStores() {
+        return [ContentAdminStore]
+    }
+
+    static getPropsFromStores() {
+        return ContentAdminStore.getState()
+    }
 
     constructor() {
         super()
 
         this.state = {
             success: true,
-            message: "",
-            query: "",
-            resource: 'playlist'
+            message: '',
+            query: '',
+            mode: "search"
         }
     }
 
     receivePackage(data) {
-        let parser = parsers[this.state.resource]
+        let parser = parsers[this.props.resource]
         let contentPackage = parser(data)
 
-        switch(this.state.resource) {
-            case 'playlist':
-                ContentActions.importPlaylists(contentPackage)
-                break
-            case 'video':
-                ContentActions.importVideos(contentPackage)
-                break
-            case 'channel':
-                ContentActions.importCreators(contentPackage)
-                break
-            default:
-                console.error("Uh oh, no actions found!")
-                break
-        }
+        ContentActions.importResults(contentPackage)
 
         this.setState({
             message: "Success",
@@ -49,8 +47,10 @@ class YoutubeSearchContent extends AdminControl {
 
         this.flow.query({
             query: this.state.query,
-            resource: this.state.resource
-        }, 'searchContent', {
+            resource: this.props.resource
+
+        },`${this.state.mode}Content`, {
+
             error: this.receiveError.bind(this),
             success: this.receivePackage.bind(this)
         })
@@ -63,24 +63,38 @@ class YoutubeSearchContent extends AdminControl {
     }
 
     resourceChangeHandler(event) {
-        this.setState({
-            resource: event.target.value
-        })
+        AdminActions.setResource(event.target.value)
+    }
+
+    setMode(mode) {
+        return (e) => {
+            e.preventDefault()
+
+            this.setState({
+                mode: mode
+            })
+        }
     }
 
     render() {
 
         return (
             <div className="admin-form">
+                <a onClick={this.setMode('add')}>Add</a>&nbsp;
+                <a onClick={this.setMode('search')}>Search</a>
+
+                <h3>{this.state.mode} youtube content</h3>
+
                 <div>{this.state.message}</div>
+
                 <form onSubmit={ this.sendForm.bind(this) }>
                     <input type="text"
-                           placeholder="query"
+                           placeholder={this.state.mode === 'add' ? 'Resource id' : 'Query'}
                            value={ this.state.query }
                            onChange={ this.queryChangeHandler.bind(this) } />
                     <br />
                     <RadioField
-                        selected={this.state.resource}
+                        selected={this.props.resource}
                         name="resource"
                         onChange={this.resourceChangeHandler.bind(this)}
                         inputs={[

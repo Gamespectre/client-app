@@ -8,21 +8,21 @@ class PackageAdminStore extends AdminStorePrototype {
         super()
 
         this.state = {
-            package: {}
+            id: "",
+            channel: ""
         }
 
         this.bindActions(PackageActions)
     }
 
     importPackage(packageData) {
-        this.setState({
-            package: packageData
-        })
+        this.setState(packageData)
     }
 
     clear() {
         this.setState({
-            package: {}
+            id: "",
+            channel: ""
         })
     }
 }

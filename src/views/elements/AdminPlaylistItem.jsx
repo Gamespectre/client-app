@@ -13,9 +13,9 @@ class AdminPlaylistItem extends React.Component {
                     style={style.checkbox}
                     type="checkbox"
                     name={this.props.name}
-                    checked={this.props.checked}
+                    checked={this.props.state.chosen}
                     value={this.props.id}
-                    onChange={this.props.change}
+                    onChange={this.props.check}
                     disabled={this.props.disabled || false} />
 
                 <div style={ style.content }>
@@ -26,12 +26,9 @@ class AdminPlaylistItem extends React.Component {
                         id: {this.props.id}<br />
                         published: {this.props.published}
                     </span>
-                    <div>
-                        <h5>
-                            <img style={style.avatar} src={this.props.creator.avatar} />
-                            By: {this.props.creator.name}
-                        </h5>
-                    </div>
+                    <input type="text"
+                        onChange={this.props.setGame}
+                        value={this.props.state.game} />
                 </div>
             </div>
         )
