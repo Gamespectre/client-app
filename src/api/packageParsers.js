@@ -62,7 +62,7 @@ const packageParsers = {
                 id: channel.id[0],
                 image: channel.imageUrl[0],
                 avatar: channel.avatarUrl[0],
-                birthday: channel.birthday[0],
+                published: channel.birthday[0],
                 subscribers: channel.subscribers[0],
                 description: channel.description[0]
         }})

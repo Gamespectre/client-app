@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { adminList as style } from '../../style/components/adminList'
+import { adminList as style } from '../../../style/components/adminList'
 import Radium from 'radium'
 
 @Radium
@@ -24,11 +24,12 @@ class AdminGameItem extends React.Component {
                     onChange={this.props.change} />
 
                 <div style={ style.content }>
+                    <img style={ style.image } src={this.props.image} />
                     <h4 style={ style.heading }>
-                        <img style={ style.videoImg } src={this.props.image} />
                         {`${this.props.type}: ${this.props.name}`}
                     </h4>
                     <p>{this.props.description}</p>
+                    <p>{this.props.year}</p>
                 </div>
             </li>
         )

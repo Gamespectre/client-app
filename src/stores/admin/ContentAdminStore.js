@@ -28,7 +28,7 @@ class ContentAdminStore extends AdminStorePrototype {
     clear() {
         this.setState({
             results: [],
-            resource: 'playlist'
+            resource: this.getInstance().getState().resource
         })
     }
 

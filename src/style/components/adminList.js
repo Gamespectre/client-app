@@ -29,7 +29,7 @@ export const adminList = {
         maxWidth: '4em',
         verticalAlign: 'middle'
     },
-    videoImg: {
+    image: {
         display: 'block',
         maxWidth: '10em'
     },

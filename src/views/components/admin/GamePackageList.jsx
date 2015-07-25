@@ -1,5 +1,5 @@
 import React from 'react'
-import AdminGameItem from '../../elements/AdminGameItem.jsx'
+import AdminGameItem from '../../elements/admin/AdminGameItem.jsx'
 import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
 import Radium from 'radium'

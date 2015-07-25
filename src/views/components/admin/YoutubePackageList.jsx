@@ -1,5 +1,5 @@
 import React from 'react'
-import AdminPlaylistItem from '../../elements/AdminPlaylistItem.jsx'
+import YoutubeResourceItem from '../../elements/admin/YoutubeResourceItem.jsx'
 import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
 import { adminList as style } from '../../../style/components/adminList'
@@ -32,7 +32,8 @@ class YoutubePackageList extends AdminList {
             success: true,
             selected: {},
             toggleAll: initChecked,
-            message: "No data fetched yet!"
+            message: "No data fetched yet!",
+            game: ""
         }
     }
 
@@ -124,6 +125,25 @@ class YoutubePackageList extends AdminList {
         })
     }
 
+    setGlobalGame(e) {
+        let value = e.target.value
+        let newState = {}
+
+        for(let val in this.state.selected) {
+            newState[val] = {
+                game: value,
+                chosen: this.state.selected[val].chosen
+            }
+        }
+
+        this.setState({
+            selected: React.addons.update(this.state.selected, {
+                $merge: newState
+            }),
+            game: value
+        })
+    }
+
     render() {
 
         return (
@@ -137,12 +157,18 @@ class YoutubePackageList extends AdminList {
                                    onChange={this.toggleAll.bind(this)} />
                             <span style={{paddingLeft: '1em'}}>Toggle all</span>
                         </label>
+                        <br />
+                        <label>
+                            Set game for all: <input type="text"
+                                                     value={this.state.game}
+                                                     onChange={this.setGlobalGame.bind(this)} />
+                        </label>
                     </p>
                     <article style={ style.list }>
                         {this.props.content.results.map(result => {
                             return (
                                 <div key={result.id} >
-                                    <AdminPlaylistItem
+                                    <YoutubeResourceItem
                                         type={this.props.content.resource}
                                         state={this.state.selected[result.id]}
                                         check={this.setValue.bind(this)}

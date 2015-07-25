@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react'
-import AdminVideoItem from './AdminVideoItem.jsx'
-import { adminList as style } from '../../style/components/adminList'
+import { adminList as style } from '../../../style/components/adminList'
 import Radium from 'radium'
 
 @Radium
-class AdminPlaylistItem extends React.Component {
+class YoutubeResourceItem extends React.Component {
 
     render() {
         return (
@@ -22,10 +21,12 @@ class AdminPlaylistItem extends React.Component {
                     <h4 style={ style.heading }>
                         {this.props.name}
                     </h4>
-                    <span>
+                    {this.props.hasOwnProperty('image') ? <img style={ style.image } src={this.props.image} /> : ""}
+                    {this.props.hasOwnProperty('description') ? <p>{this.props.description}</p> : ""}
+                    <p>
                         id: {this.props.id}<br />
                         published: {this.props.published}
-                    </span>
+                    </p>
                     <input type="text"
                         onChange={this.props.setGame}
                         value={this.props.state.game} />
@@ -35,4 +36,4 @@ class AdminPlaylistItem extends React.Component {
     }
 }
 
-export default AdminPlaylistItem
+export default YoutubeResourceItem
