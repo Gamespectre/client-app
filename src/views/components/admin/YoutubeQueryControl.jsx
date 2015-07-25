@@ -8,7 +8,7 @@ import connectToStores from 'alt/utils/connectToStores'
 import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
 
 @connectToStores
-class YoutubeSearchContent extends AdminControl {
+class YoutubeQueryControl extends AdminControl {
 
     static getStores() {
         return [ContentAdminStore]
@@ -80,8 +80,8 @@ class YoutubeSearchContent extends AdminControl {
 
         return (
             <div className="admin-form">
-                <a onClick={this.setMode('add')}>Add</a>&nbsp;
-                <a onClick={this.setMode('search')}>Search</a>
+                <a href="#" onClick={this.setMode('add')}>Add</a>&nbsp;
+                <a href="#" onClick={this.setMode('search')}>Search</a>
 
                 <h3>{this.state.mode} youtube content</h3>
 
@@ -110,4 +110,4 @@ class YoutubeSearchContent extends AdminControl {
     }
 }
 
-export default YoutubeSearchContent
+export default YoutubeQueryControl

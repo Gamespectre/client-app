@@ -21,20 +21,17 @@ const packageParsers = {
         }
     },
     game(data: Object) {
-        return {
-            game: data.game.filter(game => game !== false)
-            .map(game => {
-                return {
-                    id: game.id[0],
-                    name: game.title[0],
-                    image: game.imageUrl[0],
-                    rating: game.rating[0],
-                    year: game.year[0],
-                    description: game.description[0],
-                    franchise: game.franchise[0]
-                }
-            })
-        }
+        return data.map(game => {
+            return {
+                id: game.id[0],
+                name: game.title[0],
+                image: game.imageUrl[0],
+                rating: game.rating[0],
+                year: game.year[0],
+                description: game.description[0],
+                franchise: game.franchise[0]
+            }
+        })
     },
     playlist(data: Object) {
         return data.map(playlist => {

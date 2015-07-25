@@ -29,6 +29,7 @@ class YoutubePackageList extends AdminList {
         super()
 
         this.state = {
+            success: true,
             selected: {},
             toggleAll: initChecked,
             message: "No data fetched yet!"

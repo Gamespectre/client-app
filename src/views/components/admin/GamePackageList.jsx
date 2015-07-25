@@ -1,11 +1,28 @@
 import React from 'react'
-import AdminListItem from '../../elements/AdminListItem.jsx'
+import AdminGameItem from '../../elements/AdminGameItem.jsx'
 import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
+import Radium from 'radium'
+import connectToStores from 'alt/utils/connectToStores'
+import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
+import PackageAdminStore from '../../../stores/admin/PackageAdminStore'
 
 const initChecked = false
 
+@Radium
+@connectToStores
 class GamePackageList extends AdminList {
+
+    static getStores() {
+        return [ContentAdminStore, PackageAdminStore];
+    }
+
+    static getPropsFromStores() {
+        return {
+            content: ContentAdminStore.getState(),
+            package: PackageAdminStore.getState()
+        }
+    }
 
     constructor() {
         super()
@@ -20,7 +37,7 @@ class GamePackageList extends AdminList {
 
     componentWillReceiveProps(nextProps) {
 
-        if(nextProps.resources.length === 0) {
+        if(nextProps.content.results.length === 0) {
             this.setState({
                 message: "No new games found!"
             })
@@ -28,7 +45,7 @@ class GamePackageList extends AdminList {
 
         let selected = {}
 
-        nextProps.resources.forEach(resource => {
+        nextProps.content.results.forEach(resource => {
             if(resource !== false) {
                 selected[resource.id] = initChecked
             }
@@ -38,6 +55,14 @@ class GamePackageList extends AdminList {
             selected: React.addons.update(this.state.selected, {
                 $merge: selected
             })
+        })
+    }
+
+    saveSelected(e) {
+        e.preventDefault()
+        this.flow.save(this.state.selected, this.props.package, {
+            error: this.error.bind(this),
+            success: this.done.bind(this)
         })
     }
 
@@ -83,16 +108,17 @@ class GamePackageList extends AdminList {
                         </label>
                     </p>
                     <ul style={{ listStyle: 'none' }}>
-                        {(() => {
-                            let items = this.props.resources.map(game => {
-                                return <AdminListItem checked={this.state.selected[game.id]}
-                                                     type="game"
-                                                     key={game.id} {...game}
-                                                     change={this.setValue.bind(this)} />
-                            })
-
-                            return items.length ? items : <ListMessage message={this.state.message} />
-                        })()}
+                        {this.props.content.results.map(game => {
+                            return (
+                                <div key={game.id}>
+                                    <AdminGameItem
+                                        checked={this.state.selected[game.id]}
+                                        type="game"
+                                        {...game}
+                                        change={this.setValue.bind(this)} />
+                                </div>
+                            )
+                        })}
                     </ul>
                 </form>
             </div>

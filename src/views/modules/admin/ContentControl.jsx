@@ -1,6 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
-import YoutubeSearchContent from '../../components/admin/YoutubeSearchContent.jsx'
+import YoutubeSearchContent from '../../components/admin/YoutubeQueryControl.jsx'
 import YoutubePackageList from '../../components/admin/YoutubePackageList.jsx'
 import { columns } from '../../../style/columns'
 

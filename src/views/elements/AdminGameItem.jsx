@@ -3,7 +3,7 @@ import { adminList as style } from '../../style/components/adminList'
 import Radium from 'radium'
 
 @Radium
-class AdminListItem extends React.Component {
+class AdminGameItem extends React.Component {
 
     static propTypes = {
         name: PropTypes.string.isRequired,
@@ -25,26 +25,14 @@ class AdminListItem extends React.Component {
 
                 <div style={ style.content }>
                     <h4 style={ style.heading }>
-                        {this.props.type === 'channel' ? <img src={this.props.avatar} /> : ""}
+                        <img style={ style.videoImg } src={this.props.image} />
                         {`${this.props.type}: ${this.props.name}`}
                     </h4>
-                    {this.props.type !== 'channel' && this.props.type !== 'playlist' ? <img src={this.props.image} /> : ""}
-                    {this.props.type !== 'playlist' ? <p>{this.props.description}</p> : ""}
-                    {this.props.type === 'playlist'}
+                    <p>{this.props.description}</p>
                 </div>
-                {this.getNested()}
             </li>
-        )
-    }
-
-    getNested(data) {
-
-        return (
-            <ul>
-
-            </ul>
         )
     }
 }
 
-export default AdminListItem
+export default AdminGameItem
