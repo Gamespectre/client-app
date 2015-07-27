@@ -3,11 +3,11 @@ import alt from '../flux'
 class ResourceActions {
 
     constructor() {
-
+        this.generateActions('loading', 'error', 'reset', 'refresh')
     }
 
-    gameListFetched(results) {
-        return results.data.data
+    receivedResults(results) {
+        this.dispatch(results.data.data)
     }
 }
 

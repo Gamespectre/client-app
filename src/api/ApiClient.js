@@ -4,6 +4,10 @@ import apiconfig from '../apiconfig'
 
 const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
+const defaultOptions = {
+    perPage: 20
+}
+
 class ApiClient {
 
     constructor(baseName: string, baseId: number = -1) {
@@ -24,6 +28,8 @@ class ApiClient {
     }
 
     retrieve(resource: string = "list", options: Object = {}) {
+        let reqParams = Object.assign(options, defaultOptions)
+
         return AuthService.ready.then(() => {
             const endpoint = this.getEndpoint(resource)
             const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
@@ -33,7 +39,7 @@ class ApiClient {
             return axios({
                 url: `${apiUrl}${this.baseName}/${uri}`,
                 headers: { 'Authorization': 'Bearer ' + token },
-                params: options
+                params: reqParams
             }).catch(this.handleErrors)
         })
     }

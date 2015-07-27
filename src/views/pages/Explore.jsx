@@ -18,9 +18,6 @@ class Browse extends React.Component {
                     <ContentNav />
                 </nav>
                 <div className="container" style={ style.wrapper }>
-                    <div style={ style.sidebar }>
-                        <ContentManagement />
-                    </div>
                     <div style={ style.content }>
                         <RouteHandler />
                     </div>

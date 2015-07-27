@@ -4,9 +4,25 @@ import ResourceActions from '../actions/ResourceActions'
 const GameSource = {
     list: {
         remote: (state) => {
+            // TODO: Send filter and sorting parameters
             return ApiClient.fetch('list', 'game')
         },
-        success: ResourceActions.gameListFetched
+
+        local: (state) => {
+            return state.games.length > 0 ? state.games : null
+        },
+
+        success: ResourceActions.receivedResults,
+        loading: ResourceActions.loading,
+        error: ResourceActions.error,
+
+        shouldFetch(state) {
+            if(state.forceUpdate === true) {
+                return true
+            }
+
+            return 'undefined'
+        }
     }
 }
 
