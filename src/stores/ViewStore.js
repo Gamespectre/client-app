@@ -4,9 +4,17 @@ import ViewActions from '../actions/ViewActions'
 class ViewStore {
 
     constructor() {
-        this.state = {}
+        this.state = {
+
+        }
         this.bindActions(ViewActions)
     }
+
+    nextPage(data) {
+
+    }
+
+
 }
 
 export default alt.createStore(ViewStore, 'viewstore')

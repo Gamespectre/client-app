@@ -43,6 +43,7 @@
     "immutable": "^3.7.4",
     "iso": "^4.1.0",
     "jade": "^1.11.0",
+    "lodash": "^3.10.0",
     "node-jsx": "^0.13.3",
     "node-localstorage": "^0.5.1",
     "object-assign": "^3.0.0",

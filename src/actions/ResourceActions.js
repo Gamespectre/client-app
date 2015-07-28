@@ -3,7 +3,7 @@ import alt from '../flux'
 class ResourceActions {
 
     constructor() {
-        this.generateActions('loading', 'error', 'reset', 'refresh')
+        this.generateActions('loading', 'error', 'reset', 'refresh', 'loadNextPage')
     }
 
     receivedResults(results) {

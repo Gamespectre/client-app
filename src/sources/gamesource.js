@@ -5,7 +5,7 @@ const GameSource = {
     list: {
         remote: (state) => {
             // TODO: Send filter and sorting parameters
-            return ApiClient.fetch('list', 'game')
+            return ApiClient.fetch('list', 'game', 0, state.page)
         },
 
         local: (state) => {

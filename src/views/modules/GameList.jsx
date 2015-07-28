@@ -1,4 +1,5 @@
 import React from 'react'
+import { debounce } from 'lodash'
 import GameCard from '../components/GameCard.jsx'
 import Radium from 'radium'
 import connectToStores from 'alt/utils/connectToStores'
@@ -21,11 +22,26 @@ class GameList extends React.Component {
     constructor() {
         super()
         GameStore.list()
+
+        if(__CLIENT__) {
+            window.addEventListener('scroll', this.checkScroll())
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.checkScroll())
     }
 
     refreshList() {
         ResourceActions.refresh()
         GameStore.list()
+    }
+
+    checkScroll(e) {
+        return debounce(() => {
+            ResourceActions.loadNextPage()
+            GameStore.list()
+        }, 500)
     }
 
     render() {

@@ -1,4 +1,5 @@
 import alt from '../flux'
+import { addons } from 'react'
 import gameSource from '../sources/gameSource'
 import ResourceActions from '../actions/ResourceActions'
 
@@ -7,7 +8,8 @@ const resetState = {
     isLoading: false,
     filters: {},
     sorting: {},
-    forceUpdate: false
+    forceUpdate: false,
+    page: 1
 }
 
 class GameStore {
@@ -19,8 +21,11 @@ class GameStore {
     }
 
     onReceivedResults(games) {
+        let currentGames = this.getInstance().getState().games
         this.setState({
-            games: games,
+            games: addons.update(currentGames, {
+                $push: games
+            }),
             isLoading: false,
             forceUpdate: false
         })
@@ -47,6 +52,18 @@ class GameStore {
 
     onReset() {
         this.setState(resetState)
+    }
+
+    onLoadNextpage() {
+        let currentPage = this.getInstance().getState().page
+
+        this.setState({
+            page: addons.update(currentPage, {
+                $apply(page) {
+                    return page++
+                }
+            })
+        })
     }
 }
 
