@@ -22,9 +22,9 @@ class ApiClient {
         this.baseId = baseId
     }
 
-    static fetch(resource: string, baseName: string, baseId: number = -1, page: number = 1) {
-        let client = new ApiClient(baseName, baseId, { page: page })
-        return client.retrieve(resource)
+    static fetch(resource: string, baseName: string, baseId: number = -1, options: Object = {}) {
+        let client = new ApiClient(baseName, baseId)
+        return client.retrieve(resource, options)
     }
 
     retrieve(resource: string = "list", options: Object = {}) {

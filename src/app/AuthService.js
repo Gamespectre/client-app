@@ -58,20 +58,20 @@ class AuthService {
     }
 
     authenticate() {
-        axios.get(apiUrl + 'auth/init').then(response => {
-            let channel = response.data.channel
-            let loginWindow = window.open(apiUrl + 'auth/youtube', '_blank', 'width=600,height=400')
+        let loginWindow = window.open(apiUrl + 'auth/youtube', '_blank', 'width=600,height=400')
 
-            let eventClient = new EventClient(channel)
+        var receiveEvent = (e) => {
+            if(e.origin !== location.origin) return false
+            if(e.data.success !== true) return false
 
-            eventClient.listen('UserSignedIn', (data) => {
-                this.setToken(data.data.token)
-                UserActions.loadUserData(data.data.user)
+            this.setToken(e.data.token)
+            UserActions.loadUserData(e.data.user)
+            loginWindow.close()
 
-                loginWindow.close()
-                eventClient.unlisten('UserSignedIn')
-            })
-        })
+            window.removeEventListener('message', receiveEvent)
+        }
+
+        window.addEventListener('message', receiveEvent, false)
     }
 }
 

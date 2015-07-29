@@ -26,6 +26,7 @@
     "build": "node ./node_modules/webpack/bin/webpack.js --verbose --colors --display-error-details --config webpack/prod.config.js",
     "lint": "node ./node_modules/eslint/bin/eslint.js -c .eslintrc src",
     "start-dev": "NODE_PATH=\"./src\" NODE_ENV=\"development\" node ./babel.server",
+    "start-proxy": "NODE_ENV=\"development\" node ./babel.apiproxy",
     "watch-client": "NODE_PATH=\"./src\" node webpack/webpack-dev-server.js",
     "dev": "node ./node_modules/concurrently/src/main.js --kill-others \"npm run watch-client\" \"npm run start-dev\""
   },
@@ -70,6 +71,7 @@
     "babel-loader": "^5.3.1",
     "babel-plugin-typecheck": "0.0.3",
     "babel-runtime": "^5.6.17",
+    "cors": "^2.7.1",
     "css-loader": "^0.15.2",
     "eslint": "^0.24.0",
     "eslint-loader": "^0.14.1",

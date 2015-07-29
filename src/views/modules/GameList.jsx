@@ -10,6 +10,7 @@ import ResourceActions from '../../actions/ResourceActions'
 @Radium
 @connectToStores
 class GameList extends React.Component {
+    static displayName = "GameList"
 
     static getStores() {
         return [GameStore];
@@ -39,9 +40,13 @@ class GameList extends React.Component {
 
     checkScroll(e) {
         return debounce(() => {
-            ResourceActions.loadNextPage()
-            GameStore.list()
+            this.fetchNextPage()
         }, 500)
+    }
+
+    fetchNextPage() {
+        ResourceActions.paginate(true)
+        GameStore.list()
     }
 
     render() {
@@ -49,8 +54,8 @@ class GameList extends React.Component {
             <section>
                 <button onClick={this.refreshList.bind(this)}>Refresh</button>
                 <div className="card-list">
-                    {this.props.games.map(game => {
-                        return <GameCard key={game.id} {...game} />
+                    {this.props.games.map((game, idx) => {
+                        return <GameCard key={idx} {...game} />
                     })}
                 </div>
             </section>

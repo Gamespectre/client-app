@@ -5,7 +5,15 @@ const GameSource = {
     list: {
         remote: (state) => {
             // TODO: Send filter and sorting parameters
-            return ApiClient.fetch('list', 'game', 0, state.page)
+            let page = state.pagination.currentPage
+
+            if(state.shouldPaginate) {
+                page = ++page
+            }
+
+            return ApiClient.fetch('list', 'game', 0, {
+                page: page
+            })
         },
 
         local: (state) => {
@@ -19,6 +27,16 @@ const GameSource = {
         shouldFetch(state) {
             if(state.forceUpdate === true) {
                 return true
+            }
+
+            let page = state.pagination.currentPage
+            let totalPages = state.pagination.totalPages
+
+            if(page >= totalPages && state.games.length > 0) {
+                return false
+            }
+            if(page < totalPages && !state.shouldPaginate && state.games.length > 0) {
+                return false
             }
 
             return 'undefined'

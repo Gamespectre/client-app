@@ -9,7 +9,13 @@ const resetState = {
     filters: {},
     sorting: {},
     forceUpdate: false,
-    page: 1
+    shouldPaginate: false,
+    pagination: {
+        perPage: 0,
+        total: 0,
+        currentPage: 0,
+        totalPages: 1
+    }
 }
 
 class GameStore {
@@ -20,14 +26,22 @@ class GameStore {
         this.bindActions(ResourceActions)
     }
 
-    onReceivedResults(games) {
+    onReceivedResults(results) {
         let currentGames = this.getInstance().getState().games
+        Array.prototype.push.apply(currentGames, results.data)
+
+        let pagination = results.meta.pagination
+
         this.setState({
-            games: addons.update(currentGames, {
-                $push: games
-            }),
+            games: currentGames,
             isLoading: false,
-            forceUpdate: false
+            forceUpdate: false,
+            pagination: {
+                perPage: pagination.per_page,
+                total: pagination.total,
+                currentPage: pagination.current_page,
+                totalPages: pagination.total_pages
+            }
         })
     }
 
@@ -46,24 +60,21 @@ class GameStore {
 
     onRefresh() {
         this.setState({
-            forceUpdate: true
+            forceUpdate: true,
+            pageLoaded: false
+        })
+
+        this.preventDefault()
+    }
+
+    onPaginate(toggle) {
+        this.setState({
+            shouldPaginate: toggle
         })
     }
 
     onReset() {
         this.setState(resetState)
-    }
-
-    onLoadNextpage() {
-        let currentPage = this.getInstance().getState().page
-
-        this.setState({
-            page: addons.update(currentPage, {
-                $apply(page) {
-                    return page++
-                }
-            })
-        })
     }
 }
 

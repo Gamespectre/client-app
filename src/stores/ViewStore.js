@@ -5,16 +5,17 @@ class ViewStore {
 
     constructor() {
         this.state = {
-
+            pageLink: ''
         }
+
         this.bindActions(ViewActions)
     }
 
-    nextPage(data) {
-
+    setPaginationLink(pageLink) {
+        this.setState({
+            pageLink: pageLink
+        })
     }
-
-
 }
 
 export default alt.createStore(ViewStore, 'viewstore')
