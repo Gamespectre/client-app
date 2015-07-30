@@ -21,8 +21,7 @@ class ListDisplay extends React.Component {
         let prevScroll = 0
 
         return debounce(() => {
-            let doc = document.documentElement
-            let top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0)
+            let top = verge.scrollY()
             let down = top > prevScroll ? true : false
             prevScroll = top
 
@@ -31,25 +30,33 @@ class ListDisplay extends React.Component {
     }
 
     fetch() {
-        if(this.state.fetched >= this.state.page ||
-           this.state.fetched >= this.state.total) return false
+        if(!this.shouldFetch()) return false
 
         this.actions.loading()
 
         return ApiClient.fetch(this.resource.method, this.resource.name, 0, {
             page: this.state.page
-        }).then(results => {
-            let totalPages = results.data.meta.pagination.total_pages
-
-            this.setState({
-                total: totalPages,
-                fetched: this.state.page
-            })
-
-            this.actions.receivedResults(results)
-        }).catch(error => {
+        })
+        .then(this.handleResponse.bind(this))
+        .catch(error => {
             this.actions.error(error)
         })
+    }
+
+    handleResponse(response) {
+        let totalPages = response.data.meta.pagination.total_pages
+        let fetchedPage = response.data.meta.pagination.current_page
+
+        this.setState({
+            total: totalPages,
+            fetched: fetchedPage
+        })
+
+        this.actions.receivedResults(response.data.data)
+    }
+
+    shouldFetch() {
+        return (this.state.fetched < this.state.page && this.state.fetched < this.state.total)
     }
 
     fetchNext() {

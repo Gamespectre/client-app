@@ -18,7 +18,7 @@ class GameStore {
 
     onReceivedResults(results) {
         let currentGames = this.getInstance().getState().games
-        Array.prototype.push.apply(currentGames, results.data)
+        Array.prototype.push.apply(currentGames, results)
 
         this.setState({
             games: currentGames,

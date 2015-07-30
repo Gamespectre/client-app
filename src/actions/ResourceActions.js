@@ -7,7 +7,7 @@ class ResourceActions {
     }
 
     receivedResults(results) {
-        this.dispatch(results.data)
+        this.dispatch(results)
     }
 }
 
