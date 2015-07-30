@@ -11,9 +11,7 @@ const GameSource = {
                 page = ++page
             }
 
-            return ApiClient.fetch('list', 'game', 0, {
-                page: page
-            })
+            return
         },
 
         local: (state) => {

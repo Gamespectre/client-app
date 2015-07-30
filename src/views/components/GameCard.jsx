@@ -1,5 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
+import LazyLoad from 'react-lazy-load'
 
 class GameCard extends React.Component {
 
@@ -12,7 +13,9 @@ class GameCard extends React.Component {
             <article className="card game-card">
                 <div className="content-wrapper">
                     <div className="image-wrapper">
-                        <img src={this.props.image} alt={this.props.title} />
+                        <LazyLoad>
+                            <img src={this.props.image} alt={this.props.title} />
+                        </LazyLoad>
                     </div>
                     <article className="card-content">
                         <header>

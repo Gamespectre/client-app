@@ -11,6 +11,7 @@ import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
 import alt from './flux'
 import routes from './routes'
+import AuthService from './app/AuthService'
 
 const app = express()
 
@@ -50,14 +51,17 @@ app.get('/*', (req, res) => {
         delete require.cache[require.resolve('../webpack-stats.json')];
     }
 
-    Router.run(routes, req.path, (Root, state) => {
-        let content = React.renderToString(<Root />)
-        iso.add(content, alt.flush())
+    AuthService.ready.then(() => {
+        Router.run(routes, req.path, (Root, state) => {
+            let content = React.renderToString(<Root />)
+            iso.add(content, alt.flush())
 
-        res.render('index', {
-            content: iso.render(),
-            css: webpackStats.css,
-            script: webpackStats.script[0]
+            res.render('index', {
+                authToken: AuthService.getToken(),
+                content: iso.render(),
+                css: webpackStats.css,
+                script: webpackStats.script[0]
+            })
         })
     })
 })

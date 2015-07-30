@@ -1,16 +1,12 @@
 import React from 'react'
-import { debounce } from 'lodash'
 import GameCard from '../components/GameCard.jsx'
-import Radium from 'radium'
 import connectToStores from 'alt/utils/connectToStores'
 import GameStore from '../../stores/GameStore'
-import ApiClient from '../../api/ApiClient'
 import ResourceActions from '../../actions/ResourceActions'
+import ListDisplay from '../components/ListDisplay.jsx'
 
-@Radium
 @connectToStores
-class GameList extends React.Component {
-    static displayName = "GameList"
+class GameList extends ListDisplay {
 
     static getStores() {
         return [GameStore];
@@ -22,37 +18,25 @@ class GameList extends React.Component {
 
     constructor() {
         super()
-        GameStore.list()
 
-        if(__CLIENT__) {
-            window.addEventListener('scroll', this.checkScroll())
+        this.resource = {
+            name: 'game',
+            method: 'list'
         }
-    }
 
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.checkScroll())
-    }
+        this.state = {
+            page: 1,
+            fetched: 0,
+            total: 9999
+        }
 
-    refreshList() {
-        ResourceActions.refresh()
-        GameStore.list()
-    }
-
-    checkScroll(e) {
-        return debounce(() => {
-            this.fetchNextPage()
-        }, 500)
-    }
-
-    fetchNextPage() {
-        ResourceActions.paginate(true)
-        GameStore.list()
+        this.actions = ResourceActions
+        this.fetch()
     }
 
     render() {
         return (
             <section>
-                <button onClick={this.refreshList.bind(this)}>Refresh</button>
                 <div className="card-list">
                     {this.props.games.map((game, idx) => {
                         return <GameCard key={idx} {...game} />
