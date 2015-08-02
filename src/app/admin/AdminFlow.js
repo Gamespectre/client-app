@@ -61,11 +61,8 @@ class AdminFlow {
             packageId: packageData.id,
             saveData: data
         }).then((response) => {
-            if(response.status < 400) {
-                this.client = EventsClient.subscribe(response.data.channel, events.packageSaved, this.saveListener.bind(this))
-                this.client.listen(events.saveStarted, this.saveStartedListener.bind(this))
-                this.client.listen(events.packageError, this.errorListener.bind(this))
-                this.client.listen(events.noResults, this.errorListener.bind(this))
+            if(response.status < 400 && response.data.success === true) {
+                this.callbacks.success(data.data)
             }
             else {
                 this.callbacks.error({message: "Save failed."})
@@ -89,19 +86,6 @@ class AdminFlow {
 
     queryStartedListener(data) {
         console.log('Query started', data)
-    }
-
-    saveStartedListener(data) {
-        console.log('Save started', data)
-    }
-
-    saveListener(data) {
-        this.callbacks.success(data.data)
-
-        this.client.unlisten(events.dataSaved)
-        this.client.unlisten(events.saveStarted)
-        this.client.unlisten(events.packageError)
-        this.client.unlisten(events.noResults)
     }
 
     errorListener(data) {
