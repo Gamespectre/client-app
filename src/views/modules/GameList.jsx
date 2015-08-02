@@ -1,19 +1,20 @@
 import React from 'react'
 import GameCard from '../components/GameCard.jsx'
 import connectToStores from 'alt/utils/connectToStores'
-import GameStore from '../../stores/GameStore'
+import GameListStore from '../../stores/games/GameListStore'
 import ResourceActions from '../../actions/ResourceActions'
 import ListDisplay from '../components/ListDisplay.jsx'
+import { RouteHandler } from 'react-router'
 
 @connectToStores
 class GameList extends ListDisplay {
 
     static getStores() {
-        return [GameStore];
+        return [GameListStore];
     }
 
     static getPropsFromStores() {
-        return GameStore.getState()
+        return GameListStore.getState()
     }
 
     constructor() {
@@ -42,6 +43,7 @@ class GameList extends ListDisplay {
                         return <GameCard key={idx} {...game} />
                     })}
                 </div>
+                <RouteHandler />
             </section>
         )
     }

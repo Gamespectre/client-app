@@ -1,6 +1,6 @@
-import alt from '../flux'
+import alt from '../../flux'
 import { addons } from 'react'
-import ResourceActions from '../actions/ResourceActions'
+import ResourceActions from '../../actions/ResourceActions'
 
 const resetState = {
     games: [],
@@ -10,7 +10,7 @@ const resetState = {
     forceUpdate: false,
 }
 
-class GameStore {
+class GameListStore {
     constructor() {
         this.state = resetState
         this.bindActions(ResourceActions)
@@ -54,4 +54,4 @@ class GameStore {
     }
 }
 
-export default alt.createStore(GameStore, 'gamestore')
+export default alt.createStore(GameListStore, 'gamestore')

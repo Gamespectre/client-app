@@ -4,7 +4,9 @@ export const user = {
     box: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'relative',
+        zIndex: 110
     },
     userDisplay: {
         display: 'flex',
