@@ -49,7 +49,7 @@ class AuthService {
             method: 'get'
         }).then(response => {
             if(response.status < 400 && response.data.success === true) {
-                UserActions.loadUserData(response.data.user)
+                UserActions.loadUser(response.data.user)
             }
             else {
                 console.error("Token query failed.")
@@ -65,7 +65,7 @@ class AuthService {
             if(e.data.success !== true) return false
 
             this.setToken(e.data.token)
-            UserActions.loadUserData(e.data.user)
+            UserActions.loadUser(e.data.user)
             loginWindow.close()
 
             window.removeEventListener('message', receiveEvent)

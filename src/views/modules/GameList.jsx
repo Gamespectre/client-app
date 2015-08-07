@@ -1,21 +1,13 @@
 import React from 'react'
 import GameCard from '../components/GameCard.jsx'
-import connectToStores from 'alt/utils/connectToStores'
-import GameListStore from '../../stores/games/GameListStore'
-import ResourceActions from '../../actions/ResourceActions'
+import GameActions from '../../actions/GameActions'
+import GamePage from '../components/GamePage.jsx'
 import ListDisplay from '../components/ListDisplay.jsx'
 import { RouteHandler } from 'react-router'
+import GameListData from '../../data/collections/GameList'
+import { ObservingComponent } from 'mobservable'
 
-@connectToStores
 class GameList extends ListDisplay {
-
-    static getStores() {
-        return [GameListStore];
-    }
-
-    static getPropsFromStores() {
-        return GameListStore.getState()
-    }
 
     constructor() {
         super()
@@ -31,7 +23,7 @@ class GameList extends ListDisplay {
             total: 9999
         }
 
-        this.actions = ResourceActions
+        this.actions = GameActions
         this.fetch()
     }
 
@@ -39,14 +31,16 @@ class GameList extends ListDisplay {
         return (
             <section>
                 <div className="card-list">
-                    {this.props.games.map((game, idx) => {
-                        return <GameCard key={idx} {...game} />
+                    {GameListData.games.map((game, idx) => {
+                        return <GameCard key={idx} game={game} />
                     })}
                 </div>
-                <RouteHandler />
+                <RouteHandler back="games">
+                    <GamePage />
+                </RouteHandler>
             </section>
         )
     }
 }
 
-export default GameList
+export default ObservingComponent(GameList)

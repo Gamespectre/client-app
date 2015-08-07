@@ -1,9 +1,10 @@
 import colors from '../colors'
 import constants from '../constants'
+import Color from 'color'
 
 export const logo = {
     wrapper: {
-        padding: '1.3em 7em 1.3em 0',
+        padding: '1.3em 7em 1.3em 0'
     },
     logo: {
         h1: {
@@ -13,7 +14,7 @@ export const logo = {
             fontSize: '2em',
             lineHeight: '1em',
             fontWeight: 400,
-            color: '#ffffff',
+            color: '#ffffff'
         },
         link: {
             textDecoration: 'none',

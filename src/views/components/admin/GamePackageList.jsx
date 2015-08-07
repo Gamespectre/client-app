@@ -3,26 +3,11 @@ import AdminGameItem from '../../elements/admin/AdminGameItem.jsx'
 import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
 import Radium from 'radium'
-import connectToStores from 'alt/utils/connectToStores'
-import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
-import PackageAdminStore from '../../../stores/admin/PackageAdminStore'
 
 const initChecked = false
 
 @Radium
-@connectToStores
 class GamePackageList extends AdminList {
-
-    static getStores() {
-        return [ContentAdminStore, PackageAdminStore];
-    }
-
-    static getPropsFromStores() {
-        return {
-            content: ContentAdminStore.getState(),
-            package: PackageAdminStore.getState()
-        }
-    }
 
     constructor() {
         super()

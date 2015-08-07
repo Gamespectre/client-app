@@ -6,10 +6,8 @@ import React from 'react'
 import express from 'express'
 import favicon from 'serve-favicon'
 import Router from 'react-router'
-import Iso from 'iso'
 import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
-import alt from './flux'
 import routes from './routes'
 import AuthService from './app/AuthService'
 
@@ -42,9 +40,6 @@ app.use('/api', (req, res) => {
 })
 
 app.get('/*', (req, res) => {
-    alt.bootstrap(JSON.stringify({}))
-
-    const iso = new Iso()
 
     if (process.env.NODE_ENV === 'development') {
         webpackStats = require('../webpack-stats.json');
@@ -54,11 +49,10 @@ app.get('/*', (req, res) => {
     AuthService.ready.then(() => {
         Router.run(routes, req.path, (Root, state) => {
             let content = React.renderToString(<Root />)
-            iso.add(content, alt.flush())
 
             res.render('index', {
                 authToken: AuthService.getToken(),
-                content: iso.render(),
+                content: content,
                 css: webpackStats.css,
                 script: webpackStats.script[0]
             })

@@ -1,14 +1,9 @@
-import alt from '../flux'
-import UserService from '../app/UserService'
+import { user } from '../api/packageParsers'
+import App from '../data/App'
 
-class UserActions {
+export default {
 
-    constructor() {}
-
-    loadUserData(userData) {
-        let data = UserService.create(userData)
-        this.dispatch(data)
+    loadUser(userData) {
+        App['user'] = user(userData)
     }
 }
-
-export default alt.createActions(UserActions)

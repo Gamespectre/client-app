@@ -1,22 +1,9 @@
 import React, { PropTypes } from 'react'
 import AdminControl from './AdminControl.jsx'
-import ContentActions from '../../../actions/admin/ContentActions'
 import parsers from '../../../api/packageParsers'
-import AdminActions from '../../../actions/admin/AdminActions'
 import RadioField from '../../elements/RadioField.jsx'
-import connectToStores from 'alt/utils/connectToStores'
-import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
 
-@connectToStores
 class YoutubeQueryControl extends AdminControl {
-
-    static getStores() {
-        return [ContentAdminStore]
-    }
-
-    static getPropsFromStores() {
-        return ContentAdminStore.getState()
-    }
 
     constructor() {
         super()
@@ -33,7 +20,7 @@ class YoutubeQueryControl extends AdminControl {
         let parser = parsers[this.props.resource]
         let contentPackage = parser(data)
 
-        ContentActions.importResults(contentPackage)
+        //ContentActions.importResults(contentPackage)
 
         this.setState({
             message: "Success",
@@ -43,7 +30,7 @@ class YoutubeQueryControl extends AdminControl {
 
     sendForm(e) {
         e.preventDefault()
-        AdminActions.clear()
+        //AdminActions.clear()
 
         this.flow.query({
             query: this.state.query,
@@ -63,7 +50,7 @@ class YoutubeQueryControl extends AdminControl {
     }
 
     resourceChangeHandler(event) {
-        AdminActions.setResource(event.target.value)
+        //AdminActions.setResource(event.target.value)
     }
 
     setMode(mode) {

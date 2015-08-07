@@ -1,27 +1,24 @@
 import React from 'react'
-import connectToStores from 'alt/utils/connectToStores'
+import GamePageData from '../../data/collections/GamePage'
+import { modalPage as styles } from '../../style/components/modalPage'
 
-@connectToStores
 class GamePage extends React.Component {
-
-    static getStores() {
-        return [GamePageStore];
-    }
-
-    static getPropsFromStores() {
-        return GamePageStore.getState()
-    }
 
     render() {
 
         return (
-            <div>
-                <h1>
-                    {this.props.title}
-                </h1>
-                <p>
-                    {this.props.description}
-                </p>
+            <div style={styles.pageWrapper}>
+                <div style={styles.imgWrapper}>
+                    <img src={GamePageData.game.image} style={styles.img} />
+                </div>
+                <article style={styles.contentWrapper}>
+                    <h1 style={styles.heading}>
+                        {GamePageData.game.title}
+                    </h1>
+                    <p>
+                        {GamePageData.game.description}
+                    </p>
+                </article>
             </div>
         )
     }

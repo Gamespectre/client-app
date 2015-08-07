@@ -31,7 +31,6 @@ class ListDisplay extends React.Component {
 
     fetch() {
         if(!this.shouldFetch()) return false
-
         this.actions.loading()
 
         return ApiClient.fetch(this.resource.method, this.resource.name, 0, {

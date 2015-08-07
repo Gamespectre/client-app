@@ -1,6 +1,5 @@
 import EventsClient from '../../api/PusherClient'
 import ApiClient from '../../api/ContentApiClient'
-import PackageActions from '../../actions/admin/PackageActions'
 import { meta } from '../../api/packageParsers'
 
 const events = {
@@ -76,7 +75,7 @@ class AdminFlow {
 
     queryDoneListener(data) {
         let packageMeta = meta(data)
-        PackageActions.importPackage(packageMeta)
+        //PackageActions.importPackage(packageMeta)
 
         this.fetchPackage(packageMeta.id)
 

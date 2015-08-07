@@ -4,26 +4,11 @@ import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
 import { adminList as style } from '../../../style/components/adminList'
 import Radium from 'radium'
-import connectToStores from 'alt/utils/connectToStores'
-import ContentAdminStore from '../../../stores/admin/ContentAdminStore'
-import PackageAdminStore from '../../../stores/admin/PackageAdminStore'
 
 const initChecked = true
 
 @Radium
-@connectToStores
 class YoutubePackageList extends AdminList {
-
-    static getStores() {
-        return [ContentAdminStore, PackageAdminStore];
-    }
-
-    static getPropsFromStores() {
-        return {
-            content: ContentAdminStore.getState(),
-            package: PackageAdminStore.getState()
-        }
-    }
 
     constructor() {
         super()

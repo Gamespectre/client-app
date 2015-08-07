@@ -6,10 +6,6 @@ const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
 class ApiClient {
 
-    constructor() {
-
-    }
-
     static request(method: string, data: Object) {
         let client = new ApiClient()
         return client.requestFor(method, data)
