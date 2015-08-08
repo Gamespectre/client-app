@@ -5,7 +5,7 @@ import GamePage from '../components/GamePage.jsx'
 import ListDisplay from '../components/ListDisplay.jsx'
 import { RouteHandler } from 'react-router'
 import GameListData from '../../data/collections/GameList'
-import { ObservingComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable'
 
 class GameList extends ListDisplay {
 
@@ -17,12 +17,7 @@ class GameList extends ListDisplay {
             method: 'list'
         }
 
-        this.state = {
-            page: 1,
-            fetched: 0,
-            total: 9999
-        }
-
+        this.data = GameListData
         this.actions = GameActions
         this.fetch()
     }
@@ -43,4 +38,4 @@ class GameList extends ListDisplay {
     }
 }
 
-export default ObservingComponent(GameList)
+export default reactiveComponent(GameList)

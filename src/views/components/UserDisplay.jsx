@@ -1,7 +1,7 @@
 import React from 'react'
 import { user as style } from '../../style/components/user'
 import Radium from 'radium'
-import { ObservingComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable'
 
 @Radium
 class UserDisplay extends React.Component {
@@ -17,4 +17,4 @@ class UserDisplay extends React.Component {
     }
 }
 
-export default ObservingComponent(UserDisplay)
+export default reactiveComponent(UserDisplay)

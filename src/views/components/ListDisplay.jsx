@@ -34,7 +34,7 @@ class ListDisplay extends React.Component {
         this.actions.loading()
 
         return ApiClient.fetch(this.resource.method, this.resource.name, 0, {
-            page: this.state.page
+            page: this.data.page
         })
         .then(this.handleResponse.bind(this))
         .catch(error => {
@@ -46,25 +46,18 @@ class ListDisplay extends React.Component {
         let totalPages = response.data.meta.pagination.total_pages
         let fetchedPage = response.data.meta.pagination.current_page
 
-        this.setState({
-            total: totalPages,
-            fetched: fetchedPage
-        })
+        this.data.total = totalPages,
+        this.data.fetched = fetchedPage
 
         this.actions.receivedResults(response.data.data)
     }
 
     shouldFetch() {
-        return (this.state.fetched < this.state.page && this.state.fetched < this.state.total)
+        return (this.data.fetched < this.data.page && this.data.fetched < this.data.total)
     }
 
     fetchNext() {
-        let page = this.state.page
-
-        this.setState({
-            page: ++page
-        })
-
+        this.data.page++
         this.fetch()
     }
 }

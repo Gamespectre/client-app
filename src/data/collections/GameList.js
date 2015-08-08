@@ -1,10 +1,9 @@
 import mobservable from 'mobservable'
 
-let GameList = {}
-
-mobservable.props(GameList, {
-    games: mobservable.array([]),
-    loading: false
+export default mobservable.makeReactive({
+    games: [],
+    loading: false,
+    page: 1,
+    fetched: 0,
+    total: 9999
 })
-
-export default GameList;

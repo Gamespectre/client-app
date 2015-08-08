@@ -1,8 +1,5 @@
 import mobservable from 'mobservable'
-let pageData = {}
 
-mobservable.props(pageData, {
+export default mobservable.makeReactive({
     game: {}
 })
-
-export default pageData

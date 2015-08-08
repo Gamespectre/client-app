@@ -6,7 +6,7 @@ import AuthService from '../../app/AuthService'
 import UserService from '../../app/UserService'
 import LoginButton from '../elements/LoginButton.jsx'
 import UserDisplay from '../components/UserDisplay.jsx'
-import { ObservingComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable'
 import app from '../../data/App'
 
 @Radium
@@ -39,4 +39,4 @@ class User extends React.Component {
     }
 }
 
-export default ObservingComponent(User)
+export default reactiveComponent(User)

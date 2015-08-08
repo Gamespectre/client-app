@@ -1,4 +1,4 @@
-import { user } from '../api/packageParsers'
+import user from '../data/items/user'
 import App from '../data/App'
 
 export default {

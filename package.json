@@ -42,7 +42,7 @@
     "http-proxy": "^1.11.1",
     "jade": "^1.11.0",
     "lodash": "^3.10.0",
-    "mobservable": "^0.5.9",
+    "mobservable": "^0.6",
     "node-jsx": "^0.13.3",
     "object-assign": "^3.0.0",
     "piping": "^0.2.0",
