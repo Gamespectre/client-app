@@ -46,9 +46,7 @@ class ListDisplay extends React.Component {
         let totalPages = response.data.meta.pagination.total_pages
         let fetchedPage = response.data.meta.pagination.current_page
 
-        this.data.total = totalPages,
-        this.data.fetched = fetchedPage
-
+        this.actions.setPageData(totalPages, fetchedPage)
         this.actions.receivedResults(response.data.data)
     }
 

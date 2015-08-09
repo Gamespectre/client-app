@@ -16,9 +16,7 @@ class Explore extends React.Component {
                     <ContentNav />
                 </nav>
                 <div className="container" style={ style.wrapper }>
-                    <div style={ style.content }>
-                        <RouteHandler />
-                    </div>
+                    <RouteHandler />
                 </div>
             </section>
         )

@@ -1,11 +1,12 @@
 import React from 'react'
 import GameCard from '../components/GameCard.jsx'
 import GameActions from '../../actions/GameActions'
-import GamePage from '../components/GamePage.jsx'
 import ListDisplay from '../components/ListDisplay.jsx'
 import { RouteHandler } from 'react-router'
 import GameListData from '../../data/collections/GameList'
 import { reactiveComponent } from 'mobservable'
+import RouteTransition from '../../lib/RouteTransition.jsx'
+import { HistoryLocation } from  'react-router'
 
 class GameList extends ListDisplay {
 
@@ -23,6 +24,7 @@ class GameList extends ListDisplay {
     }
 
     render() {
+
         return (
             <section>
                 <div className="card-list">
@@ -30,9 +32,6 @@ class GameList extends ListDisplay {
                         return <GameCard key={idx} game={game} />
                     })}
                 </div>
-                <RouteHandler back="games">
-                    <GamePage />
-                </RouteHandler>
             </section>
         )
     }
