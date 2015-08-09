@@ -1,0 +1,47 @@
+.page {
+	width: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+
+	.page-header {
+		width: 100%;
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		align-content: center;
+		background: $darkblue;
+		color: $whitegrey;
+		padding: $bodyPadding;
+
+		h1 {
+			line-height: 0.8em;
+			margin-top: 0;
+			font-family: $signature;
+			font-weight: 800;
+			font-size: 4em;
+		}
+	}
+
+	.header-content {
+		width: 50%;
+		margin-left: 3%;
+
+		p {
+			font-family: $default;
+			font-size: 1.1em;
+			font-weight: 300;
+		}
+	}
+
+	.image-wrapper {
+		width: 20%;
+
+		img {
+			max-width: 100%;
+		}
+	}
+
+	.content {
+
+	}
+}

@@ -13,10 +13,6 @@ class GameList extends ListDisplay {
     constructor() {
         super()
 
-        if(__CLIENT__) {
-            window.testData = GameListData
-        }
-
         this.list = new ListService(GameListData, GameActions)
         this.list.fetch()
     }

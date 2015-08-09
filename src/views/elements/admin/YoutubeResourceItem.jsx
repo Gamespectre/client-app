@@ -1,15 +1,11 @@
 import React, { PropTypes } from 'react'
-import { adminList as style } from '../../../style/components/adminList'
-import Radium from 'radium'
 
-@Radium
 class YoutubeResourceItem extends React.Component {
 
     render() {
         return (
-            <div style={ style.listItem }>
+            <div>
                 <input
-                    style={style.checkbox}
                     type="checkbox"
                     name={this.props.name}
                     checked={this.props.state.chosen}
@@ -17,11 +13,11 @@ class YoutubeResourceItem extends React.Component {
                     onChange={this.props.check}
                     disabled={this.props.disabled || false} />
 
-                <div style={ style.content }>
-                    <h4 style={ style.heading }>
+                <div>
+                    <h4>
                         {this.props.name}
                     </h4>
-                    {this.props.hasOwnProperty('image') ? <img style={ style.image } src={this.props.image} /> : ""}
+                    {this.props.hasOwnProperty('image') ? <img src={this.props.image} /> : ""}
                     {this.props.hasOwnProperty('description') ? <p>{this.props.description}</p> : ""}
                     <p>
                         id: {this.props.id}<br />

@@ -1,7 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
 import { Link } from 'react-router'
-import { contentNav as style } from '../../style/components/contentNav'
 
 @Radium
 class ContentNav extends React.Component {

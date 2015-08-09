@@ -1,7 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
 import Nav from '../components/Nav.jsx'
-import { header as style } from '../../style/components/header'
 import Logo from '../components/Logo.jsx'
 import User from './User.jsx'
 
@@ -10,12 +9,12 @@ class Header extends React.Component {
 
     render() {
         return (
-            <header style={style.box}>
-                <div style={style.left}>
+            <header className="site-header">
+                <div className="left-content">
                     <Logo />
                     <Nav />
                 </div>
-                <div style={style.right}>
+                <div className="right-content">
                     <User />
                 </div>
             </header>

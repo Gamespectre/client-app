@@ -1,7 +1,5 @@
 import React from 'react'
 import UserActions from '../../actions/UserActions'
-import Radium from 'radium'
-import { user as style } from '../../style/components/user'
 import AuthService from '../../app/AuthService'
 import UserService from '../../app/UserService'
 import LoginButton from '../elements/LoginButton.jsx'
@@ -9,7 +7,6 @@ import UserDisplay from '../components/UserDisplay.jsx'
 import { reactiveComponent } from 'mobservable'
 import app from '../../data/App'
 
-@Radium
 class User extends React.Component {
 
     constructor() {
@@ -32,7 +29,7 @@ class User extends React.Component {
         }
 
         return (
-            <div style={ style.box }>
+            <div className="user-area">
                 {displayElement}
             </div>
         )

@@ -1,10 +1,7 @@
 import React from 'react'
-import Radium from 'radium'
 import YoutubeSearchContent from '../../components/admin/YoutubeQueryControl.jsx'
 import YoutubePackageList from '../../components/admin/YoutubePackageList.jsx'
-import { columns } from '../../../style/columns'
 
-@Radium
 class ContentControl extends React.Component {
 
     constructor() {
@@ -13,11 +10,11 @@ class ContentControl extends React.Component {
 
     render() {
         return (
-            <div style={columns.wrapper}>
-                <section style={columns.col('30%')}>
+            <div>
+                <section>
                     <YoutubeSearchContent />
                 </section>
-                <section style={columns.col('70%')}>
+                <section>
                     <h2>Query results:</h2>
                     <YoutubePackageList />
                 </section>

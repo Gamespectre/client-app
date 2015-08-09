@@ -1,0 +1,25 @@
+.user-area {
+	display: flex;
+	justify-content: center;
+	alig-items: center;
+	position: relative;
+	z-index: 110;
+
+	.user-display {
+		display: flex;
+		align-items: center;
+	}
+
+	.avatar {
+		height: 3em;
+		display: block;
+		border-radius: 50%;
+		margin-left: 1em;
+	}
+
+	.name {
+		font-size: .9em;
+		font-weight: 700;
+		color: $purple;
+	}
+}

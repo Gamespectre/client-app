@@ -1,8 +1,5 @@
 import React, { PropTypes } from 'react'
-import { adminList as style } from '../../../style/components/adminList'
-import Radium from 'radium'
 
-@Radium
 class AdminGameItem extends React.Component {
 
     static propTypes = {
@@ -14,18 +11,17 @@ class AdminGameItem extends React.Component {
 
     render() {
         return (
-            <li style={ style.listItem }>
+            <li>
                 <input
-                    style={style.checkbox}
                     type="checkbox"
                     name={this.props.name}
                     checked={this.props.checked}
                     value={this.props.id}
                     onChange={this.props.change} />
 
-                <div style={ style.content }>
-                    <img style={ style.image } src={this.props.image} />
-                    <h4 style={ style.heading }>
+                <div>
+                    <img src={this.props.image} />
+                    <h4>
                         {`${this.props.type}: ${this.props.name}`}
                     </h4>
                     <p>{this.props.description}</p>

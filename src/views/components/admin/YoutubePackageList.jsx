@@ -2,12 +2,10 @@ import React from 'react'
 import YoutubeResourceItem from '../../elements/admin/YoutubeResourceItem.jsx'
 import AdminList from './AdminList.jsx'
 import ListMessage from './ListMessage.jsx'
-import { adminList as style } from '../../../style/components/adminList'
 import Radium from 'radium'
 
 const initChecked = true
 
-@Radium
 class YoutubePackageList extends AdminList {
 
     constructor() {
@@ -149,7 +147,7 @@ class YoutubePackageList extends AdminList {
                                                      onChange={this.setGlobalGame.bind(this)} />
                         </label>
                     </p>
-                    <article style={ style.list }>
+                    <article>
                         {this.props.content.results.map(result => {
                             return (
                                 <div key={result.id} >

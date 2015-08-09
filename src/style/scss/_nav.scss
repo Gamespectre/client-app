@@ -1,4 +1,11 @@
 .main-nav {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	> * {
+		padding: 0 1em;
+	}
 
 	a {
 		color: $darkgrey;

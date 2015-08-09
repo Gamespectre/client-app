@@ -1,9 +1,12 @@
 @import 'variables';
 @import 'mixins';
 
+@import 'header';
 @import 'nav';
+@import 'user';
 @import 'card';
 @import 'cardList';
+@import 'resourcePage';
 
 * {
 	box-sizing: border-box;
@@ -11,6 +14,10 @@
 
 html {
 	font-family: 'Roboto', Arial, sans-serif;
+}
+
+.app-wrapper {
+	background: $whitegrey;
 }
 
 div > h1 {
