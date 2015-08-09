@@ -1,9 +1,9 @@
 import mobservable from 'mobservable'
+import ResourceList from './ResourceList'
+import assign from 'object-assign'
 
-export default mobservable.makeReactive({
+export default mobservable.makeReactive(assign(ResourceList, {
     games: [],
-    loading: false,
-    page: 1,
-    fetched: 0,
-    total: 9999
-})
+    name: 'game',
+    method: 'list'
+}))

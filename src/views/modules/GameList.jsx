@@ -6,21 +6,19 @@ import { RouteHandler } from 'react-router'
 import GameListData from '../../data/collections/GameList'
 import { reactiveComponent } from 'mobservable'
 import RouteTransition from '../../lib/RouteTransition.jsx'
-import { HistoryLocation } from  'react-router'
+import ListService from '../../app/ListService'
 
 class GameList extends ListDisplay {
 
     constructor() {
         super()
 
-        this.resource = {
-            name: 'game',
-            method: 'list'
+        if(__CLIENT__) {
+            window.testData = GameListData
         }
 
-        this.data = GameListData
-        this.actions = GameActions
-        this.fetch()
+        this.list = new ListService(GameListData, GameActions)
+        this.list.fetch()
     }
 
     render() {

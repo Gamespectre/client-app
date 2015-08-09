@@ -10,21 +10,5 @@ export default {
             GameList.games.push(gameItem)
         })
         GameList.loading = false
-    },
-
-    setPageData(total: number, fetched: number) {
-        GameList.total = total
-        GameList.fetched = fetched
-    },
-
-    loading() {
-        GameList.loading = true
-    },
-
-    error(err) {
-        app.error = {
-            type: err.status,
-            message: err.error
-        }
     }
 }
