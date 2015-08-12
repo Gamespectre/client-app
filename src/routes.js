@@ -12,8 +12,7 @@ import VideoList from './views/modules/VideoList.jsx'
 import SeriesList from './views/modules/SeriesList.jsx'
 import CreatorList from './views/modules/CreatorList.jsx'
 import ResourceHub from './views/modules/ResourceHub.jsx'
-import GameControl from './views/modules/admin/GameControl.jsx'
-import ContentControl from './views/modules/admin/ContentControl.jsx'
+import AdminControl from './views/modules/admin/AdminControl.jsx'
 
 const routes = (
     <Route handler={ App }>
@@ -36,8 +35,7 @@ const routes = (
         <Route name="blog" path="blog" handler={ Blog } />
         <Route name="contribute" path="contribute" handler={ Contribute } />
         <Route name="admin" path="admin" handler={ Admin }>
-            <Route name="adminGame" path="game" handler={ GameControl } />
-            <Route name="adminContent" path="content" handler={ ContentControl } />
+            <Route name="adminGame" path=":resource" handler={ AdminControl } />
         </Route>
         <NotFoundRoute handler={ Front } />
     </Route>

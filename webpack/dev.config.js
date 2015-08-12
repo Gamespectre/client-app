@@ -28,7 +28,7 @@ module.exports = {
       { test: /\.(jpe?g|png|gif|svg)$/, loader: 'file' },
       { test: /\.(json)$/, loader: 'json' },
       { test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: ['react-hot', 'babel']},
-      { test: /\.scss$/, loader: 'style!css?-url!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true' }
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?-url!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true') }
     ]
   },
   progress: true,
@@ -40,7 +40,7 @@ module.exports = {
     extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
-
+    new ExtractTextPlugin('[name]-[chunkhash].css'),
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),

@@ -2,6 +2,7 @@ import React from 'react'
 import Router from 'react-router'
 import routes from './routes'
 import ES6Promise from "es6-promise"
+import { Resolver } from "react-resolver";
 
 ES6Promise.polyfill()
 

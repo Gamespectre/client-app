@@ -1,26 +1,28 @@
 import React from 'react'
 import GameQueryControl from '../../components/admin/GameQueryControl.jsx'
 import GamePackageList from '../../components/admin/GamePackageList.jsx'
+import YoutubeSearchContent from '../../components/admin/YoutubeQueryControl.jsx'
+import YoutubePackageList from '../../components/admin/YoutubePackageList.jsx'
 
-class GameControl extends React.Component {
+class AdminControl extends React.Component {
 
     constructor() {
         super()
     }
 
     render() {
+
         return (
             <div>
                 <section>
-                    <GameQueryControl />
+
                 </section>
                 <section>
                     <h2>Query results:</h2>
-                    <GamePackageList />
                 </section>
             </div>
         )
     }
 }
 
-export default GameControl
+export default AdminControl

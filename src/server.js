@@ -10,6 +10,8 @@ import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
 import routes from './routes'
 import AuthService from './app/AuthService'
+import { Resolver } from "react-resolver";
+import ServerLocation from "react-router-server-location"
 
 const app = express()
 
@@ -46,8 +48,14 @@ app.get('/*', (req, res) => {
         delete require.cache[require.resolve('../webpack-stats.json')];
     }
 
+    const location = new ServerLocation(req, res)
+
     AuthService.ready.then(() => {
-        Router.run(routes, req.path, (Root, state) => {
+        Router.run(routes, location, (Root, state) => {
+
+            if (!state.routes.length) {
+                return res.redirect("/");
+            }
             let content = React.renderToString(<Root />)
 
             res.render('index', {

@@ -1,10 +1,8 @@
 import React from 'react'
-import Radium from 'radium'
 import Nav from '../components/Nav.jsx'
 import Logo from '../components/Logo.jsx'
 import User from './User.jsx'
 
-@Radium
 class Header extends React.Component {
 
     render() {

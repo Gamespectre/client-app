@@ -17,9 +17,7 @@ class App extends React.Component {
         return (
             <div className="app-wrapper">
                 <Header />
-                <div>
-                    <RouteHandler />
-                </div>
+                <RouteHandler />
             </div>
         )
     }

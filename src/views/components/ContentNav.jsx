@@ -1,8 +1,6 @@
 import React from 'react'
-import Radium from 'radium'
 import { Link } from 'react-router'
 
-@Radium
 class ContentNav extends React.Component {
 
     render() {

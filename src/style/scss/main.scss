@@ -17,7 +17,12 @@ html {
 }
 
 .app-wrapper {
+	height: 100%;
 	background: $whitegrey;
+}
+
+.content-body {
+	position: relative;
 }
 
 div > h1 {
@@ -36,4 +41,8 @@ a {
 .container {
 	padding-left: $bodyPadding;
 	padding-right: $bodyPadding;
+}
+
+.transition-container {
+	position: relative;
 }
