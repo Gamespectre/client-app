@@ -1,21 +1,18 @@
 import React from 'react'
 import GameCard from '../components/GameCard.jsx'
-import GameActions from '../../actions/GameActions'
 import GameListData from '../../data/collections/GameList'
-import ListDisplay from '../components/ListDisplay.jsx'
 import { reactiveComponent } from 'mobservable'
-import ListService from '../../app/ListService'
 import game from '../../data/items/game'
+import InfinityList from '../../decorators/InfinityList'
 
-const listService = new ListService(GameListData, GameActions)
-
-class GameList extends ListDisplay {
+@InfinityList(GameListData, {
+    games: game
+})
+@reactiveComponent
+class GameList extends React.Component {
 
     constructor() {
         super()
-
-        this.list = listService
-        this.list.fetch()
     }
 
     render() {
@@ -32,4 +29,4 @@ class GameList extends ListDisplay {
     }
 }
 
-export default reactiveComponent(GameList)
+export default GameList

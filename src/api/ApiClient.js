@@ -30,10 +30,10 @@ class ApiClient {
     retrieve(resource: string = "list", options: Object = {}) {
         let reqParams = Object.assign(options, defaultOptions)
 
-        return AuthService.ready.then(() => {
-            const endpoint = this.getEndpoint(resource)
-            const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
+        const endpoint = this.getEndpoint(resource)
+        const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
 
+        return AuthService.ready.then(() => {
             const token = AuthService.getToken()
 
             return axios({

@@ -4,6 +4,9 @@ import App from '../data/App'
 export default {
 
     loadUser(userData) {
-        App['user'] = user(userData)
+        let userObj = user(userData)
+        App['user'] = userObj
+
+        return userObj
     }
 }

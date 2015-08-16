@@ -48,22 +48,19 @@ app.get('/*', (req, res) => {
         delete require.cache[require.resolve('../webpack-stats.json')];
     }
 
-    const location = new ServerLocation(req, res)
+    Router.run(routes, req.path, (Handler, state) => {
 
-    AuthService.ready.then(() => {
-        Router.run(routes, location, (Root, state) => {
+        if (!state.routes.length) {
+            return res.redirect("/");
+        }
 
-            if (!state.routes.length) {
-                return res.redirect("/");
-            }
-            let content = React.renderToString(<Root />)
+        let content = React.renderToString(<Handler />)
 
-            res.render('index', {
-                authToken: AuthService.getToken(),
-                content: content,
-                css: webpackStats.css,
-                script: webpackStats.script[0]
-            })
+        res.render('index', {
+            authToken: AuthService.getToken(),
+            content: content,
+            css: webpackStats.css,
+            script: webpackStats.script[0]
         })
     })
 })

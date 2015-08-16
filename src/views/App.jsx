@@ -2,6 +2,7 @@ import React from 'react'
 import Header from './modules/Header.jsx'
 import { RouteHandler } from 'react-router'
 import AuthService from '../app/AuthService'
+import Transmit from 'react-transmit'
 
 if(__CLIENT__) {
     require('../style/scss/main.scss')

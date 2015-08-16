@@ -54,6 +54,7 @@
     "react-resolver": "^2.0.1",
     "react-router": "^0.13.3",
     "react-router-server-location": "^1.0.3",
+    "react-transmit": "^2.6.4",
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.0",
     "slug": "^0.9.1",

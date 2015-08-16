@@ -9,6 +9,7 @@ class ListService {
 
     fetch() {
         if(!this.shouldFetch()) return false
+        if(this.state.page > this.state.total) this.state.page = this.state.total
         this.state.loading = true
 
         return ApiClient.fetch(this.state.method, this.state.name, 0, {
@@ -31,16 +32,11 @@ class ListService {
         this.state.total = totalPages
         this.state.fetched = fetchedPage
 
-        this.actions.receivedResults(response.data.data)
+        return response.data.data
     }
 
     shouldFetch() {
         return (this.state.fetched < this.state.page && this.state.fetched < this.state.total)
-    }
-
-    fetchNext() {
-        this.state.page++
-        this.fetch()
     }
 }
 

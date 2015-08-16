@@ -7,6 +7,7 @@ import UserDisplay from '../components/UserDisplay.jsx'
 import { reactiveComponent } from 'mobservable'
 import app from '../../data/App'
 
+@reactiveComponent
 class User extends React.Component {
 
     constructor() {
@@ -20,7 +21,6 @@ class User extends React.Component {
 
     render() {
         let displayElement = {}
-
         if(UserService.isnt('anon')) {
             displayElement = <UserDisplay key="userDisplay" user={app.user} />
         }
@@ -36,4 +36,4 @@ class User extends React.Component {
     }
 }
 
-export default reactiveComponent(User)
+export default User

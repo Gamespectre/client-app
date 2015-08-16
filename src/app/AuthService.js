@@ -28,10 +28,11 @@ class AuthService {
     fetchToken() {
         return axios.get(apiUrl + 'auth/token').then(response => {
             if(response.status < 400 && response.data.success === true) {
-                this.setToken(response.data.token)
+                return this.setToken(response.data.token)
             }
             else {
                 console.error("Token fetching failed.")
+                return "Token fetch failed"
             }
         })
     }
@@ -49,7 +50,7 @@ class AuthService {
             method: 'get'
         }).then(response => {
             if(response.status < 400 && response.data.success === true) {
-                UserActions.loadUser(response.data.user)
+               return UserActions.loadUser(response.data.user)
             }
             else {
                 console.error("Token query failed.")
