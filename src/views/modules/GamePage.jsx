@@ -1,22 +1,35 @@
 import React from 'react'
 import GamePageData from '../../data/collections/GamePage'
+import GetRouteData from '../../decorators/GetRouteData'
+import GameList from '../../data/collections/GameList'
+import Context from '../../lib/ContextDecorator'
+import { reactiveComponent } from 'mobservable'
 
+@Context("router")
+@GetRouteData('game', GamePageData, {
+    slug: GameList.games
+})
 class GamePage extends React.Component {
 
+    constructor() {
+        super()
+    }
+
     render() {
+        console.log("render")
 
         return (
             <div className="page game-page">
                 <header className="page-header">
                     <div className="image-wrapper">
-                        <img src={GamePageData.game.image} />
+                        <img src={GamePageData.data.image} />
                     </div>
                     <article className="header-content">
                         <h1>
-                            {GamePageData.game.title}
+                            {GamePageData.data.title}
                         </h1>
                         <p>
-                            {GamePageData.game.description}
+                            {GamePageData.data.description}
                         </p>
                     </article>
                 </header>
@@ -28,4 +41,4 @@ class GamePage extends React.Component {
     }
 }
 
-export default GamePage
+export default reactiveComponent(GamePage)

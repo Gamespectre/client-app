@@ -6,6 +6,7 @@ export default function(game) {
 
     return mobservable.makeReactive({
         id: gameData.id,
+        slug: gameData.slug,
         title: gameData.title,
         image: gameData.image,
         rating: gameData.rating,

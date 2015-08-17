@@ -1,18 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router'
 import GamePage from '../../data/collections/GamePage'
+import slug from 'slug'
 
 class GameCard extends React.Component {
-
-    openCard(e) {
-        GamePage.game = this.props.game
-    }
 
     render() {
 
         return (
-            <article className="card game-card" onClick={this.openCard.bind(this)}>
-                <Link to="gamepage" params={{ game: this.props.game.id }}>
+            <article className="card game-card">
+                <Link to="gamepage" params={{ game: slug(this.props.game.title, {lower: true}) }}>
                     <div className="content-wrapper">
                         <div className="image-wrapper">
                             <img src={this.props.game.image} alt={this.props.game.title} />

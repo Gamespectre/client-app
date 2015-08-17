@@ -10,7 +10,7 @@ const defaultOptions = {
 
 class ApiClient {
 
-    constructor(baseName: string, baseId: number = -1) {
+    constructor(baseName: string, baseId = -1) {
         // Relative ID. For retrieving resources relative to something, like a game.
         // Each instance of the ApiClient is tied to a specific resource, and retrieving
         // stuff is then mostly automatic.
@@ -22,7 +22,7 @@ class ApiClient {
         this.baseId = baseId
     }
 
-    static fetch(resource: string, baseName: string, baseId: number = -1, options: Object = {}) {
+    static fetch(resource: string, baseName: string, baseId = -1, options: Object = {}) {
         let client = new ApiClient(baseName, baseId)
         return client.retrieve(resource, options)
     }
