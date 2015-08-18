@@ -9,6 +9,7 @@ import { reactiveComponent } from 'mobservable'
 @GetRouteData('game', GamePageData, {
     slug: GameList.games
 })
+@reactiveComponent
 class GamePage extends React.Component {
 
     constructor() {
@@ -16,8 +17,6 @@ class GamePage extends React.Component {
     }
 
     render() {
-        console.log("render")
-
         return (
             <div className="page game-page">
                 <header className="page-header">
@@ -41,4 +40,4 @@ class GamePage extends React.Component {
     }
 }
 
-export default reactiveComponent(GamePage)
+export default GamePage

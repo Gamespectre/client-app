@@ -1,15 +1,16 @@
 import React from 'react'
 import ApiClient from '../api/ApiClient'
-import { reactiveComponent } from 'mobservable'
+import mobservable from 'mobservable'
+import Model from '../data/utils/Model'
 
 export default (param, dataObject, searchCollection) => {
     return Component => {
-        return reactiveComponent(class extends React.Component {
+        return mobservable.reactiveComponent(class extends React.Component {
             constructor(props) {
                 super()
-                let query = props.router.getCurrentParams()[param]
-                var cachedData = null
 
+                var cachedData = null
+                let query = props.router.getCurrentParams()[param]
                 for(let search in searchCollection) {
                     cachedData = searchCollection[search].find((item) => {
                         return item[search] === query
@@ -21,7 +22,24 @@ export default (param, dataObject, searchCollection) => {
                 }
                 else {
                     ApiClient.fetch(dataObject.method, dataObject.name, query).then(response => {
-                        dataObject.insert(response.data.data)
+                        let data = response.data.data
+                        let itemProcessor = dataObject.processor
+
+                        if(data instanceof Array === false) {
+                            if(dataObject.data instanceof Array === false) {
+                                dataObject.data = itemProcessor(data)
+                            }
+                            else {
+                                dataObject.data.push(itemProcessor(data))
+                            }
+                        }
+                        else if(dataObject.data instanceof Array === false) {
+
+                            dataObject.data = data.map(dataItem => itemProcessor(dataItem))
+                        }
+                        else {
+                            data.forEach(item => dataObject.data.push(itemProcessor(item)))
+                        }
                     })
                 }
             }
