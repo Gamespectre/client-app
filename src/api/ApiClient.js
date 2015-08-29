@@ -1,5 +1,5 @@
 import axios from 'axios'
-import AuthService from '../app/AuthService'
+import TokenService from '../app/TokenService'
 import apiconfig from '../apiconfig'
 
 const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
@@ -33,19 +33,15 @@ class ApiClient {
         const endpoint = this.getEndpoint(resource)
         const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
 
-        return AuthService.ready.then(() => {
-            const token = AuthService.getToken()
-
-            return axios({
+        return TokenService.ready.then((token) => axios({
                 url: `${apiUrl}${this.baseName}/${uri}`,
                 headers: { 'Authorization': 'Bearer ' + token },
                 params: reqParams
-            }).catch(this.handleErrors)
-        })
+            })).catch(this.handleErrors)
     }
 
     interceptToken(response) {
-        AuthService.parseToken(response.headers.authorization)
+        TokenService.parseToken(response.headers.authorization)
         return response
     }
 

@@ -9,7 +9,7 @@ import Router from 'react-router'
 import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
 import routes from './routes'
-import AuthService from './app/AuthService'
+import AuthService from './app/TokenService'
 import { Resolver } from "react-resolver";
 import ServerLocation from "react-router-server-location"
 

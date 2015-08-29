@@ -1,5 +1,5 @@
 import axios from 'axios'
-import AuthService from '../app/AuthService'
+import AuthService from '../app/TokenService'
 import apiconfig from '../apiconfig'
 
 const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal

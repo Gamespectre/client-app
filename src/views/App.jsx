@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './modules/Header.jsx'
 import { RouteHandler } from 'react-router'
-import AuthService from '../app/AuthService'
+import TokenService from '../app/TokenService'
 import Transmit from 'react-transmit'
 
 if(__CLIENT__) {

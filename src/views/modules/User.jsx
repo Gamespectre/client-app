@@ -1,6 +1,4 @@
 import React from 'react'
-import UserActions from '../../actions/UserActions'
-import AuthService from '../../app/AuthService'
 import UserService from '../../app/UserService'
 import LoginButton from '../elements/LoginButton.jsx'
 import UserDisplay from '../components/UserDisplay.jsx'
@@ -12,11 +10,12 @@ class User extends React.Component {
 
     constructor() {
         super()
+        UserService.fetchUserData()
     }
 
     requestLogin(e) {
         e.preventDefault()
-        AuthService.authenticate()
+        UserService.authenticate()
     }
 
     render() {
