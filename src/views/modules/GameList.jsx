@@ -1,7 +1,7 @@
 import React from 'react'
 import GameCard from '../components/GameCard.jsx'
 import GameListData from '../../data/collections/GameList'
-import { reactiveComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
 import game from '../../data/items/game'
 import InfinityList from '../../decorators/InfinityList'
 

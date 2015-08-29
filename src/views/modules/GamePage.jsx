@@ -3,7 +3,7 @@ import GamePageData from '../../data/collections/GamePage'
 import GetRouteData from '../../decorators/GetRouteData'
 import GameList from '../../data/collections/GameList'
 import Context from '../../lib/ContextDecorator'
-import { reactiveComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
 
 @Context("router")
 @GetRouteData('game', GamePageData, {

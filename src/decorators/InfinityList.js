@@ -1,5 +1,5 @@
 import React from 'react'
-import { reactiveComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
 import ListService from '../app/ListService'
 import { debounce } from 'lodash'
 import verge from 'verge'
@@ -43,11 +43,14 @@ export default (dataObject, props) => {
                 return debounce(() => {
                     let top = verge.scrollY()
                     let down = top > prevScroll ? true : false
-                    prevScroll = top
 
-                    if(down) {
-                        dataObject.page++
-                        doFetch()
+                    if(top + 500 > prevScroll) {
+                        prevScroll = top
+
+                        if(down) {
+                            dataObject.page++
+                            doFetch()
+                        }
                     }
                 }, 250)
             }

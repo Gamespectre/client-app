@@ -4,7 +4,7 @@ import AuthService from '../../app/AuthService'
 import UserService from '../../app/UserService'
 import LoginButton from '../elements/LoginButton.jsx'
 import UserDisplay from '../components/UserDisplay.jsx'
-import { reactiveComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
 import app from '../../data/App'
 
 @reactiveComponent

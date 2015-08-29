@@ -1,11 +1,11 @@
 import React from 'react'
 import ApiClient from '../api/ApiClient'
-import mobservable from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
 import Model from '../data/utils/Model'
 
 export default (param, dataObject, searchCollection) => {
     return Component => {
-        return mobservable.reactiveComponent(class extends React.Component {
+        return reactiveComponent(class extends React.Component {
             constructor(props) {
                 super()
 

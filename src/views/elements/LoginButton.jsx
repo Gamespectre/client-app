@@ -1,5 +1,4 @@
 import React from 'react'
-import UserActions from '../../actions/UserActions'
 
 class LoginButton extends React.Component {
 

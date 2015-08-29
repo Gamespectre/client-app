@@ -1,5 +1,5 @@
 import React from 'react'
-import { reactiveComponent } from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
 
 class UserDisplay extends React.Component {
 
