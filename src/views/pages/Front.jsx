@@ -1,5 +1,4 @@
 import React from 'react'
-import AltContainer from 'alt/AltContainer'
 import FeaturedContent from '../modules/FeaturedContent.jsx'
 import GenericList from '../modules/GenericList.jsx'
 import axios from 'axios'
@@ -13,14 +12,6 @@ class Front extends React.Component {
             <div>
                 <Link to="gamepage" params={{ game: 1 }}>Game 1</Link>
                 <FeaturedContent />
-
-                <AltContainer>
-                    <GenericList />
-                </AltContainer>
-
-                <AltContainer>
-                    <GenericList />
-                </AltContainer>
             </div>
         )
     }

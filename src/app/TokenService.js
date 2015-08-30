@@ -15,6 +15,7 @@ class TokenService {
             if(response.status < 400 && response.data.success === true) {
                 return response.data.token
             }
+            else return "no token"
         })
     }
 }

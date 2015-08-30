@@ -4,13 +4,16 @@ import LoginButton from '../elements/LoginButton.jsx'
 import UserDisplay from '../components/UserDisplay.jsx'
 import { reactiveComponent } from 'mobservable-react'
 import app from '../../data/App'
+import { resolve } from 'react-resolver'
 
+@resolve('user', props => {
+    return UserService.fetchUserData()
+})
 @reactiveComponent
 class User extends React.Component {
 
     constructor() {
         super()
-        UserService.fetchUserData()
     }
 
     requestLogin(e) {

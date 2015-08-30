@@ -5,9 +5,7 @@ import TokenService from '../app/TokenService'
 import Transmit from 'react-transmit'
 import { resolve } from 'react-resolver'
 
-if(__CLIENT__) {
-    require('../style/scss/main.scss')
-}
+require('../style/scss/main.scss')
 
 class App extends React.Component {
 

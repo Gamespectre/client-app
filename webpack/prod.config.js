@@ -2,11 +2,16 @@
 
 var path = require('path');
 var webpack = require('webpack');
-var writeStats = require('./utils/writeStats');
+var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var strip = require('strip-loader');
 
-var assetsPath = path.join(__dirname, '../static/dist');
+var relativeAssetsPath = '../static/dist';
+var assetsPath = path.join(__dirname, relativeAssetsPath);
+
+// https://github.com/halt-hammerzeit/webpack-isomorphic-tools
+var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'))
 
 module.exports = {
   devtool: 'source-map',
@@ -22,10 +27,10 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.(jpe?g|png|gif|svg)$/, loader: 'file' },
-      { test: /\.(json)$/, loader: 'json' },
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
-      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?-url!autoprefixer?browsers=last 2 version!sass') }
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel?stage=0&optional=runtime&plugins=typecheck']},
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?-url!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true') },
+      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' }
     ]
   },
   progress: true,
@@ -37,10 +42,16 @@ module.exports = {
     extensions: ['', '.json', '.js', '.jsx']
   },
   plugins: [
+    new CleanPlugin([relativeAssetsPath]),
 
     // css files from the extract-text-plugin loader
-    new ExtractTextPlugin('[name]-[chunkhash].css'),
-    new webpack.DefinePlugin({__CLIENT__: true, __SERVER__: false, __DEV__: false}),
+    new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),
+    new webpack.DefinePlugin({
+      __CLIENT__: true,
+      __SERVER__: false,
+      __DEV__: false,
+      __DEVTOOLS__: false
+    }),
 
     // ignore dev config
     new webpack.IgnorePlugin(/\.\/dev/, /\/config$/),
@@ -48,14 +59,8 @@ module.exports = {
     // set global vars
     new webpack.DefinePlugin({
       'process.env': {
-
-        // Mainly used to require CSS files with webpack, which can happen only on browser
-        // Used as `if (process.env.BROWSER)...`
-        BROWSER: JSON.stringify(true),
-
         // Useful to reduce the size of client-side libraries, e.g. react
         NODE_ENV: JSON.stringify('production')
-
       }
     }),
 
@@ -68,8 +73,6 @@ module.exports = {
       }
     }),
 
-    // stats
-    function() { this.plugin('done', writeStats); }
-
+    webpackIsomorphicToolsPlugin
   ]
 };
