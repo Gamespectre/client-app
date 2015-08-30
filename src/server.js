@@ -9,7 +9,7 @@ import Router from 'react-router'
 import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
 import routes from './routes'
-import AuthService from './app/TokenService'
+import TokenService from './app/TokenService'
 import { Resolver } from "react-resolver";
 import ServerLocation from "react-router-server-location"
 
@@ -43,25 +43,30 @@ app.use('/api', (req, res) => {
 
 app.get('/*', (req, res) => {
 
+    const location = new ServerLocation(req, res)
+
     if (process.env.NODE_ENV === 'development') {
         webpackStats = require('../webpack-stats.json');
         delete require.cache[require.resolve('../webpack-stats.json')];
     }
 
-    Router.run(routes, req.path, (Handler, state) => {
+    Router.run(routes, location, (Handler, state) => {
 
         if (!state.routes.length) {
             return res.redirect("/");
         }
 
-        let content = React.renderToString(<Handler />)
+        Resolver.resolve(() => <Handler {...state} />)
+            .then(({ Resolved, data }) => {
+                let content = React.renderToString(<Resolved />)
 
-        res.render('index', {
-            authToken: AuthService.getToken(),
-            content: content,
-            css: webpackStats.css,
-            script: webpackStats.script[0]
-        })
+                res.render('index', {
+                    data: JSON.stringify(data),
+                    content: content,
+                    css: webpackStats.css,
+                    script: webpackStats.script[0]
+                })
+            })
     })
 })
 

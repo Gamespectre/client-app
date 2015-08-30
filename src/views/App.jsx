@@ -3,6 +3,7 @@ import Header from './modules/Header.jsx'
 import { RouteHandler } from 'react-router'
 import TokenService from '../app/TokenService'
 import Transmit from 'react-transmit'
+import { resolve } from 'react-resolver'
 
 if(__CLIENT__) {
     require('../style/scss/main.scss')

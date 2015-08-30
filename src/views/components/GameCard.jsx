@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import GamePage from '../../data/collections/GamePage'
+import GamePage from '../../data/models/GamePage'
 import slug from 'slug'
 
 class GameCard extends React.Component {

@@ -6,10 +6,10 @@ import { Resolver } from "react-resolver";
 
 ES6Promise.polyfill()
 
-Router.run(routes, Router.HistoryLocation, Root => {
-    React.render(<Root />, document.getElementById('app'))
+Router.run(routes, Router.HistoryLocation, (Root) => {
+    Resolver.render(() => <Root />, document.getElementById('app'))
 })
 
-if (process.env.NODE_ENV !== 'production') {
+if (__DEV__) {
     window.React = React // enable debugger
 }

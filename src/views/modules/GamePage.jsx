@@ -1,7 +1,7 @@
 import React from 'react'
-import GamePageData from '../../data/collections/GamePage'
+import GamePageData from '../../data/models/GamePage'
 import GetRouteData from '../../decorators/GetRouteData'
-import GameList from '../../data/collections/GameList'
+import GameList from '../../data/models/GameList'
 import Context from '../../lib/ContextDecorator'
 import { reactiveComponent } from 'mobservable-react'
 

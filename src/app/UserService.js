@@ -9,7 +9,7 @@ const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 class UserService {
 
     fetchUserData() {
-        return TokenService.ready.then((token) => axios({
+        return TokenService.token.then(token => axios({
             headers: { 'Authorization': 'Bearer ' + token },
             url: apiUrl + 'auth/query',
             method: 'get'

@@ -1,14 +1,12 @@
 import React from 'react'
+import ApiClient from '../../api/ApiClient'
 import GameCard from '../components/GameCard.jsx'
-import GameListData from '../../data/collections/GameList'
+import { resolve } from 'react-resolver'
 import { reactiveComponent } from 'mobservable-react'
-import game from '../../data/items/game'
-import InfinityList from '../../decorators/InfinityList'
 
-@InfinityList(GameListData, {
-    games: game
+@resolve('games', (props) => {
+    return ApiClient.fetch('list', 'game').then(({ data }) => data.data)
 })
-@reactiveComponent
 class GameList extends React.Component {
 
     constructor() {
@@ -20,8 +18,8 @@ class GameList extends React.Component {
         return (
             <div>
                 <section className="card-list">
-                    {GameListData.games.map((game, idx) => {
-                        return <GameCard key={idx} game={game} />
+                    {this.props.games.map((game, idx) => {
+                        return <GameCard key={game.id} game={game} />
                     })}
                 </section>
             </div>
