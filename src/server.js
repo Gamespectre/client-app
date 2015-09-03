@@ -15,7 +15,7 @@ import { Resolver } from "react-resolver"
 import PrettyError from 'pretty-error'
 import Html from './Html'
 import config from './config'
-import ServerLocation from "react-router-server-location"
+import Location from "react-router/lib/Location"
 
 const pretty = new PrettyError()
 const app = express()
@@ -49,7 +49,7 @@ apiServer.on('error', (error, req, res) => {
 
 app.get('/*', (req, res) => {
 
-    const location = new ServerLocation(req, res)
+    const location = new Location(req.path, req.query)
 
     if (__DEV__) {
         // Do not cache webpack stats: the script file would change since
@@ -61,25 +61,20 @@ app.get('/*', (req, res) => {
         res.send('<!doctype html>\n' +
             React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} resolverData={{}}/>))
     } else {
-        Router.run(routes, location, (Handler, state) => {
-
-            if (!state.routes.length) {
-                return res.redirect("/");
+        Router.run(routes, location, (error, state, transition) => {
+            if (error) {
+                return res.status(500).send(error);
             }
 
-            Resolver.resolve(() => <Handler {...state} />)
-            .then(({ Resolved, data }) => {
-                res.send('<!doctype html>\n' +
-                    React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={ <Resolved /> } resolverData={data}/>))
-            })
-            .catch((error) => {
-                if (error.redirect) {
-                    res.redirect(error.redirect)
-                    return
-                }
-                console.error('ROUTER ERROR:', pretty.render(error))
-                res.status(500).send({error: error.stack})
-            })
+            Resolver
+                .resolve(() => <Router {...state} />)
+                .then(({ Resolved, data }) => {
+                    res.status(200).send('<!doctype html>\n' +
+                        React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={ <Resolved /> } resolverData={data}/>))
+                })
+                .catch((error) => {
+                    res.status(500).send(error)
+                })
         })
     }
 })

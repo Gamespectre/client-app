@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Redirect, NotFoundRoute, DefaultRoute } from 'react-router'
+import { Route, IndexRoute } from 'react-router'
 import App from './views/App.jsx'
 import Explore from './views/pages/Explore.jsx'
 import Blog from './views/pages/Blog.jsx'
@@ -15,29 +15,22 @@ import ResourceHub from './views/modules/ResourceHub.jsx'
 import AdminControl from './views/modules/admin/AdminControl.jsx'
 
 const routes = (
-    <Route handler={ App }>
-        <Route name="front" path="/" handler={ Front } />
-        <Route name="explore" path="explore" handler={ Explore }>
-            <Route name="games" path="games" handler={ ResourceHub }>
-                <DefaultRoute handler={ GameList } />
-                <Route name="gamepage" path=":game" handler={ GamePage } />
-            </Route>
-            <Route name="series" path="series" handler={ ResourceHub }>
-                <DefaultRoute handler={ SeriesList } />
-            </Route>
-            <Route name="creators" path="creators" handler={ ResourceHub }>
-                <DefaultRoute handler={ CreatorList } />
-            </Route>
-            <Route name="videos" path="videos" handler={ ResourceHub }>
-                <DefaultRoute handler={ VideoList } />
-            </Route>
+    <Route component={ App }>
+        <Route path="/" component={ Front } />
+        <Route path="/explore" component={ Explore }>
+            <Route path="games" component={ GameList } />
+            <Route path="games/:game" component={ GamePage } />
+
+            <Route path="/series" component={ SeriesList } />
+            <Route path="/creators" component={ CreatorList } />
+            <Route path="/videos" component={ VideoList } />
         </Route>
-        <Route name="blog" path="blog" handler={ Blog } />
-        <Route name="contribute" path="contribute" handler={ Contribute } />
-        <Route name="admin" path="admin" handler={ Admin }>
-            <Route name="adminGame" path=":resource" handler={ AdminControl } />
+
+        <Route path="blog" component={ Blog } />
+        <Route path="contribute" component={ Contribute } />
+        <Route path="admin" component={ Admin }>
+            <Route path=":resource" component={ AdminControl } />
         </Route>
-        <NotFoundRoute handler={ Front } />
     </Route>
 )
 

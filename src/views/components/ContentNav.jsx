@@ -7,10 +7,10 @@ class ContentNav extends React.Component {
 
         return (
             <div className="content-nav">
-                <Link to="games">Games</Link>
-                <Link to="creators">Creators</Link>
-                <Link to="series">Series</Link>
-                <Link to="videos">Videos</Link>
+                <Link to="/explore/games">Games</Link>
+                <Link to="/explore/creators">Creators</Link>
+                <Link to="/explore/series">Series</Link>
+                <Link to="/explore/videos">Videos</Link>
             </div>
         )
     }

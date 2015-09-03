@@ -2,7 +2,6 @@ import React from 'react'
 import ContentManagement from '../modules/ContentManagement.jsx'
 import SeriesList from '../modules/SeriesList.jsx'
 import ContentNav from '../components/ContentNav.jsx'
-import { RouteHandler } from 'react-router'
 
 class Explore extends React.Component {
 
@@ -12,7 +11,7 @@ class Explore extends React.Component {
                 <nav>
                     <ContentNav />
                 </nav>
-                <RouteHandler />
+                { this.props.children }
             </section>
         )
     }
