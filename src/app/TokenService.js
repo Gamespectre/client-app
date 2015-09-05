@@ -1,5 +1,5 @@
 import axios from 'axios'
-import app from '../data/App'
+import app from '../data/app'
 import apiconfig from '../apiconfig'
 
 const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal

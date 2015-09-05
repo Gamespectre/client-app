@@ -7,7 +7,7 @@ class Logo extends React.Component {
         return (
             <div className="logo-box">
                 <h1>
-                    <Link to="front">
+                    <Link to="/">
                         <span key="logoGame" className="logo-part-game">game</span>
                         <span key="logoSpectre" className="logo-part-spectre">spectre</span>
                     </Link>

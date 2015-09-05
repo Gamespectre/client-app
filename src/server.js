@@ -26,6 +26,17 @@ const apiServer = httpProxy.createProxyServer({
     target: api.apiUrl + ':' + api.apiPort
 })
 
+if(__DEV__) {
+    const wpConfig = require('../webpack/dev.config')
+    const compiler = require('webpack')(wpConfig)
+
+    app.use(require('webpack-dev-middleware')(compiler, {
+        noInfo: true,
+        publicPath: wpConfig.output.publicPath
+    }))
+    app.use(require('webpack-hot-middleware')(compiler))
+}
+
 app.use(compress())
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')))
 app.use(require('serve-static')(path.join(__dirname, '..', 'static')))

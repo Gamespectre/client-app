@@ -3,10 +3,10 @@ import UserService from '../../app/UserService'
 import LoginButton from '../elements/LoginButton.jsx'
 import UserDisplay from '../components/UserDisplay.jsx'
 import { reactiveComponent } from 'mobservable-react'
-import app from '../../data/App'
 import { resolve } from 'react-resolver'
+import app from '../../data/app'
 
-@resolve('user', props => {
+@resolve('user', () => {
     return UserService.fetchUserData()
 })
 @reactiveComponent
@@ -23,8 +23,10 @@ class User extends React.Component {
 
     render() {
         let displayElement = {}
+        let { user } = app
+
         if(UserService.isnt('anon')) {
-            displayElement = <UserDisplay key="userDisplay" user={app.user} />
+            displayElement = <UserDisplay key="userDisplay" user={user} />
         }
         else {
             displayElement = <LoginButton key="loginBtn" doLogin={this.requestLogin.bind(this)} />

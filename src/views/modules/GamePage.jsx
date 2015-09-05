@@ -1,13 +1,12 @@
 import React from 'react'
-import GamePageData from '../../data/models/GamePage'
-import GetRouteData from '../../decorators/GetRouteData'
+import ApiClient from '../../api/ApiClient'
 import GameList from '../../data/models/GameList'
 import Context from '../../lib/ContextDecorator'
 import { reactiveComponent } from 'mobservable-react'
+import { resolve } from 'react-resolver'
 
-@Context("router")
-@GetRouteData('game', GamePageData, {
-    slug: GameList.games
+@resolve('game', ({ params }) => {
+    return ApiClient.fetch('get', 'game', params.game).then(({data}) => data.data)
 })
 @reactiveComponent
 class GamePage extends React.Component {
@@ -21,14 +20,14 @@ class GamePage extends React.Component {
             <div className="page game-page">
                 <header className="page-header">
                     <div className="image-wrapper">
-                        <img src={GamePageData.data.image} />
+                        <img src={this.props.game.image} />
                     </div>
                     <article className="header-content">
                         <h1>
-                            {GamePageData.data.title}
+                            {this.props.game.title}
                         </h1>
                         <p>
-                            {GamePageData.data.description}
+                            {this.props.game.description}
                         </p>
                     </article>
                 </header>

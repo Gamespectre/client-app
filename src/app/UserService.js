@@ -1,8 +1,8 @@
-import app from '../data/App'
-import user from '../data/items/user'
 import axios from 'axios'
 import apiconfig from '../apiconfig'
 import TokenService from './TokenService'
+import app from '../data/app'
+import { makeReactive } from 'mobservable'
 
 const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
@@ -13,14 +13,25 @@ class UserService {
             headers: { 'Authorization': 'Bearer ' + token },
             url: apiUrl + 'auth/query',
             method: 'get'
-        })).then(response => {
-            if(response.status < 400 && response.data.success === true) {
-                app.user = user(response.data.user)
-            }
-            else {
-                console.error("Token query failed.")
-            }
+        })).then(({ data }) => {
+            app.user = this.setUser(data.user)
         })
+    }
+
+    setUser(data: Object) {
+        return {
+            name: data.name === "Anonymous" ? false : data.name,
+            avatar: data.avatar,
+            registered: data.created_at,
+            googleId: data.google_id,
+            userId: data.id,
+            roles: data.roles.map(role => {
+                return {
+                    role: role.name,
+                    level: role.level
+                }
+            })
+        }
     }
 
     authenticate() {
@@ -30,8 +41,7 @@ class UserService {
             if(e.origin !== location.origin) return false
             if(e.data.success !== true) return false
 
-            this.setToken(e.data.token)
-            app.user = user(e.data.user)
+            app.user = this.setUser(e.data.user)
             loginWindow.close()
 
             window.removeEventListener('message', receiveEvent)
@@ -41,7 +51,7 @@ class UserService {
     }
 
     is(roleLevel) {
-        if(app.user === false) return false
+        if(!app.user) return false
 
         return app.user.roles.some(role => {
             return role.level === roleLevel
@@ -49,7 +59,7 @@ class UserService {
     }
 
     isnt(roleLevel) {
-        if(app.user === false) return false
+        if(!app.user) return false
 
         return app.user.roles.every(role => {
             return role.level !== roleLevel

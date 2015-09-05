@@ -17,7 +17,7 @@ import AdminControl from './views/modules/admin/AdminControl.jsx'
 const routes = (
     <Route component={ App }>
         <Route path="/" component={ Front } />
-        <Route path="/explore" component={ Explore }>
+        <Route path="/explore" components={ Explore }>
             <Route path="games" component={ GameList } />
             <Route path="games/:game" component={ GamePage } />
 

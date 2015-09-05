@@ -2,7 +2,6 @@ import React from 'react'
 import Header from './modules/Header.jsx'
 import TokenService from '../app/TokenService'
 import Transmit from 'react-transmit'
-import { resolve } from 'react-resolver'
 
 require('../style/scss/main.scss')
 
