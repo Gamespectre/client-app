@@ -1,63 +1,80 @@
 import React from 'react'
-import { reactiveComponent } from 'mobservable-react'
-import ListService from '../app/ListService'
-import { debounce } from 'lodash'
+import { makeReactive } from 'mobservable'
+import _ from 'lodash'
 import verge from 'verge'
 
-export default (dataObject, props) => {
-    const list = new ListService(dataObject)
+let listData = makeReactive({
+    total: 99999,
+    fetched: 0,
+    loading: false,
+    data: []
+})
 
-    const process = property => data => {
-        if(dataObject.hasOwnProperty(property)) {
-            data.forEach(item => dataObject[property].push(props[property](item)))
-        }
-        else console.error("Supplied data object has no property " + property)
-    }
+export default (Component) => {
 
-    const doFetch = () => {
-        for(let property in props) {
-            let fetchPromise = list.fetch()
-            if(fetchPromise instanceof Promise) fetchPromise.then(process(property))
-        }
-    }
+    return class extends React.Component {
 
-    return (Component) => {
-        return reactiveComponent(class extends React.Component {
-            constructor() {
-                super()
+        constructor(props) {
+            super()
 
-                if(__CLIENT__) {
-                    window.addEventListener('scroll', this.checkScroll())
-                }
-
-                doFetch()
+            if(__CLIENT__) {
+                window.addEventListener('scroll', this.checkScroll())
             }
 
-            componentWillUnmount() {
-                window.removeEventListener('scroll', this.checkScroll())
+            this.state = {
+                page: 1
             }
+        }
 
-            checkScroll() {
-                let prevScroll = 0
+        componentWillUnmount() {
+            window.removeEventListener('scroll', this.checkScroll())
+        }
 
-                return debounce(() => {
-                    let top = verge.scrollY()
-                    let down = top > prevScroll ? true : false
+        checkScroll() {
+            let prevScroll = 0
 
-                    if(top + 500 > prevScroll) {
-                        prevScroll = top
+            return _.debounce(() => {
+                let top = verge.scrollY()
+                let down = top > prevScroll ? true : false
 
-                        if(down) {
-                            dataObject.page++
-                            doFetch()
-                        }
+                if(top + 500 > prevScroll) {
+                    prevScroll = top
+
+                    if(down) {
+                        this.setState({
+                            page: this.state.page + 1
+                        })
                     }
-                }, 250)
-            }
+                }
+            }, 250)
+        }
 
-            render() {
-                return <Component />
-            }
-        })
+        receiveData(data) {
+            data.forEach(el => listData.data.push(el))
+            return data
+        }
+
+        receiveMeta(response) {
+            listData.total = response.data.meta.pagination.total_pages
+            listData.fetched = response.data.meta.pagination.current_page
+
+            return response.data.data
+
+        }
+
+        shouldFetch() {
+            return (listData.fetched < this.state.page && listData.fetched < listData.total)
+        }
+
+
+        render() {
+            return <Component
+                {...this.props}
+                listData={listData.data}
+                page={this.state.page}
+                shouldFetch={this.shouldFetch.bind(this)}
+                receiveData={this.receiveData.bind(this)}
+                receiveMeta={this.receiveMeta.bind(this)} />
+        }
     }
 }

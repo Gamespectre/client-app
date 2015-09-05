@@ -2,13 +2,9 @@ import React from 'react'
 import UserService from '../../app/UserService'
 import LoginButton from '../elements/LoginButton.jsx'
 import UserDisplay from '../components/UserDisplay.jsx'
-import { reactiveComponent } from 'mobservable-react'
-import { resolve } from 'react-resolver'
 import app from '../../data/app'
+import { reactiveComponent } from 'mobservable-react'
 
-@resolve('user', () => {
-    return UserService.fetchUserData()
-})
 @reactiveComponent
 class User extends React.Component {
 
