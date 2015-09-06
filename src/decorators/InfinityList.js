@@ -1,24 +1,26 @@
 import React from 'react'
-import { makeReactive } from 'mobservable'
 import _ from 'lodash'
 import verge from 'verge'
-
-let listData = makeReactive({
-    total: 99999,
-    fetched: 0,
-    loading: false,
-    data: []
-})
+import { makeReactive } from 'mobservable'
 
 export default (Component) => {
+
+    let listData = makeReactive({
+        total: 99999,
+        fetched: 0,
+        loading: false,
+        data: []
+    })
 
     return class extends React.Component {
 
         constructor(props) {
             super()
 
+            this.scrollListener = this.checkScroll()
+
             if(__CLIENT__) {
-                window.addEventListener('scroll', this.checkScroll())
+                window.addEventListener('scroll', this.scrollListener)
             }
 
             this.state = {
@@ -27,7 +29,7 @@ export default (Component) => {
         }
 
         componentWillUnmount() {
-            window.removeEventListener('scroll', this.checkScroll())
+            window.removeEventListener('scroll', this.scrollListener)
         }
 
         checkScroll() {

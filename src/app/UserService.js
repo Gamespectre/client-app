@@ -1,6 +1,5 @@
 import axios from 'axios'
 import apiconfig from '../apiconfig'
-import TokenService from './TokenService'
 import app from '../data/app'
 import { makeReactive } from 'mobservable'
 
@@ -8,12 +7,12 @@ const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
 class UserService {
 
-    fetchUserData() {
-        return TokenService.token.then(token => axios({
+    fetchUserData(token) {
+        return axios({
             headers: { 'Authorization': 'Bearer ' + token },
             url: apiUrl + 'auth/query',
             method: 'get'
-        })).then(({ data }) => {
+        }).then(({ data }) => {
             app.user = this.setUser(data.user)
         })
     }

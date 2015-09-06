@@ -1,12 +1,11 @@
 import React from 'react'
 import ApiClient from '../../api/ApiClient'
-import GameList from '../../data/models/GameList'
-import Context from '../../lib/ContextDecorator'
+import RelatedVideos from './RelatedVideos.jsx'
 import { reactiveComponent } from 'mobservable-react'
 import { resolve } from 'react-resolver'
 
 @resolve('game', ({ params }) => {
-    return ApiClient.fetch('get', 'game', params.game).then(({data}) => data.data)
+    return ApiClient.fetch('get', 'game', params.game, {perPage: 1000}).then(({data}) => data.data)
 })
 @reactiveComponent
 class GamePage extends React.Component {
@@ -16,6 +15,7 @@ class GamePage extends React.Component {
     }
 
     render() {
+
         return (
             <div className="page game-page">
                 <header className="page-header">
@@ -32,7 +32,7 @@ class GamePage extends React.Component {
                     </article>
                 </header>
                 <article className="content">
-
+                    <RelatedVideos parentType="game" relatedTo={this.props.game.id} />
                 </article>
             </div>
         )

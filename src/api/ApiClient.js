@@ -1,6 +1,7 @@
 import axios from 'axios'
 import apiconfig from '../apiconfig'
 import TokenService from '../app/TokenService'
+import app from '../data/app'
 
 const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
@@ -28,12 +29,12 @@ class ApiClient {
     }
 
     retrieve(resource: string = "list", options: Object = {}) {
-        let reqParams = Object.assign(options, defaultOptions)
+        let reqParams = Object.assign(defaultOptions, options)
 
         const endpoint = this.getEndpoint(resource)
         const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
 
-        return TokenService.token.then(token => axios({
+        return TokenService.token().then(token => axios({
             url: `${apiUrl}${this.baseName}/${uri}`,
             headers: { 'Authorization': 'Bearer ' + token },
             params: reqParams

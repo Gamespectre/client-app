@@ -8,7 +8,8 @@ import InfinityList from '../../decorators/InfinityList'
 @InfinityList
 @resolve('games', ({ shouldFetch, page, receiveData, receiveMeta }) => {
     if(shouldFetch()) return ApiClient.fetch('list', 'game', 0, {
-        page: page
+        page: page,
+        perPage: 20
     }).then(receiveMeta).then(receiveData)
 })
 @reactiveComponent
