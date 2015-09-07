@@ -5,21 +5,19 @@ import { resolve } from 'react-resolver'
 import PagedList from '../../decorators/PagedList'
 
 @PagedList
-@resolve('videos', (props) => {
-    if(props.shouldFetch()) return ApiClient.fetch('videos', props.parentType, props.relatedTo, {
+@resolve('creators', (props) => {
+    if(props.shouldFetch()) return ApiClient.fetch('creators', props.parentType, props.relatedTo, {
         page: props.page,
         perPage: 10
     }).then(props.receiveMeta).then(props.receiveData)
 })
-@reactiveComponent
-class RelatedVideos extends React.Component {
+class RelatedCreators extends React.Component {
 
     render() {
 
         return (
             <div>
-                <h2>Videos</h2>
-                <button onClick={this.props.nextAction}>Next</button>
+                <h2>Creators</h2>
                 {this.props.listData.map(item => (<div key={item.id}>
                     <h2>{item.title || item.name}</h2>
                 </div>))}
@@ -28,4 +26,4 @@ class RelatedVideos extends React.Component {
     }
 }
 
-export default RelatedVideos
+export default RelatedCreators

@@ -1,18 +1,20 @@
 import React from 'react'
 import _ from 'lodash'
 import verge from 'verge'
-import { makeReactive } from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
+import { makeReactive, extendReactive } from 'mobservable'
 
 export default (Component) => {
 
     let listData = makeReactive({
         total: 99999,
         fetched: 0,
+        page: 1,
         loading: false,
         data: []
     })
 
-    return class extends React.Component {
+    return reactiveComponent(class extends React.Component {
 
         constructor(props) {
             super()
@@ -21,10 +23,6 @@ export default (Component) => {
 
             if(__CLIENT__) {
                 window.addEventListener('scroll', this.scrollListener)
-            }
-
-            this.state = {
-                page: 1
             }
         }
 
@@ -36,23 +34,22 @@ export default (Component) => {
             let prevScroll = 0
 
             return _.debounce(() => {
-                let top = verge.scrollY()
-                let down = top > prevScroll ? true : false
+                const top = verge.scrollY()
+                const scrollLimit = top + 500;
 
-                if(top + 500 > prevScroll) {
+                if(top < prevScroll) {
+                    return;
+                }
+
+                if(scrollLimit > prevScroll) {
                     prevScroll = top
-
-                    if(down) {
-                        this.setState({
-                            page: this.state.page + 1
-                        })
-                    }
+                    listData.page++
                 }
             }, 250)
         }
 
         receiveData(data) {
-            data.forEach(el => listData.data.push(el))
+            listData.data = _.uniq(listData.data.slice().concat(data))
             return data
         }
 
@@ -61,11 +58,10 @@ export default (Component) => {
             listData.fetched = response.data.meta.pagination.current_page
 
             return response.data.data
-
         }
 
         shouldFetch() {
-            return (listData.fetched < this.state.page && listData.fetched < listData.total)
+            return (listData.fetched < listData.page && listData.fetched < listData.total)
         }
 
 
@@ -73,10 +69,10 @@ export default (Component) => {
             return <Component
                 {...this.props}
                 listData={listData.data}
-                page={this.state.page}
+                page={listData.page}
                 shouldFetch={this.shouldFetch.bind(this)}
                 receiveData={this.receiveData.bind(this)}
                 receiveMeta={this.receiveMeta.bind(this)} />
         }
-    }
+    })
 }

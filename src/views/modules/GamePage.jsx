@@ -1,6 +1,8 @@
 import React from 'react'
 import ApiClient from '../../api/ApiClient'
 import RelatedVideos from './RelatedVideos.jsx'
+import RelatedSeries from './RelatedSeries.jsx'
+import RelatedCreators from './RelatedCreators.jsx'
 import { reactiveComponent } from 'mobservable-react'
 import { resolve } from 'react-resolver'
 
@@ -33,6 +35,8 @@ class GamePage extends React.Component {
                 </header>
                 <article className="content">
                     <RelatedVideos parentType="game" relatedTo={this.props.game.id} />
+                    <RelatedSeries parentType="game" relatedTo={this.props.game.id} />
+                    <RelatedCreators parentType="game" relatedTo={this.props.game.id} />
                 </article>
             </div>
         )

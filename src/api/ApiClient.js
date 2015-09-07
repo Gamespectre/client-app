@@ -87,6 +87,7 @@ export const endpoints = {
         creators: (id: number) => `creators/${id}`
     },
     video: {
+        list: 'index',
         get: (id: number) => `show/${id}`,
         series: (id: number) => `series/${id}`,
         game: (id: number) => `game/${id}`,

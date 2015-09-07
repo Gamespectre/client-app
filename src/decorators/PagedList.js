@@ -1,31 +1,25 @@
 import React from 'react'
 import { makeReactive } from 'mobservable'
+import { reactiveComponent } from 'mobservable-react'
 
 export default (Component) => {
 
     let listData = makeReactive({
         total: 99999,
         fetched: 0,
+        page: 1,
         loading: false,
         data: []
     })
 
-    return class extends React.Component {
+    return reactiveComponent(class extends React.Component {
 
         constructor(props) {
             super()
-
-            this.state = {
-                page: 1
-            }
-        }
-
-        componentWillUnmount() {
-            window.removeEventListener('scroll', this.scrollListener)
         }
 
         receiveData(data) {
-            data.forEach(el => listData.data.push(el))
+            listData.data = listData.data.slice().concat(data)
             return data
         }
 
@@ -34,19 +28,15 @@ export default (Component) => {
             listData.fetched = response.data.meta.pagination.current_page
 
             return response.data.data
-
         }
 
         shouldFetch() {
-            return (listData.fetched < this.state.page && listData.fetched < listData.total)
+            return (listData.fetched < listData.page && listData.fetched < listData.total)
         }
 
         fetchNext(e) {
             e.preventDefault()
-
-            this.setState({
-                page: this.state.page + 1
-            })
+            listData.page++
         }
 
         render() {
@@ -55,14 +45,13 @@ export default (Component) => {
                     <Component
                         {...this.props}
                         listData={listData.data}
-                        page={this.state.page}
+                        page={listData.page}
                         shouldFetch={this.shouldFetch.bind(this)}
                         receiveData={this.receiveData.bind(this)}
-                        receiveMeta={this.receiveMeta.bind(this)} />
-
-                    <button onClick={this.fetchNext.bind(this)}>Next</button>
+                        receiveMeta={this.receiveMeta.bind(this)}
+                        nextAction={this.fetchNext.bind(this)} />
                 </div>
             )
         }
-    }
+    })
 }
