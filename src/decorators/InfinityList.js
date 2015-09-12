@@ -9,7 +9,6 @@ export default (Component) => {
     let listData = makeReactive({
         total: 99999,
         fetched: 0,
-        page: 1,
         loading: false,
         data: []
     })
@@ -18,6 +17,10 @@ export default (Component) => {
 
         constructor(props) {
             super()
+
+            this.state = {
+                page: 1
+            }
 
             this.scrollListener = this.checkScroll()
 
@@ -43,13 +46,16 @@ export default (Component) => {
 
                 if(scrollLimit > prevScroll) {
                     prevScroll = top
-                    listData.page++
+
+                    this.setState({
+                        page: this.state.page + 1
+                    })
                 }
             }, 250)
         }
 
         receiveData(data) {
-            listData.data = _.uniq(listData.data.slice().concat(data))
+            listData.data = listData.data.slice().concat(data)
             return data
         }
 
@@ -61,7 +67,7 @@ export default (Component) => {
         }
 
         shouldFetch() {
-            return (listData.fetched < listData.page && listData.fetched < listData.total)
+            return (listData.fetched < this.state.page && listData.fetched < listData.total)
         }
 
 
@@ -69,7 +75,7 @@ export default (Component) => {
             return <Component
                 {...this.props}
                 listData={listData.data}
-                page={listData.page}
+                page={this.state.page}
                 shouldFetch={this.shouldFetch.bind(this)}
                 receiveData={this.receiveData.bind(this)}
                 receiveMeta={this.receiveMeta.bind(this)} />

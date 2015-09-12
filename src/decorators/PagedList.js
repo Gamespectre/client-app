@@ -7,7 +7,6 @@ export default (Component) => {
     let listData = makeReactive({
         total: 99999,
         fetched: 0,
-        page: 1,
         loading: false,
         data: []
     })
@@ -16,6 +15,10 @@ export default (Component) => {
 
         constructor(props) {
             super()
+
+            this.state = {
+                page: 1
+            }
         }
 
         receiveData(data) {
@@ -30,13 +33,20 @@ export default (Component) => {
             return response.data.data
         }
 
+        componentWillUnmount() {
+
+        }
+
         shouldFetch() {
-            return (listData.fetched < listData.page && listData.fetched < listData.total)
+            return (listData.fetched < this.state.page && listData.fetched < listData.total)
         }
 
         fetchNext(e) {
             e.preventDefault()
-            listData.page++
+
+            this.setState({
+                page: this.state.page + 1
+            })
         }
 
         render() {
@@ -45,7 +55,7 @@ export default (Component) => {
                     <Component
                         {...this.props}
                         listData={listData.data}
-                        page={listData.page}
+                        page={this.state.page}
                         shouldFetch={this.shouldFetch.bind(this)}
                         receiveData={this.receiveData.bind(this)}
                         receiveMeta={this.receiveMeta.bind(this)}

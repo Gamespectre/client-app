@@ -25,9 +25,7 @@
     "start": "node ./node_modules/better-npm-run start",
     "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
     "lint": "eslint -c .eslintrc src",
-    "start-dev": "node ./node_modules/better-npm-run start-dev",
-    "watch-client": "node ./node_modules/better-npm-run watch-client",
-    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
+    "dev": "node ./node_modules/better-npm-run start-dev",
     "test": "karma start"
   },
   "betterScripts": {
@@ -44,13 +42,6 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "development"
-      }
-    },
-    "watch-client": {
-      "command": "node webpack/webpack-dev-server.js",
-      "env": {
-        "UV_THREADPOOL_SIZE": 100,
-        "NODE_PATH": "./src"
       }
     }
   },
@@ -88,7 +79,6 @@
     "react-resolver": "^2.0.4",
     "react-router": "1.0.0-beta3",
     "react-router-server-location": "^1.0.3",
-    "react-transmit": "^2.6.4",
     "serialize-javascript": "^1.0.0",
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.0",
