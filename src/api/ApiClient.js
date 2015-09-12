@@ -34,16 +34,11 @@ class ApiClient {
         const endpoint = this.getEndpoint(resource)
         const uri = typeof endpoint === 'function' ? endpoint(this.baseId) : endpoint
 
-        return TokenService.token().then(token => axios({
+        return TokenService.token.then(token => axios({
             url: `${apiUrl}${this.baseName}/${uri}`,
             headers: { 'Authorization': 'Bearer ' + token },
             params: reqParams
         })).catch(this.handleErrors)
-    }
-
-    interceptToken(response) {
-        TokenService.parseToken(response.headers.authorization)
-        return response
     }
 
     /**

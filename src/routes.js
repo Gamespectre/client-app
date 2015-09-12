@@ -18,9 +18,8 @@ const routes = (
     <Route component={ App }>
         <Route path="/" component={ Front } />
         <Route path="/explore" components={ Explore }>
-            <Route path="games" component={ GameList } />
-            <Route path="games/:game" component={ GamePage } />
-
+            <Route path="/games" component={ GameList } />
+            <Route path="/games/:game" component={ GamePage } />
             <Route path="/series" component={ SeriesList } />
             <Route path="/creators" component={ CreatorList } />
             <Route path="/videos" component={ VideoList } />

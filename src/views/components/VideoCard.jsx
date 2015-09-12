@@ -9,7 +9,7 @@ class VideoCard extends React.Component {
 
         return (
             <article className="card video-card">
-                <Link to={`/explore/videos/${slug(this.props.video.title, {lower: true}) }`}>
+                <Link to={`/videos/${slug(this.props.video.title, {lower: true}) }`}>
                     <div className="content-wrapper">
                         <div className="image-wrapper">
                             <img src={this.props.video.image} alt={this.props.video.title} />

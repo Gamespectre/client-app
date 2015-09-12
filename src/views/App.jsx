@@ -15,9 +15,7 @@ class App extends React.Component {
     }
 
     startInitialFetches() {
-        TokenService.token().then((token) => {
-            UserService.fetchUserData(token)
-        })
+        UserService.fetchUserData()
     }
 
     render() {

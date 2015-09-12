@@ -9,7 +9,7 @@ class GameCard extends React.Component {
 
         return (
             <article className="card game-card">
-                <Link to={`/explore/games/${slug(this.props.game.title, {lower: true}) }`}>
+                <Link to={`/games/${slug(this.props.game.title, {lower: true}) }`}>
                     <div className="content-wrapper">
                         <div className="image-wrapper">
                             <img src={this.props.game.image} alt={this.props.game.title} />

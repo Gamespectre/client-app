@@ -3,19 +3,19 @@
 import path from 'path'
 import compress from 'compression'
 import React from 'react'
-import DocumentMeta from 'react-document-meta'
 import express from 'express'
 import favicon from 'serve-favicon'
-import Router from 'react-router'
+import { RoutingContext, match } from 'react-router'
 import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
 import routes from './routes'
 import TokenService from './app/TokenService'
 import { Resolver } from "react-resolver"
 import PrettyError from 'pretty-error'
+import createLocation from 'history/lib/createLocation'
+import { renderToString } from 'react-dom/server'
 import Html from './Html'
 import config from './config'
-import Location from "react-router/lib/Location"
 
 const pretty = new PrettyError()
 const app = express()
@@ -39,7 +39,7 @@ if(__DEV__) {
 
 app.use(compress())
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')))
-app.use(require('serve-static')(path.join(__dirname, '..', 'static')))
+app.use(express.static(__dirname + '/static'))
 
 app.disable('x-powered-by')
 
@@ -60,7 +60,7 @@ apiServer.on('error', (error, req, res) => {
 
 app.get('/*', (req, res) => {
 
-    const location = new Location(req.path, req.query)
+    let location = createLocation(req.url)
 
     if (__DEV__) {
         // Do not cache webpack stats: the script file would change since
@@ -70,22 +70,25 @@ app.get('/*', (req, res) => {
 
     if (__DISABLE_SSR__) {
         res.send('<!doctype html>\n' +
-            React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} resolverData={{}}/>))
+            renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} resolverData={{}}/>))
     } else {
-        Router.run(routes, location, (error, state, transition) => {
-            if (error) {
-                return res.status(500).send(error);
-            }
-
-            Resolver
-                .resolve(() => <Router {...state} />)
-                .then(({ Resolved, data }) => {
-                    res.status(200).send('<!doctype html>\n' +
-                        React.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={ <Resolved /> } resolverData={data}/>))
-                })
-                .catch((error) => {
-                    res.status(500).send(error)
-                })
+        match({ routes, location }, (error, redirectLocation, renderProps) => {
+            if (redirectLocation)
+                res.redirect(301, redirectLocation.pathname + redirectLocation.search)
+            else if (error)
+                res.send(500, error.message)
+            else if (renderProps == null)
+                res.send(404, 'Not found')
+            else
+                Resolver
+                    .resolve(() => <RoutingContext {...renderProps}/>)
+                    .then(({ Resolved, data }) => {
+                        res.status(200).send('<!doctype html>\n' +
+                            renderToString(<Html assets={webpackIsomorphicTools.assets()} component={ <Resolved /> } resolverData={data}/>))
+                    })
+                    .catch((error) => {
+                        res.status(500).send(error)
+                    })
         })
     }
 })

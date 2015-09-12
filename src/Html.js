@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import { renderToString } from 'react-dom/server'
 import serialize from 'serialize-javascript';
-import DocumentMeta from 'react-document-meta';
 
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
@@ -24,7 +24,6 @@ export default class Html extends Component {
             <html lang="en-us">
             <head>
                 <meta charSet="utf-8"/>
-                {DocumentMeta.rewind({asReact: true})}
 
                 <link rel="shortcut icon" href="/favicon.ico" />
                 <link href={'http://fonts.googleapis.com/css?family=Rajdhani:300,400,700|Roboto:500,300,700,400'}
@@ -40,8 +39,8 @@ export default class Html extends Component {
                 )}
             </head>
             <body>
-            <div id="app" dangerouslySetInnerHTML={{__html: React.renderToString(component)}}/>
-            <script dangerouslySetInnerHTML={{__html: `window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(resolverData)}`}} />
+            <div id="app" dangerouslySetInnerHTML={{__html: renderToString(component)}}/>
+            <script dangerouslySetInnerHTML={{__html: `window.__REACT_RESOLVER_PAYLOAD__ = ${serialize(resolverData)}`}} />
             <script src={assets.javascript.main}/>
             </body>
             </html>
