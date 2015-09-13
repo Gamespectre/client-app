@@ -34,9 +34,9 @@ class GamePage extends React.Component {
                     </article>
                 </header>
                 <article className="content">
-                    <RelatedVideos parentType="game" relatedTo={this.props.game.id} />
-                    <RelatedSeries parentType="game" relatedTo={this.props.game.id} />
-                    <RelatedCreators parentType="game" relatedTo={this.props.game.id} />
+                    <RelatedVideos parentType="game" parentId={this.props.game.id} />
+                    <RelatedSeries parentType="game" parentId={this.props.game.id} />
+                    <RelatedCreators parentType="game" parentId={this.props.game.id} />
                 </article>
             </div>
         )

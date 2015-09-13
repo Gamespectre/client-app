@@ -13,8 +13,9 @@ export default function(data) {
         if(data[item] instanceof Array) {
             converted[item] = data[item][0]
         }
-
-        converted[item] = data[item]
+        else {
+            converted[item] = data[item]
+        }
     }
 
     return converted

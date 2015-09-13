@@ -5,9 +5,8 @@ import { resolve } from 'react-resolver'
 import PagedList from '../../decorators/PagedList'
 
 @PagedList
-@reactiveComponent
 @resolve('videos', (props) => {
-    if(props.shouldFetch()) return ApiClient.fetch('videos', props.parentType, props.relatedTo, {
+    if(props.shouldFetch(props.parentId)) return ApiClient.fetch('videos', props.parentType, props.parentId, {
         page: props.page,
         perPage: 10
     }).then(props.receiveMeta).then(props.receiveData)

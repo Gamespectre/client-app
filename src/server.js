@@ -5,6 +5,7 @@ import compress from 'compression'
 import React from 'react'
 import express from 'express'
 import favicon from 'serve-favicon'
+import cookieParser from 'cookie-parser'
 import { RoutingContext, match } from 'react-router'
 import httpProxy from 'http-proxy'
 import apiconfig from './apiconfig'
@@ -48,14 +49,9 @@ app.use('/api', (req, res) => {
 })
 
 apiServer.on('error', (error, req, res) => {
-    let json;
     console.log('proxy error', error);
-    if (!res.headersSent) {
-        res.writeHead(500, {'content-type': 'application/json'});
-    }
-
-    json = { error: 'proxy_error', reason: error.message };
-    res.end(JSON.stringify(json));
+    let json = { error: 'proxy_error', reason: error.message };
+    res.status(500).json(JSON.stringify(json));
 });
 
 app.get('/*', (req, res) => {
@@ -74,24 +70,27 @@ app.get('/*', (req, res) => {
     } else {
         match({ routes, location }, (error, redirectLocation, renderProps) => {
             if (redirectLocation)
-                res.redirect(301, redirectLocation.pathname + redirectLocation.search)
+                res.status(301).redirect(redirectLocation.pathname + redirectLocation.search)
             else if (error)
-                res.send(500, error.message)
+                res.status(500).send(error.message)
             else if (renderProps == null)
-                res.send(404, 'Not found')
+                res.status(404).send('Not found')
             else
                 Resolver
                     .resolve(() => <RoutingContext {...renderProps}/>)
                     .then(({ Resolved, data }) => {
-                        res.status(200).send('<!doctype html>\n' +
-                            renderToString(<Html assets={webpackIsomorphicTools.assets()} component={ <Resolved /> } resolverData={data}/>))
+                        res.status(200).send(createResponse(Resolved, data))
                     })
                     .catch((error) => {
-                        res.status(500).send(error)
+                        res.status(200).send(createResponse(RoutingContext, {}))
                     })
         })
     }
 })
+
+function createResponse(Resolved, data) {
+    return '<!doctype html>\n' + renderToString(<Html assets={webpackIsomorphicTools.assets()} component={ <Resolved /> } resolverData={data}/>)
+}
 
 if (config.port) {
     app.listen(config.port, (err) => {

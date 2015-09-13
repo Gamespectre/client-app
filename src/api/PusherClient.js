@@ -4,6 +4,7 @@ class PusherClient {
 
     constructor(channel) {
         if (__CLIENT__) {
+            let pusher = require('pusher-js')
             this.pusher = new Pusher('7b618f00b94f879007fb')
         } else {
             console.error("Please only run the PusherClient clientside.")

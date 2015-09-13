@@ -10,6 +10,7 @@ export default (Component) => {
         total: 99999,
         fetched: 0,
         loading: false,
+        page: 1,
         data: []
     })
 
@@ -17,10 +18,6 @@ export default (Component) => {
 
         constructor(props) {
             super()
-
-            this.state = {
-                page: 1
-            }
 
             this.scrollListener = this.checkScroll()
 
@@ -46,16 +43,13 @@ export default (Component) => {
 
                 if(scrollLimit > prevScroll) {
                     prevScroll = top
-
-                    this.setState({
-                        page: this.state.page + 1
-                    })
+                    listData.page = listData.page + 1
                 }
             }, 250)
         }
 
         receiveData(data) {
-            listData.data = listData.data.slice().concat(data)
+            listData.data = _.uniq(listData.data.slice().concat(data), 'id')
             return data
         }
 
@@ -67,7 +61,7 @@ export default (Component) => {
         }
 
         shouldFetch() {
-            return (listData.fetched < this.state.page && listData.fetched < listData.total)
+            return (listData.fetched < listData.page && listData.fetched < listData.total)
         }
 
 
@@ -75,7 +69,7 @@ export default (Component) => {
             return <Component
                 {...this.props}
                 listData={listData.data}
-                page={this.state.page}
+                page={listData.page}
                 shouldFetch={this.shouldFetch.bind(this)}
                 receiveData={this.receiveData.bind(this)}
                 receiveMeta={this.receiveMeta.bind(this)} />

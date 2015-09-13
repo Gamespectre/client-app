@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import { makeReactive } from 'mobservable'
 import { reactiveComponent } from 'mobservable-react'
 
@@ -7,6 +8,8 @@ export default (Component) => {
     let listData = makeReactive({
         total: 99999,
         fetched: 0,
+        page: 1,
+        datasetId: null,
         loading: false,
         data: []
     })
@@ -15,14 +18,10 @@ export default (Component) => {
 
         constructor(props) {
             super()
-
-            this.state = {
-                page: 1
-            }
         }
 
         receiveData(data) {
-            listData.data = listData.data.slice().concat(data)
+            listData.data = _.uniq(listData.data.slice().concat(data), 'id')
             return data
         }
 
@@ -33,20 +32,32 @@ export default (Component) => {
             return response.data.data
         }
 
-        componentWillUnmount() {
+        isDecayed(datasetId) {
+            if(listData.datasetId === datasetId) return false
+            listData.datasetId = datasetId
 
+            return true
         }
 
-        shouldFetch() {
-            return (listData.fetched < this.state.page && listData.fetched < listData.total)
+        reset() {
+            listData.total = 99999
+            listData.fetched = 0
+            listData.page = 1
+            listData.data = []
+        }
+
+        shouldFetch(datasetId) {
+            if(this.isDecayed(datasetId)) {
+                this.reset()
+                return true
+            }
+
+            return (listData.fetched < listData.page && listData.fetched < listData.total)
         }
 
         fetchNext(e) {
             e.preventDefault()
-
-            this.setState({
-                page: this.state.page + 1
-            })
+            listData.page = listData.page + 1
         }
 
         render() {
@@ -55,7 +66,7 @@ export default (Component) => {
                     <Component
                         {...this.props}
                         listData={listData.data}
-                        page={this.state.page}
+                        page={listData.page}
                         shouldFetch={this.shouldFetch.bind(this)}
                         receiveData={this.receiveData.bind(this)}
                         receiveMeta={this.receiveMeta.bind(this)}

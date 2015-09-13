@@ -14,6 +14,7 @@ class UserService {
             url: apiUrl + 'auth/query',
             method: 'get'
         })).then(({ data }) => {
+            console.log(data.user)
             return app.user = this.setUser(data.user)
         })
     }

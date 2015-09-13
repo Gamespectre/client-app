@@ -6,7 +6,7 @@ import PagedList from '../../decorators/PagedList'
 
 @PagedList
 @resolve('series', (props) => {
-    if(props.shouldFetch()) return ApiClient.fetch('series', props.parentType, props.relatedTo, {
+    if(props.shouldFetch(props.parentId)) return ApiClient.fetch('series', props.parentType, props.parentId, {
         page: props.page,
         perPage: 10
     }).then(props.receiveMeta).then(props.receiveData)

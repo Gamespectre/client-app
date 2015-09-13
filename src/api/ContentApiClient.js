@@ -1,31 +1,25 @@
 import axios from 'axios'
-import AuthService from '../app/TokenService'
+import TokenService from '../app/TokenService'
 import apiconfig from '../apiconfig'
 
 const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
 
-class ApiClient {
+class ContentApiClient {
 
     static request(method: string, data: Object) {
-        let client = new ApiClient()
+        let client = new ContentApiClient()
         return client.requestFor(method, data)
     }
 
     requestFor(method: string, options: Object) {
         const endpoint = this.getEndpoint(method)
-        const token = AuthService.getToken()
 
-        return axios({
+        return TokenService.token.then(token => axios({
             url: `${apiUrl}admin/${endpoint}`,
             data: options,
             method: 'post',
             headers: { 'Authorization': 'Bearer ' + token }
-        }).catch(this.handleErrors)
-    }
-
-    interceptToken(response) {
-        AuthService.parseToken(response.headers.authorization)
-        return response
+        })).catch(this.handleErrors)
     }
 
     /**
@@ -50,7 +44,7 @@ class ApiClient {
     }
 }
 
-export default ApiClient
+export default ContentApiClient
 
 export const endpoints = {
     // Retrievers

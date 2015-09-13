@@ -1,49 +1,26 @@
 import React from 'react'
 import AdminGameItem from '../../elements/admin/AdminGameItem.jsx'
-import AdminList from './AdminList.jsx'
-import ListMessage from './ListMessage.jsx'
+import { reactiveComponent } from 'mobservable-react'
+import { makeReactive } from 'mobservable'
+import contentQueryState from '../../../data/admin/contentQueryState'
 
 const initChecked = false
 
-class GamePackageList extends AdminList {
+@reactiveComponent
+class GamePackageList extends React.Component {
 
     constructor() {
         super()
 
-        this.state = {
-            success: true,
-            selected: {},
-            toggleAll: initChecked,
-            message: "No data fetched yet!"
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-
-        if(nextProps.content.results.length === 0) {
-            this.setState({
-                message: "No new games found!"
-            })
-        }
-
-        let selected = {}
-
-        nextProps.content.results.forEach(resource => {
-            if(resource !== false) {
-                selected[resource.id] = initChecked
-            }
-        })
-
-        this.setState({
-            selected: React.addons.update(this.state.selected, {
-                $merge: selected
-            })
+        this.listState = makeReactive({
+            selected: [],
+            toggleAll: initChecked
         })
     }
 
     saveSelected(e) {
         e.preventDefault()
-        this.flow.save(this.state.selected, this.props.package, {
+        this.flow.save(this.listState.selected, {
             error: this.error.bind(this),
             success: this.done.bind(this)
         })
@@ -51,33 +28,22 @@ class GamePackageList extends AdminList {
 
     setValue(e) {
         let id = e.target.value
-        let newState = {}
-        newState[id] = this.state.selected[id] ? false : true
 
-        this.setState({
-            selected: React.addons.update(this.state.selected, {
-                $merge: newState
-            })
-        })
+        let idx = this.listState.selected.indexOf(id)
+        console.log(idx)
+        if(idx === -1)
+            this.listState.selected.push(id)
+        else
+            this.listState.selected.splice(idx, 1)
     }
 
     toggleAll(e) {
-        let newState = {}
-        let changeTo = this.state.toggleAll ? false : true
-
-        for(let val in this.state.selected) {
-            newState[val] = changeTo
-        }
-
-        this.setState({
-            selected: React.addons.update(this.state.selected, {
-                $merge: newState
-            }),
-            toggleAll: changeTo
-        })
+        this.listState.selected = contentQueryState.results.map(item => item.id)
+        this.listState.toggleAll = !this.listState.toggleAll
     }
 
     render() {
+
         return (
             <div>
                 <form onSubmit={this.saveSelected.bind(this)}>
@@ -85,17 +51,19 @@ class GamePackageList extends AdminList {
                     <p>
                         <label>
                             <input type="checkbox"
-                                   checked={this.state.toggleAll}
+                                   checked={this.listState.toggleAll}
                                    onChange={this.toggleAll.bind(this)} />
                             <span style={{paddingLeft: '1em'}}>Toggle all</span>
                         </label>
                     </p>
                     <ul style={{ listStyle: 'none' }}>
-                        {this.props.content.results.map(game => {
+                        {contentQueryState.results.map(game => {
+                            let checked = this.listState.selected.indexOf(game.id) !== -1
+
                             return (
                                 <div key={game.id}>
                                     <AdminGameItem
-                                        checked={this.state.selected[game.id]}
+                                        checked={checked}
                                         type="game"
                                         {...game}
                                         change={this.setValue.bind(this)} />

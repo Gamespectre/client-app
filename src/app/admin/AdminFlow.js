@@ -1,6 +1,6 @@
 import EventsClient from '../../api/PusherClient'
 import ApiClient from '../../api/ContentApiClient'
-import { meta } from '../../api/packageParsers'
+import contentQueryState from '../../data/admin/contentQueryState'
 
 const events = {
     queryStarted: 'PackageStarted',
@@ -26,16 +26,18 @@ class AdminFlow {
         this.callbacks = callbacks
 
         ApiClient.request(endpoint, requestData)
-        .then((response) => {
-            if(response.status < 400) {
-                this.client = EventsClient.subscribe(response.data.channel, events.queryDone, this.queryDoneListener.bind(this))
-                this.client.listen(events.packageError, this.errorListener.bind(this))
-                this.client.listen(events.queryStarted, this.queryStartedListener.bind(this))
-            }
-            else {
-                this.callbacks.error({message: "Query failed."})
-            }
-        })
+            .then((response) => {
+                if(response.status < 400) {
+                    this.client = EventsClient.subscribe(response.data.channel, events.queryDone, this.queryDoneListener.bind(this))
+                    this.client.listen(events.packageError, this.errorListener.bind(this))
+                    this.client.listen(events.queryStarted, this.queryStartedListener.bind(this))
+                }
+                else {
+                    this.callbacks.error({message: "Query failed."})
+                }
+
+                console.log(response.data)
+            })
     }
 
     fetchPackage(id) {
@@ -53,11 +55,11 @@ class AdminFlow {
         })
     }
 
-    save(data, packageData, callbacks) {
+    save(data, callbacks) {
         this.callbacks = callbacks
 
         ApiClient.request('savePackage', {
-            packageId: packageData.id,
+            packageId: contentQueryState.package.id,
             saveData: data
         }).then((response) => {
             if(response.status < 400 && response.data.success === true) {
@@ -69,15 +71,20 @@ class AdminFlow {
         })
     }
 
+    createPackageData(raw) {
+        return {
+            id: raw.id,
+            channel: raw.channel
+        }
+    }
+
     /*
         Listeners
      */
 
     queryDoneListener(data) {
-        let packageMeta = meta(data)
-        //PackageActions.importPackage(packageMeta)
-
-        this.fetchPackage(packageMeta.id)
+        contentQueryState.package = this.createPackageData(data)
+        this.fetchPackage(contentQueryState.package.id)
 
         this.client.unlisten(events.queryDone)
         this.client.unlisten(events.queryStarted)
@@ -96,4 +103,4 @@ class AdminFlow {
     }
 }
 
-export default AdminFlow
+export default new AdminFlow()

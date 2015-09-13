@@ -1,54 +1,42 @@
 import React, { PropTypes } from 'react'
-import AdminControl from './AdminControl.jsx'
-import { game } from '../../../api/packageParsers'
+import { reactiveComponent } from 'mobservable-react'
+import game from '../../../data/items/game'
+import contentQueryState from '../../../data/admin/contentQueryState'
+import AdminFlow from '../../../app/admin/AdminFlow'
 
-class GameQueryControl extends AdminControl {
+@reactiveComponent
+class GameQueryControl extends React.Component {
 
     constructor() {
         super()
-
-        this.state = {
-            success: true,
-            message: "",
-            query: "",
-            mode: 'search'
-        }
     }
 
     receivePackage(data) {
-        let gamePackage = game(data)
-        //ContentActions.importResults(gamePackage)
-
-        this.setState({
-            message: "Success",
-            query: ""
-        })
+        contentQueryState.results = data.map(item => game(item))
     }
 
     sendForm(e) {
         e.preventDefault()
-        //AdminActions.clear()
 
-        this.flow.query({query: this.state.query}, `${this.state.mode}Game`, {
+        AdminFlow.query({query: contentQueryState.query}, `${contentQueryState.mode}Game`, {
             error: this.receiveError.bind(this),
             success: this.receivePackage.bind(this)
         })
     }
 
     queryChangeHandler(event) {
-        this.setState({
-            query: event.target.value
-        })
+        contentQueryState.query = event.target.value
     }
 
     setMode(mode) {
         return (e) => {
             e.preventDefault()
-
-            this.setState({
-                mode: mode
-            })
+            contentQueryState.mode = mode
         }
+    }
+
+    receiveError(err) {
+        console.error(err)
     }
 
     render() {
@@ -58,15 +46,12 @@ class GameQueryControl extends AdminControl {
                 <a href="#" onClick={this.setMode('add')}>Add</a>&nbsp;
                 <a href="#" onClick={this.setMode('search')}>Search</a>
 
-                <h3>{this.state.mode} game</h3>
-
-                <div>{this.state.message}</div>
+                <h3>{contentQueryState.mode} game</h3>
 
                 <form onSubmit={ this.sendForm.bind(this) }>
                     <input type="text"
-                           value={ this.state.query }
+                           value={ contentQueryState.query }
                            onChange={ this.queryChangeHandler.bind(this) } />
-                    <br />
                     <button type="submit">Get</button>
                 </form>
             </div>
