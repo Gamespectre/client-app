@@ -11,4 +11,4 @@ const apiconfig = {
     }
 }
 
-export default apiconfig
+export default __DEV__ ? apiconfig.dev : apiconfig.prod

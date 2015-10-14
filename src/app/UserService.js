@@ -4,7 +4,7 @@ import app from '../data/app'
 import { makeReactive } from 'mobservable'
 import TokenService from './TokenService'
 
-const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
+const apiUrl = apiconfig.internal
 
 class UserService {
 
@@ -14,7 +14,6 @@ class UserService {
             url: apiUrl + 'auth/query',
             method: 'get'
         })).then(({ data }) => {
-            console.log(data.user)
             return app.user = this.setUser(data.user)
         })
     }

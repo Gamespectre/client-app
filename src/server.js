@@ -21,7 +21,7 @@ import config from './config'
 const pretty = new PrettyError()
 const app = express()
 
-let api = !__DEV__ ? apiconfig.prod : apiconfig.dev
+let api = apiconfig
 
 const apiServer = httpProxy.createProxyServer({
     target: api.apiUrl + ':' + api.apiPort
@@ -66,7 +66,7 @@ app.get('/*', (req, res) => {
 
     if (__DISABLE_SSR__) {
         res.send('<!doctype html>\n' +
-            renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div/>} resolverData={{}}/>))
+            renderToString(<Html assets={webpackIsomorphicTools.assets()} component={null} resolverData={{}}/>))
     } else {
         match({ routes, location }, (error, redirectLocation, renderProps) => {
             if (redirectLocation)

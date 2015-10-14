@@ -10,7 +10,6 @@ class ContentNav extends React.Component {
                 <Link to="/games" activeClassName="active">Games</Link>
                 <Link to="/creators" activeClassName="active">Creators</Link>
                 <Link to="/series" activeClassName="active">Series</Link>
-                <Link to="/videos" activeClassName="active">Videos</Link>
             </div>
         )
     }

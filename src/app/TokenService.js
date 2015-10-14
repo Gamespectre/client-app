@@ -1,7 +1,7 @@
 import axios from 'axios'
 import apiconfig from '../apiconfig'
 
-const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
+const apiUrl = apiconfig.internal
 
 class TokenService {
 

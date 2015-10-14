@@ -39,7 +39,7 @@ export default class Html extends Component {
                 )}
             </head>
             <body>
-            <div id="app" dangerouslySetInnerHTML={{__html: renderToString(component)}}/>
+            <div id="app" dangerouslySetInnerHTML={{__html: component ? renderToString(component) : ""}}/>
             <script dangerouslySetInnerHTML={{__html: `window.__REACT_RESOLVER_PAYLOAD__ = ${serialize(resolverData)}`}} />
             <script src={assets.javascript.main}/>
             </body>

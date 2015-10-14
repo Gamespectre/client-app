@@ -3,7 +3,7 @@ import apiconfig from '../apiconfig'
 import TokenService from '../app/TokenService'
 import app from '../data/app'
 
-const apiUrl = __DEV__ ? apiconfig.dev.internal : apiconfig.prod.internal
+const apiUrl = apiconfig.internal
 
 const defaultOptions = {
     perPage: 20
